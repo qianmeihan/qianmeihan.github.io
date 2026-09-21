@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://qianmeihan.github.io/sitemap.xml

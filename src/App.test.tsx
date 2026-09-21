@@ -49,7 +49,7 @@ describe('App', () => {
   it('renders validated profile content after loading', async () => {
     render(<App contentLoader={async () => siteContent} />);
 
-    expect(await screen.findByText('钱美含')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: '钱美含' })).toBeInTheDocument();
     expect(screen.getByText('机械研发工程师 / 结构设计')).toBeInTheDocument();
   });
 
@@ -70,7 +70,7 @@ describe('App', () => {
 
     await user.click(screen.getByRole('button', { name: '重试 / Retry' }));
 
-    expect(await screen.findByText('钱美含')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: '钱美含' })).toBeInTheDocument();
     expect(contentLoader).toHaveBeenCalledTimes(2);
   });
 
@@ -97,5 +97,26 @@ describe('App', () => {
 
     expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
     expect(window.localStorage.getItem('qian-portfolio-theme')).toBe('dark');
+  });
+
+  it('renders one accessible portfolio shell with unique section ids', async () => {
+    render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    expect(screen.getByRole('link', { name: '跳到主要内容' })).toHaveAttribute(
+      'href',
+      '#main-content',
+    );
+    const navigation = screen.getByRole('navigation', { name: '主导航' });
+    for (const target of ['profile', 'experience', 'work', 'patent', 'skills', 'contact']) {
+      expect(navigation.querySelector(`a[href="#${target}"]`)).not.toBeNull();
+    }
+    expect(screen.getAllByRole('main')).toHaveLength(1);
+    expect(screen.getAllByRole('contentinfo')).toHaveLength(1);
+
+    const ids = Array.from(document.querySelectorAll<HTMLElement>('[id]')).map(
+      (element) => element.id,
+    );
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
