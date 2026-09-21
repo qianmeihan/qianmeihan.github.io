@@ -586,17 +586,17 @@
         "id": "industry-electronics-housing",
         "src": "/media/industry-electronics-housing.jpg",
         "alt": {
-          "zh": "汽车电子与精密壳体相关的真实行业场景",
-          "en": "Real industry context related to automotive electronics and precision housings"
+          "zh": "工程师在双屏工作站查看电路原理图与 PCB 三维设计",
+          "en": "Engineer reviewing a circuit schematic and 3D PCB design on a dual-screen workstation"
         },
         "credit": {
-          "zh": "图片来源将在图片归档中标注",
-          "en": "Image source documented in the media archive"
+          "zh": "EnCata PD / Unsplash",
+          "en": "EnCata PD / Unsplash"
         },
-        "sourceUrl": "https://www.schaeffler.com/en/media/press-releases/press-releases-detail.jsp?id=88211712",
+        "sourceUrl": "https://unsplash.com/photos/man-looking-at-circuit-board-design-on-computer-screen-ZmDk8tXQRS0",
         "usageNote": {
-          "zh": "仅作相关产品与行业背景",
-          "en": "Relevant product and industry context only"
+          "zh": "依据 Unsplash License 使用，仅作相关工程与行业背景",
+          "en": "Used under the Unsplash License for relevant engineering and industry context only"
         }
       },
       "sourceLabel": {
@@ -619,17 +619,17 @@
         "id": "industry-precision-manufacturing",
         "src": "/media/industry-precision-manufacturing.jpg",
         "alt": {
-          "zh": "精密汽车零部件制造的真实行业场景",
-          "en": "Real precision automotive component manufacturing context"
+          "zh": "蓝色照明下自动化设备内部的精密执行机构",
+          "en": "Precision actuator inside automated equipment under blue lighting"
         },
         "credit": {
-          "zh": "图片来源将在图片归档中标注",
-          "en": "Image source documented in the media archive"
+          "zh": "Testalize.me / Unsplash",
+          "en": "Testalize.me / Unsplash"
         },
-        "sourceUrl": "https://www.schaeffler.com/en/media/press-releases/press-releases-detail.jsp?id=88093185",
+        "sourceUrl": "https://unsplash.com/photos/industrial-robotic-arm-in-blue-lit-factory-9xHsWmh3m_4",
         "usageNote": {
-          "zh": "仅作相关产品与行业背景",
-          "en": "Relevant product and industry context only"
+          "zh": "依据 Unsplash License 使用，仅作精密制造与自动化行业背景",
+          "en": "Used under the Unsplash License for precision manufacturing and automation context only"
         }
       },
       "sourceLabel": {

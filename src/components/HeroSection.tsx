@@ -78,6 +78,7 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
             width="900"
             height="1200"
             fetchPriority="high"
+            decoding="async"
           />
           <span className="hero-portrait__index" aria-hidden="true">
             R&amp;D / STRUCTURES
