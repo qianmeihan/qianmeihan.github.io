@@ -461,6 +461,27 @@
       ]
     },
     {
+      "id": "collaboration",
+      "title": {
+        "zh": "工程协同",
+        "en": "Engineering Collaboration"
+      },
+      "items": [
+        {
+          "zh": "跨电子、热管理与制造团队评审",
+          "en": "Cross-functional reviews with electronics, thermal, and manufacturing teams"
+        },
+        {
+          "zh": "供应商技术沟通与样件跟踪",
+          "en": "Supplier technical communication and prototype tracking"
+        },
+        {
+          "zh": "量产问题分析与闭环",
+          "en": "Production issue analysis and closure"
+        }
+      ]
+    },
+    {
       "id": "languages",
       "title": {
         "zh": "语言",

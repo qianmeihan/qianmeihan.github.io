@@ -1,6 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
+import { ContactSection } from './components/ContactSection';
+import { EducationSection } from './components/EducationSection';
+import { EngineeringSection } from './components/EngineeringSection';
+import { ExperienceSection } from './components/ExperienceSection';
+import { HeroSection } from './components/HeroSection';
+import { IndustryContextSection } from './components/IndustryContextSection';
 import { LanguageSwitch } from './components/LanguageSwitch';
+import { PatentSection } from './components/PatentSection';
 import { SiteNav } from './components/SiteNav';
+import { SkillsSection } from './components/SkillsSection';
+import { SummarySection } from './components/SummarySection';
 import { ThemeSwitch } from './components/ThemeSwitch';
 import { loadSiteContent } from './content/loadSiteContent';
 import type { SiteContent } from './content/types';
@@ -89,11 +98,15 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
 
         <div className="site-content">
           <main id="main-content">
-            <section className="shell-profile" id="profile">
-              <p className="shell-profile__eyebrow">{localized(content.hero.eyebrow, locale)}</p>
-              <h1>{localized(content.profile.name, locale)}</h1>
-              <p className="shell-profile__role">{localized(content.profile.role, locale)}</p>
-            </section>
+            <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
+            <SummarySection summary={content.summary} locale={locale} />
+            <ExperienceSection items={content.experience} locale={locale} />
+            <EngineeringSection items={content.projects} locale={locale} />
+            <PatentSection items={content.patents} locale={locale} />
+            <SkillsSection groups={content.skillGroups} locale={locale} />
+            <EducationSection items={content.education} locale={locale} />
+            <IndustryContextSection items={content.industryContext} locale={locale} />
+            <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />
           </main>
           <footer className="site-footer">
             <span>© 2026 {localized(content.profile.name, locale)}</span>
