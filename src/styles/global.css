@@ -492,7 +492,7 @@ html[lang='en'] .hero-section h1 {
 .patent-card figcaption,
 .industry-card figcaption {
   margin-top: 0.55rem;
-  color: var(--color-line-strong);
+  color: var(--color-ink-soft);
   font-family: var(--font-mono);
   font-size: 0.58rem;
 }

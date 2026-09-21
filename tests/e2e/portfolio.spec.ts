@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -56,6 +57,25 @@ test('opens safe external links with noopener and noreferrer', async ({ page }) 
     await expect(externalLinks.nth(index)).toHaveAttribute('rel', /\bnoopener\b/);
     await expect(externalLinks.nth(index)).toHaveAttribute('rel', /\bnoreferrer\b/);
   }
+});
+
+test('loads every portfolio image when it enters the viewport', async ({ page }) => {
+  const images = page.locator('main img');
+  expect(await images.count()).toBeGreaterThan(0);
+
+  for (let index = 0; index < (await images.count()); index += 1) {
+    const image = images.nth(index);
+    await image.scrollIntoViewIfNeeded();
+    await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  }
+});
+
+test('has no automatically detectable WCAG A or AA violations', async ({ page }) => {
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+    .analyze();
+
+  expect(results.violations).toEqual([]);
 });
 
 for (const viewport of [
