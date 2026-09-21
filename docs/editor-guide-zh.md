@@ -1,25 +1,50 @@
-# 钱美含作品集编辑器使用说明
+# 钱美含作品集本地编辑器使用说明
 
-公开网页供访客只读浏览。只有持有钱美含 GitHub 仓库写入权限和专用访问令牌的人，才能通过 `/admin/` 修改内容。
+公开网页只供访客浏览，不再提供 `/admin/`。编辑器只在钱美含自己的电脑上运行，直接修改本地代码文件，不需要网页账号、密码或 GitHub 访问令牌。
 
 ## 首次准备
 
-1. 登录钱美含自己的 GitHub 账号。
-2. 按照 GitHub 官方的[细粒度个人访问令牌说明](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)创建 Fine-grained personal access token。
-3. Resource owner 选择 `qianmeihan`。
-4. Repository access 选择 `Only select repositories`，并且只选择 `qianmeihan/qianmeihan.github.io`。
-5. Repository permissions 中只把 `Contents` 设为 `Read and write`；其余权限保持默认的最低权限。
-6. 设置合理的到期时间，例如 30 天。生成后立即把令牌保存到可信的密码管理器；GitHub 不会再次完整显示它。
+1. 打开“终端”。
+2. 进入作品集文件夹：
+
+   ```bash
+   cd "/Users/apple/Desktop/人物角色/钱美含/qianmeihan.github.io"
+   ```
+
+3. 第一次使用时安装依赖：
+
+   ```bash
+   pnpm install
+   ```
 
 ## 修改网页
 
-1. 打开 `https://qianmeihan.github.io/admin/`。
-2. 选择使用访问令牌登录，并在本人可信设备上粘贴令牌。
-3. 打开“钱美含作品集 / Meihan Qian Portfolio”。
-4. 每次修改都同时检查中文 `zh` 与英文 `en` 字段。不要只更新一种语言。
-5. 图片应上传到编辑器提供的媒体目录，并补齐中英文替代文本、署名、来源网址和使用说明。
-6. 保存修改。编辑器会向仓库 `main` 分支提交变更。
-7. 在 GitHub 仓库的 Actions 页面等待 “Verify and deploy portfolio” 运行成功，然后检查公开网页。
+1. 在作品集文件夹中运行：
+
+   ```bash
+   pnpm editor
+   ```
+
+2. 浏览器会打开 `http://127.0.0.1:4173/__editor/`。左侧是编辑区，右侧是网页预览。
+3. 中文和英文并排显示。每次修改都同时检查两种语言，不要只更新一种。
+4. 需要换图时点击图片路径旁的“上传图片”。只支持 JPG、PNG、WebP，单张不超过 10 MB。图片会写入 `public/media/`。
+5. 补齐图片的中英文替代文本、署名、来源网址和使用说明。网络真实图片仍需遵守其授权条件。
+6. 点击“保存到代码”。编辑器会先检查双语必填字段和公开边界，再写入 `public/content/site.json`。
+7. 在右侧预览中检查中英文、图片和版式。编辑器不会自动提交或推送。
+
+## 发布网页
+
+确认本地预览无误后，在终端执行：
+
+```bash
+git status
+git diff
+git add public/content/site.json public/media
+git commit -m "content: update portfolio"
+git push origin main
+```
+
+如果只修改文字而没有增加图片，`git add` 中保留 `public/content/site.json` 即可。推送后，在 GitHub 仓库 Actions 页面等待 “Verify and deploy portfolio” 成功，再检查 `https://qianmeihan.github.io/`。
 
 ## 内容安全边界
 
@@ -30,8 +55,9 @@
 - 不要把行业配图描述为钱美含直接开发的实物产品。
 - 不要把访问令牌写入任何网页字段、代码文件、截图、Issue 或提交说明。
 
-## 令牌泄露或设备丢失时
+## 安全说明
 
-立即前往 GitHub 的个人访问令牌设置页撤销该令牌，随后创建新的仓库专用令牌。旧令牌撤销后，公开网页仍然正常显示，只是编辑器需要使用新令牌重新登录。
-
-Sveltia CMS 官方说明建议技术用户使用访问令牌方式；令牌权限应遵循 GitHub 的最小权限原则，只覆盖这个作品集仓库。
+- `127.0.0.1` 只指向当前电脑；不要把编辑器命令改成对局域网公开的地址。
+- `tools/editor/` 不会进入公开网页构建，访客无法通过作品集网站写入代码。
+- 编辑器只负责修改本地文件，不会登录 GitHub，不会自动提交，也不会自动推送。
+- 关闭终端中的编辑器进程后，本地编辑地址会立即停止访问。

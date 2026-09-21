@@ -1,5 +1,7 @@
 # Qian Meihan Bilingual Mechanical Portfolio Implementation Plan
 
+> **Amendment (2026-09-21):** The public `/admin/` and Sveltia CMS steps below are historical. They were replaced after publication by a loopback-only visual editor launched with `pnpm editor`. The current workflow is documented in `docs/editor-guide-zh.md`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build, verify, and publish a refined bilingual mechanical-engineering portfolio at `https://qianmeihan.github.io/`, with a read-only public site and an owner-editable `/admin/` content editor.

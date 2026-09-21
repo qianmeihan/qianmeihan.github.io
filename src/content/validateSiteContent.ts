@@ -9,7 +9,7 @@ import type {
   ProjectItem,
   SiteContent,
   SkillGroup,
-} from './types';
+} from './types.ts';
 
 type UnknownRecord = Record<string, unknown>;
 

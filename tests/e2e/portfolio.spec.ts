@@ -92,14 +92,6 @@ for (const viewport of [
   });
 }
 
-test('renders the Sveltia editor shell at /admin/', async ({ page }) => {
-  await page.route('https://unpkg.com/**', (route) => route.abort());
-  await page.goto('/admin/');
-  await expect(page).toHaveTitle('钱美含作品集编辑器 · Portfolio Editor');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('script[src*="@sveltia/cms"]')).toHaveCount(1);
-});
-
 test('supports keyboard navigation through all header controls', async ({ page }) => {
   const expected = ['钱美含', '概述', '经历', '工程工作', '专利', '能力', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
   const visited: string[] = [];

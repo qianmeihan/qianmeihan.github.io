@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>钱美含作品集 · 本地编辑器</title>
+    <link rel="stylesheet" href="/__editor/editor.css" />
+  </head>
+  <body>
+    <header class="toolbar">
+      <div>
+        <p class="eyebrow">LOCAL PORTFOLIO STUDIO</p>
+        <h1>钱美含作品集编辑器</h1>
+        <p class="subtitle">只在本机运行 · 保存后再由你手动推送到 GitHub</p>
+      </div>
+      <div class="toolbar-actions">
+        <span id="status" class="status" role="status">正在读取内容…</span>
+        <button id="reload" class="button secondary" type="button">放弃修改</button>
+        <button id="save" class="button primary" type="button" disabled>保存到代码</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="editor-pane" aria-label="内容编辑区">
+        <div class="pane-heading">
+          <div>
+            <p class="step">01 / CONTENT</p>
+            <h2>中英文内容</h2>
+          </div>
+          <p>中文与英文会并排显示。保存前会自动检查必填字段和公开边界。</p>
+        </div>
+        <form id="editor-form" novalidate></form>
+      </section>
+
+      <section class="preview-pane" aria-label="网页预览区">
+        <div class="pane-heading preview-heading">
+          <div>
+            <p class="step">02 / PREVIEW</p>
+            <h2>实时网页预览</h2>
+          </div>
+          <button id="refresh-preview" class="text-button" type="button">刷新预览 ↗</button>
+        </div>
+        <div class="browser-frame">
+          <div class="browser-bar" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <div>127.0.0.1:4173</div>
+          </div>
+          <iframe id="preview" src="/" title="作品集网页预览"></iframe>
+        </div>
+      </section>
+    </main>
+
+    <template id="loading-template">
+      <div class="loading-card">正在准备编辑器…</div>
+    </template>
+    <script type="module" src="/__editor/editor.js"></script>
+  </body>
+</html>
