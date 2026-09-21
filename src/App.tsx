@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
+import { LanguageSwitch } from './components/LanguageSwitch';
+import { ThemeSwitch } from './components/ThemeSwitch';
 import { loadSiteContent } from './content/loadSiteContent';
 import type { SiteContent } from './content/types';
+import { useSitePreferences } from './hooks/useSitePreferences';
+import { localized } from './lib/localized';
 
 interface AppProps {
   contentLoader?: () => Promise<SiteContent>;
@@ -13,6 +17,12 @@ type LoadState =
 
 export default function App({ contentLoader = loadSiteContent }: AppProps) {
   const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' });
+  const {
+    locale,
+    setLocale,
+    themePreference,
+    setThemePreference,
+  } = useSitePreferences();
 
   const load = useCallback(() => {
     setLoadState({ status: 'loading' });
@@ -43,9 +53,19 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
 
   const { content } = loadState;
   return (
-    <main>
-      <h1>{content.profile.name.zh}</h1>
-      <p>{content.profile.role.zh}</p>
-    </main>
+    <>
+      <header>
+        <LanguageSwitch locale={locale} onChange={setLocale} />
+        <ThemeSwitch
+          locale={locale}
+          preference={themePreference}
+          onChange={setThemePreference}
+        />
+      </header>
+      <main>
+        <h1>{localized(content.profile.name, locale)}</h1>
+        <p>{localized(content.profile.role, locale)}</p>
+      </main>
+    </>
   );
 }
