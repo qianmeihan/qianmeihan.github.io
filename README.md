@@ -1,68 +1,173 @@
-# Meihan Qian · Mechanical Engineering Portfolio
+# 钱美含个人作品集
 
-A bilingual, responsive mechanical-engineering portfolio for Meihan Qian. The published site is read-only. Its local visual editor writes content and media directly into the working copy, after which the owner reviews and pushes the changes to GitHub.
+这是钱美含的中英文机械工程作品集，公开地址为：
 
-## Local development
+https://qianmeihan.github.io/
 
-Requirements: Node.js 24 and pnpm 11.
+公开网页是只读的。编辑器只在自己的电脑上运行，不需要账号、密码或登录验证。
 
-```bash
-pnpm install
-pnpm dev
+## 最重要的一件事
+
+```text
+pnpm editor = 启动本地编辑器
+点击保存      = 修改自己电脑里的文件
+git push      = 把修改正式发布到互联网
 ```
 
-Local visual editing:
+只要没有执行 `git push origin main`，线上网页就不会改变。
+
+在本地编辑器中点击“保存到代码”，只会更新这个项目文件夹里的内容。即使关闭编辑器、关闭浏览器或重新启动电脑，也不会自动发布。
+
+## 如何启动编辑器
+
+打开终端，执行：
 
 ```bash
+cd "/Users/apple/Desktop/人物角色/钱美含/qianmeihan.github.io"
 pnpm editor
 ```
 
-This command binds to `127.0.0.1` and opens `http://127.0.0.1:4173/__editor/`. The editor is development-only and is never included in the GitHub Pages artifact.
+`pnpm editor` 的意思就是启动编辑器。运行后，浏览器会自动打开：
 
-Quality gates:
-
-```bash
-pnpm check
-pnpm test:e2e
+```text
+http://127.0.0.1:4173/__editor/
 ```
 
-The first local end-to-end run may require:
+- 左侧：修改中英文内容和图片。
+- 右侧：预览修改后的网页。
+- “保存到代码”：把修改写入本地项目文件。
+- 关闭运行命令的终端：停止本地编辑器。
 
-```bash
-pnpm exec playwright install chromium
+这个地址只在当前电脑启动编辑器时可用，不是公开网站的一部分。
+
+## 修改和保存
+
+1. 运行 `pnpm editor`。
+2. 在左侧修改内容，同时检查中文和英文。
+3. 如需换图，点击图片路径旁边的“上传图片”。
+4. 在右侧预览网页。
+5. 点击“保存到代码”。
+
+文字会保存到：
+
+```text
+public/content/site.json
 ```
 
-## Content and media
+上传的图片会保存到：
 
-- Public content: `public/content/site.json`
-- Local editor source: `tools/editor/`
-- Repository-local images: `public/media/`
-- Image provenance: `docs/image-sources.md`
-- Chinese editor instructions: `docs/editor-guide-zh.md`
+```text
+public/media/
+```
 
-Every public-facing text field is maintained as paired `zh` and `en` values. The local editor validates the content contract and public-content policy before it writes the JSON file.
+完成这些操作后，线上网页仍然不会改变。
 
-## Privacy rules
+## 正式发布
 
-- The BMW Brilliance project may be named, but the current employer must remain undisclosed.
-- Do not add a phone number, home address, identity-document number, salary, account credential, internal supplier identity, confidential dimension, or unreleased program detail.
-- Do not add optimization-algorithm or production-planning-tool content.
-- Portfolio project descriptions must stay at a public, recruiter-safe level and must not invent metrics.
-- Stock photography is contextual only and must never be presented as hardware directly developed by Meihan Qian.
-- Never place a GitHub token in source files, content, screenshots, issues, or commit messages. The editor does not request or store a token.
+确认本地预览没有问题后，在终端执行：
 
-## Editing and deployment
+```bash
+git status
+git diff
+git add public/content/site.json public/media
+git commit -m "content: update portfolio"
+git push origin main
+```
 
-The local editor writes validated changes to `public/content/site.json` and uploads images to `public/media/`. It never commits or pushes. Review the local website and Git diff, then commit and push manually. A push to `main` triggers `.github/workflows/deploy-pages.yml`, which installs locked dependencies, runs unit and policy tests, builds `dist/`, and deploys that artifact to GitHub Pages.
+如果没有新增或更换图片，可以只提交内容文件：
 
-The workflow follows GitHub's [custom Pages workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) model. Full owner instructions are in [docs/editor-guide-zh.md](docs/editor-guide-zh.md).
+```bash
+git add public/content/site.json
+git commit -m "content: update portfolio"
+git push origin main
+```
 
-## Public references
+推送后，GitHub Actions 会自动检查、构建并发布网页。通常等待一两分钟即可看到更新。
 
-- [LinkedIn](https://www.linkedin.com/in/qianmeihan/)
-- [GitHub](https://github.com/qianmeihan)
-- [CN223978857U public patent record](https://eureka.patsnap.com/patent/CN223978857U)
-- [Schaeffler BMS and integrated power-electronics context](https://www.schaeffler.com/en/media/press-releases/press-releases-detail.jsp?id=88211712)
-- [Schaeffler Auto Shanghai electrification context](https://www.schaeffler.com/en/media/press-releases/press-releases-detail.jsp?id=88093185)
+## 撤销尚未发布的修改
 
-See `docs/image-sources.md` for each image source and usage basis.
+如果只是本地修改，而且还没有提交或推送，可以先查看差异：
+
+```bash
+git diff
+```
+
+不要在不确定时使用强制删除或重置命令。可以先保留修改，或者让 Codex 帮忙检查和恢复指定内容。
+
+## 项目文件结构
+
+```text
+qianmeihan.github.io/
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml       # GitHub Pages 自动检查和发布流程
+├── docs/
+│   ├── editor-guide-zh.md          # 更详细的中文编辑说明
+│   ├── image-sources.md            # 网络图片来源和使用说明
+│   └── superpowers/                # 项目设计与实施记录
+├── public/
+│   ├── content/
+│   │   └── site.json               # 网页的中英文文字内容
+│   ├── media/                      # 头像、专利图和行业图片
+│   ├── favicon.svg                 # 浏览器标签图标
+│   ├── og-cover.svg                # 社交平台分享封面
+│   └── robots.txt                  # 搜索引擎规则
+├── src/
+│   ├── components/                 # 首页、经历、项目、专利等页面组件
+│   ├── content/                    # 内容格式、读取和公开规则检查
+│   ├── editor/                     # 编辑器是否保持本地的自动测试
+│   ├── hooks/                      # 语言和主题状态
+│   ├── lib/                        # 中英文切换等通用逻辑
+│   ├── styles/                     # 颜色、排版、桌面和手机响应式样式
+│   ├── test/                       # 测试环境设置
+│   ├── App.tsx                     # 整个公开网页的结构入口
+│   └── main.tsx                    # React 启动入口
+├── tests/
+│   └── e2e/
+│       └── portfolio.spec.ts       # 浏览器端到端测试
+├── tools/
+│   └── editor/
+│       ├── index.html              # 本地编辑器页面
+│       ├── editor.css              # 本地编辑器样式
+│       ├── editor.js               # 可视化编辑交互
+│       └── localEditorServer.ts    # 本地读取、校验和保存接口
+├── index.html                      # 公开网页 HTML 入口
+├── package.json                    # pnpm 命令和项目依赖
+├── pnpm-lock.yaml                  # 固定依赖版本
+├── playwright.config.ts            # 浏览器测试配置
+├── vite.config.ts                  # 开发、编辑器和构建配置
+└── vitest.config.ts                # 单元测试配置
+```
+
+以下目录由工具自动生成，不需要手动编辑：
+
+```text
+node_modules/   # 安装的项目依赖
+dist/           # 构建后的公开网页
+test-results/   # 自动测试结果
+```
+
+## 常用命令
+
+```bash
+pnpm editor       # 启动本地可视化编辑器
+pnpm dev          # 启动普通开发预览
+pnpm test         # 运行单元和内容规则测试
+pnpm build        # 构建公开网页
+pnpm test:e2e     # 运行真实浏览器测试
+pnpm check        # 运行单元测试并构建网页
+```
+
+## 内容边界
+
+- 可以公开年龄、邮箱、宝马华晨项目、舍弗勒经历和公开专利。
+- 不公开当前公司的名称。
+- 不公开手机号、家庭地址、证件号码、薪资、账号密码和保密项目资料。
+- 不添加优化算法、库存优化或生产计划工具内容。
+- 行业配图只用于说明相关技术领域，不表示图片中的产品均由钱美含本人设计。
+
+## 主要公开链接
+
+- GitHub：https://github.com/qianmeihan
+- LinkedIn：https://www.linkedin.com/in/qianmeihan/
+- 公开专利：https://eureka.patsnap.com/patent/CN223978857U

@@ -1055,11 +1055,68 @@ html[lang='en'] .hero-section h1 {
   }
 
   .site-sidebar {
+    padding: 0.65rem 0.85rem 0;
+    row-gap: 0.45rem;
     grid-template-columns: auto minmax(0, 1fr);
   }
 
   .sidebar-tools {
     justify-content: end;
+  }
+
+  .language-switch button,
+  .theme-switch button {
+    white-space: nowrap;
+  }
+
+  .language-switch button {
+    min-width: 2.5rem;
+  }
+
+  .site-nav {
+    width: calc(100% + 1.7rem);
+    margin-inline: -0.85rem;
+    overflow: visible;
+  }
+
+  .site-nav ol {
+    width: 100%;
+    min-width: 0;
+    padding: 0 0.85rem 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.1rem 0.25rem;
+  }
+
+  .site-nav a {
+    min-width: 0;
+    padding-inline: 0.2rem;
+    justify-content: center;
+    font-size: 0.72rem;
+  }
+
+  .site-nav a span {
+    display: none;
+  }
+
+  section[id] {
+    scroll-margin-top: 11.25rem;
+  }
+
+  .hero-section {
+    padding-top: 2.5rem;
+    row-gap: 1.25rem;
+  }
+
+  .hero-eyebrow,
+  .hero-role,
+  .hero-statement,
+  .hero-summary,
+  .hero-portrait,
+  .hero-facts,
+  .hero-actions {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .shell-profile h1 {

@@ -92,6 +92,61 @@ for (const viewport of [
   });
 }
 
+test('fits the complete navigation inside a phone viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  const layout = await page.locator('.site-nav').evaluate((navigation) => {
+    const links = Array.from(navigation.querySelectorAll('a'));
+    return {
+      clientWidth: navigation.clientWidth,
+      scrollWidth: navigation.scrollWidth,
+      links: links.map((link) => {
+        const bounds = link.getBoundingClientRect();
+        return { left: bounds.left, right: bounds.right };
+      }),
+    };
+  });
+
+  expect(layout.scrollWidth).toBeLessThanOrEqual(layout.clientWidth);
+  for (const bounds of layout.links) {
+    expect(bounds.left).toBeGreaterThanOrEqual(0);
+    expect(bounds.right).toBeLessThanOrEqual(390);
+  }
+});
+
+test('keeps phone anchor targets visible below the sticky header', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('link', { name: '经历', exact: true }).click();
+
+  const positions = await page.evaluate(() => ({
+    headerBottom: document.querySelector('.site-sidebar')?.getBoundingClientRect().bottom ?? 0,
+    targetTop: document.querySelector('#experience')?.getBoundingClientRect().top ?? 0,
+  }));
+
+  expect(positions.targetTop).toBeGreaterThanOrEqual(positions.headerBottom);
+});
+
+test('preserves the desktop sidebar and two-column hero composition', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+
+  const layout = await page.evaluate(() => {
+    const sidebar = document.querySelector('.site-sidebar')?.getBoundingClientRect();
+    const heading = document.querySelector('.hero-section h1')?.getBoundingClientRect();
+    const portrait = document.querySelector('.hero-portrait')?.getBoundingClientRect();
+    return {
+      sidebarHeight: sidebar?.height ?? 0,
+      sidebarWidth: sidebar?.width ?? 0,
+      headingRight: heading?.right ?? 0,
+      portraitLeft: portrait?.left ?? 0,
+    };
+  });
+
+  expect(layout.sidebarHeight).toBe(900);
+  expect(layout.sidebarWidth).toBeGreaterThan(200);
+  expect(layout.portraitLeft).toBeGreaterThan(layout.headingRight);
+});
+
 test('supports keyboard navigation through all header controls', async ({ page }) => {
   const expected = ['钱美含', '概述', '经历', '工程工作', '专利', '能力', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
   const visited: string[] = [];
