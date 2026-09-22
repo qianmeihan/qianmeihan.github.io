@@ -126,6 +126,8 @@ qianmeihan.github.io/
 │   └── e2e/
 │       └── portfolio.spec.ts       # 浏览器端到端测试
 ├── tools/
+│   ├── build/
+│   │   └── portraitPreload.ts      # 构建时按当前头像自动生成预加载提示
 │   └── editor/
 │       ├── index.html              # 本地编辑器页面
 │       ├── editor.css              # 本地编辑器样式
