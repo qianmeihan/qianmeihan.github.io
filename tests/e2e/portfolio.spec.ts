@@ -114,6 +114,16 @@ test('fits the complete navigation inside a phone viewport', async ({ page }) =>
   }
 });
 
+test('stacks education cards before tablet columns become cramped', async ({ page }) => {
+  await page.setViewportSize({ width: 600, height: 900 });
+
+  const columns = await page.locator('.education-grid').evaluate((grid) =>
+    getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+  );
+
+  expect(columns).toBe(1);
+});
+
 test('keeps phone anchor targets visible below the sticky header', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });

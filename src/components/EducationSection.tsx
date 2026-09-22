@@ -18,8 +18,17 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
       <div className="education-grid">
         {items.map((item) => (
           <article key={item.id} className="education-card">
-            <time>{localized(item.period, locale)}</time>
-            <h3>{localized(item.institution, locale)}</h3>
+            <div className="education-card__header">
+              <img
+                className="education-card__logo"
+                src={item.logo.src}
+                alt=""
+              />
+              <div>
+                <time>{localized(item.period, locale)}</time>
+                <h3>{localized(item.institution, locale)}</h3>
+              </div>
+            </div>
             <p className="education-card__degree">{localized(item.degree, locale)}</p>
             <p>{localized(item.summary, locale)}</p>
             <ul className="tag-list">

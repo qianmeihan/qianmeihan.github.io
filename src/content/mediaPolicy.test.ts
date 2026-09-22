@@ -12,7 +12,9 @@ const bundledMedia = import.meta.glob('../../public/media/*', {
 
 const mediaItems: MediaItem[] = [
   siteContent.profile.portrait,
+  ...siteContent.experience.map((item) => item.logo),
   ...siteContent.patents.map((patent) => patent.image),
+  ...siteContent.education.map((item) => item.logo),
   ...siteContent.industryContext.map((item) => item.image),
 ];
 

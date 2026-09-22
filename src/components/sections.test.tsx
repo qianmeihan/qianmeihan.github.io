@@ -22,4 +22,64 @@ describe('optional portfolio sections', () => {
     const { container } = render(element);
     expect(container).toBeEmptyDOMElement();
   });
+
+  it.each([
+    [
+      'experience',
+      <ExperienceSection
+        key="experience-logo"
+        locale="zh"
+        items={[
+          {
+            id: 'schaeffler',
+            period: { zh: '2022 至 2026', en: '2022 to 2026' },
+            role: { zh: '研发机械工程师', en: 'R&D Mechanical Engineer' },
+            context: { zh: '舍弗勒', en: 'Schaeffler' },
+            summary: { zh: '结构开发。', en: 'Mechanical development.' },
+            highlights: [{ zh: '结构设计', en: 'Mechanical design' }],
+            logo: {
+              id: 'schaeffler-logo',
+              src: '/media/logo-schaeffler.png',
+              alt: { zh: '舍弗勒标志', en: 'Schaeffler logo' },
+              credit: { zh: '舍弗勒', en: 'Schaeffler' },
+              sourceUrl: 'https://www.schaeffler.com/',
+              usageNote: { zh: '用于标识经历', en: 'Used to identify the experience' },
+            },
+          },
+        ]}
+      />,
+      '.timeline-item__logo',
+    ],
+    [
+      'education',
+      <EducationSection
+        key="education-logo"
+        locale="zh"
+        items={[
+          {
+            id: 'neu',
+            period: { zh: '2018 至 2022', en: '2018 to 2022' },
+            institution: { zh: '东北大学', en: 'Northeastern University' },
+            degree: { zh: '工学学士', en: 'Bachelor of Engineering' },
+            summary: { zh: '工程训练。', en: 'Engineering training.' },
+            coursework: [{ zh: '机械设计', en: 'Mechanical Design' }],
+            logo: {
+              id: 'neu-logo',
+              src: '/media/logo-northeastern-university.png',
+              alt: { zh: '东北大学校徽', en: 'Northeastern University logo' },
+              credit: { zh: '东北大学', en: 'Northeastern University' },
+              sourceUrl: 'https://www.neu.edu.cn/',
+              usageNote: { zh: '用于标识教育经历', en: 'Used to identify the education entry' },
+            },
+          },
+        ]}
+      />,
+      '.education-card__logo',
+    ],
+  ])('renders a decorative official logo for an %s item', (_name, element, selector) => {
+    const { container } = render(element);
+    const logo = container.querySelector(selector);
+    expect(logo).toBeInTheDocument();
+    expect(logo).toHaveAttribute('alt', '');
+  });
 });

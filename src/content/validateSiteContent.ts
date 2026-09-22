@@ -82,6 +82,7 @@ function experience(value: unknown, path: string): ExperienceItem {
   const item = record(value, path);
   return {
     id: string(item.id, `${path}.id`),
+    logo: media(item.logo, `${path}.logo`),
     period: localized(item.period, `${path}.period`),
     role: localized(item.role, `${path}.role`),
     context: localized(item.context, `${path}.context`),
@@ -133,6 +134,7 @@ function education(value: unknown, path: string): EducationItem {
   const item = record(value, path);
   return {
     id: string(item.id, `${path}.id`),
+    logo: media(item.logo, `${path}.logo`),
     period: localized(item.period, `${path}.period`),
     institution: localized(item.institution, `${path}.institution`),
     degree: localized(item.degree, `${path}.degree`),

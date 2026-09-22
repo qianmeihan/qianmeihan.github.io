@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-09-21",
+    "updatedAt": "2026-09-22",
     "defaultLocale": "zh"
   },
   "profile": {
@@ -95,6 +95,23 @@
   "experience": [
     {
       "id": "bmw-brilliance-product-engineer",
+      "logo": {
+        "id": "bmw-brilliance-logo",
+        "src": "/media/logo-bmw-brilliance.png",
+        "alt": {
+          "zh": "宝马华晨标志",
+          "en": "BMW Brilliance logo"
+        },
+        "credit": {
+          "zh": "宝马华晨汽车有限公司",
+          "en": "BMW Brilliance Automotive Ltd."
+        },
+        "sourceUrl": "https://www.bmw-brilliance.cn/cn/en/pr/brand.html",
+        "usageNote": {
+          "zh": "仅用于标识公开的宝马华晨项目经历，不代表品牌背书",
+          "en": "Used only to identify the publicly disclosed BMW Brilliance project; no endorsement is implied"
+        }
+      },
       "period": {
         "zh": "2026 至今",
         "en": "2026 to present"
@@ -124,6 +141,23 @@
     },
     {
       "id": "schaeffler-mechanical-rd",
+      "logo": {
+        "id": "schaeffler-logo",
+        "src": "/media/logo-schaeffler.png",
+        "alt": {
+          "zh": "舍弗勒标志",
+          "en": "Schaeffler logo"
+        },
+        "credit": {
+          "zh": "舍弗勒集团",
+          "en": "Schaeffler Group"
+        },
+        "sourceUrl": "https://www.schaeffler.com/en/",
+        "usageNote": {
+          "zh": "仅用于标识公开的任职经历，不代表品牌背书",
+          "en": "Used only to identify the publicly disclosed experience; no endorsement is implied"
+        }
+      },
       "period": {
         "zh": "2022 至 2026",
         "en": "2022 to 2026"
@@ -506,6 +540,23 @@
   "education": [
     {
       "id": "northeastern-university",
+      "logo": {
+        "id": "northeastern-university-logo",
+        "src": "/media/logo-northeastern-university.png",
+        "alt": {
+          "zh": "东北大学校徽",
+          "en": "Northeastern University emblem"
+        },
+        "credit": {
+          "zh": "东北大学",
+          "en": "Northeastern University"
+        },
+        "sourceUrl": "https://english.neu.edu.cn/About_NEU/University_Logo___University_Motto___University_.htm",
+        "usageNote": {
+          "zh": "仅用于标识教育经历，不代表学校背书",
+          "en": "Used only to identify the education entry; no endorsement is implied"
+        }
+      },
       "period": {
         "zh": "2018 至 2022",
         "en": "2018 to 2022"
@@ -539,6 +590,23 @@
     },
     {
       "id": "toulouse-iii",
+      "logo": {
+        "id": "toulouse-iii-logo",
+        "src": "/media/logo-toulouse-iii.png",
+        "alt": {
+          "zh": "图卢兹第三大学标志",
+          "en": "Université Toulouse III Paul Sabatier logo"
+        },
+        "credit": {
+          "zh": "图卢兹第三大学保罗·萨巴捷大学",
+          "en": "Université Toulouse III Paul Sabatier"
+        },
+        "sourceUrl": "https://iquiz.univ-toulouse.fr/projet.html",
+        "usageNote": {
+          "zh": "仅用于标识教育经历，不代表学校背书",
+          "en": "Used only to identify the education entry; no endorsement is implied"
+        }
+      },
       "period": {
         "zh": "2018 至 2022",
         "en": "2018 to 2022"

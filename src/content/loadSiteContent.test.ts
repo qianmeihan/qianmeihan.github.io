@@ -88,6 +88,34 @@ describe('validateSiteContent', () => {
       'projects[0].id must be a non-empty string',
     );
   });
+
+  it.each([
+    ['experience', 'experience[0].logo'],
+    ['education', 'education[0].logo'],
+  ])('requires traceable logo metadata for %s items', (collection, expectedPath) => {
+    const input = structuredClone(validContent) as Record<string, any>;
+    input[collection] = [
+      collection === 'experience'
+        ? {
+            id: 'example-experience',
+            period: bilingual('2022 至今', '2022 to present'),
+            role: bilingual('机械工程师', 'Mechanical Engineer'),
+            context: bilingual('示例公司', 'Example company'),
+            summary: bilingual('产品开发。', 'Product development.'),
+            highlights: [bilingual('结构设计', 'Mechanical design')],
+          }
+        : {
+            id: 'example-education',
+            period: bilingual('2018 至 2022', '2018 to 2022'),
+            institution: bilingual('示例大学', 'Example University'),
+            degree: bilingual('工学学士', 'Bachelor of Engineering'),
+            summary: bilingual('工程训练。', 'Engineering training.'),
+            coursework: [bilingual('机械设计', 'Mechanical Design')],
+          },
+    ];
+
+    expect(() => validateSiteContent(input)).toThrow(expectedPath);
+  });
 });
 
 describe('loadSiteContent', () => {

@@ -108,7 +108,7 @@ qianmeihan.github.io/
 ├── public/
 │   ├── content/
 │   │   └── site.json               # 网页的中英文文字内容
-│   ├── media/                      # 头像、专利图和行业图片
+│   ├── media/                      # 头像、学校/公司标志、专利图和行业图片
 │   ├── favicon.svg                 # 浏览器标签图标
 │   ├── og-cover.svg                # 社交平台分享封面
 │   └── robots.txt                  # 搜索引擎规则

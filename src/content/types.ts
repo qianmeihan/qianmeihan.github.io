@@ -22,6 +22,7 @@ export interface MediaItem {
 
 export interface ExperienceItem {
   id: string;
+  logo: MediaItem;
   period: LocalizedText;
   role: LocalizedText;
   context: LocalizedText;
@@ -58,6 +59,7 @@ export interface SkillGroup {
 
 export interface EducationItem {
   id: string;
+  logo: MediaItem;
   period: LocalizedText;
   institution: LocalizedText;
   degree: LocalizedText;

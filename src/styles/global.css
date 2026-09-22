@@ -556,6 +556,26 @@ html[lang='en'] .hero-section h1 {
 .timeline-item__meta {
   display: grid;
   align-content: start;
+  gap: 0.9rem;
+}
+
+.timeline-item__logo,
+.education-card__logo {
+  display: block;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius-control) + 2px);
+}
+
+.timeline-item__logo {
+  width: min(100%, 8.5rem);
+  height: 3.5rem;
+  padding: 0.7rem;
+}
+
+.timeline-item__meta-copy {
+  display: grid;
   gap: 0.35rem;
 }
 
@@ -586,6 +606,17 @@ html[lang='en'] .hero-section h1 {
   line-height: 1.2;
 }
 
+.timeline-item h3,
+.project-card h3,
+.education-card h3 {
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+}
+
+.timeline-item__body,
+.project-card__body {
+  max-width: 52rem;
+}
+
 .timeline-item__body > p,
 .project-card__body > p,
 .patent-card__body > p,
@@ -593,6 +624,13 @@ html[lang='en'] .hero-section h1 {
 .education-card > p {
   margin: 0.8rem 0 0;
   color: var(--color-ink-soft);
+}
+
+.timeline-item__body > p,
+.project-card__body > p,
+.education-card > p {
+  max-width: 65ch;
+  line-height: 1.72;
 }
 
 .timeline-item__body ul,
@@ -646,6 +684,10 @@ html[lang='en'] .hero-section h1 {
   color: var(--color-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.7rem;
+}
+
+.project-card__contributions {
+  max-width: 65ch;
 }
 
 .tag-list {
@@ -771,13 +813,32 @@ html[lang='en'] .hero-section h1 {
   background: var(--color-surface);
 }
 
+.education-card__header {
+  display: grid;
+  grid-template-columns: 6.75rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+}
+
+.education-card__logo {
+  width: 6.75rem;
+  height: 4.4rem;
+  padding: 0.55rem;
+}
+
 .education-card h3 {
-  margin-top: 0.75rem;
+  margin-top: 0.45rem;
+  text-wrap: balance;
 }
 
 .education-card__degree {
   color: var(--color-ink) !important;
   font-weight: 560;
+}
+
+html[lang='en'] .education-card h3 {
+  font-size: clamp(1.08rem, 1.7vw, 1.4rem);
+  letter-spacing: -0.02em;
 }
 
 .industry-section {
@@ -1047,6 +1108,10 @@ html[lang='en'] .hero-section h1 {
   .skills-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .education-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1160,6 +1225,29 @@ html[lang='en'] .hero-section h1 {
   .timeline-item__body,
   .project-card__body {
     margin-top: 1.4rem;
+  }
+
+  .timeline-item__meta {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .timeline-item__logo {
+    width: 7rem;
+    height: 3.25rem;
+  }
+
+  .education-card {
+    padding: 1.35rem;
+  }
+
+  .education-card__header {
+    grid-template-columns: 5.75rem minmax(0, 1fr);
+  }
+
+  .education-card__logo {
+    width: 5.75rem;
+    height: 4rem;
   }
 
   .skills-grid,

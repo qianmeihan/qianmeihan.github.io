@@ -23,8 +23,15 @@ export function ExperienceSection({ items, locale }: ExperienceSectionProps) {
         {items.map((item) => (
           <li key={item.id} className="timeline-item">
             <div className="timeline-item__meta">
-              <time>{localized(item.period, locale)}</time>
-              <span>{localized(item.context, locale)}</span>
+              <img
+                className="timeline-item__logo"
+                src={item.logo.src}
+                alt=""
+              />
+              <div className="timeline-item__meta-copy">
+                <time>{localized(item.period, locale)}</time>
+                <span>{localized(item.context, locale)}</span>
+              </div>
             </div>
             <div className="timeline-item__body">
               <h3>{localized(item.role, locale)}</h3>
