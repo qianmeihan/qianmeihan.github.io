@@ -9,15 +9,15 @@ let draft = null;
 let dirty = false;
 
 const labels = {
-  meta: '基本设置', profile: '个人资料', hero: '首页首屏', summary: '职业概述',
+  meta: '基本设置', profile: '个人资料', hero: '首页首屏', metrics: '核心经验', value: '数值', featured: '重点经历',
   experience: '工作经历', projects: '工程项目', patents: '公开专利',
   skillGroups: '专业能力', education: '教育经历', industryContext: '行业背景', contact: '联系区域',
   updatedAt: '最后更新日期', defaultLocale: '默认语言', name: '姓名', age: '年龄', email: '邮箱',
   location: '所在地', role: '职位方向', portrait: '职业照片', links: '外部链接', eyebrow: '眉题',
   title: '标题', heading: '区块标题', paragraphs: '段落', period: '时间', context: '项目 / 公司背景',
-  highlights: '工作要点', code: '项目编号', contributions: '主要贡献', capabilities: '相关能力',
+  highlights: '工作要点', code: '项目编号', capabilities: '相关能力',
   number: '专利号', status: '状态', engineeringValue: '工程价值', sourceLabel: '来源名称', sourceUrl: '来源网址',
-  image: '图片', logo: '学校 / 公司标志', id: '内部标识', items: '能力条目', institution: '学校', degree: '学位', coursework: '课程',
+  image: '图片', logo: '学校 / 公司标志', id: '内部标识', items: '能力条目', institution: '学校', degree: '学位',
   description: '说明', invitation: '联系文案', src: '图片路径', alt: '图片替代文本', credit: '图片署名',
   usageNote: '使用说明', label: '链接名称', href: '链接地址', zh: '中文', en: 'English',
 };
@@ -50,6 +50,10 @@ function inputFor(value, key, update) {
     control = document.createElement('select');
     control.innerHTML = '<option value="zh">中文</option><option value="en">English</option>';
     control.value = value;
+  } else if (typeof value === 'boolean') {
+    control = document.createElement('input');
+    control.type = 'checkbox';
+    control.checked = value;
   } else if (typeof value === 'number') {
     control = document.createElement('input');
     control.type = 'number';
@@ -64,7 +68,13 @@ function inputFor(value, key, update) {
   }
 
   control.addEventListener('input', () => {
-    update(typeof value === 'number' ? Number(control.value) : control.value);
+    update(
+      typeof value === 'number'
+        ? Number(control.value)
+        : typeof value === 'boolean'
+          ? control.checked
+          : control.value,
+    );
     markDirty();
   });
   field.append(control);

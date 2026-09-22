@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-09-22",
+    "updatedAt": "2026-09-23",
     "defaultLocale": "zh"
   },
   "profile": {
@@ -15,12 +15,12 @@
       "en": "Shenyang, China"
     },
     "role": {
-      "zh": "机械研发工程师 / 结构设计",
-      "en": "Mechanical R&D Engineer / Structural Design"
+      "zh": "机械研发工程师",
+      "en": "Mechanical R&D Engineer"
     },
     "portrait": {
       "id": "portrait",
-      "src": "/media/meihan-qian-headshot.jpg",
+      "src": "/media/meihan-qian-headshot-optimized.jpg",
       "alt": {
         "zh": "钱美含职业照",
         "en": "Professional portrait of Meihan Qian"
@@ -63,38 +63,50 @@
     ]
   },
   "hero": {
-    "eyebrow": {
-      "zh": "汽车电子机械研发",
-      "en": "Automotive Electronics Mechanical R&D"
-    },
     "title": {
-      "zh": "把复杂约束转化为可制造、可验证的结构方案",
-      "en": "Turning complex constraints into manufacturable, verifiable structures"
+      "zh": "汽车电子结构设计与产品开发",
+      "en": "Automotive electronics mechanical design and product development"
     },
-    "summary": {
-      "zh": "约四年汽车电子产品开发经验，覆盖冲压、压铸与注塑壳体，以及尺寸链、热管理和量产问题闭环。",
-      "en": "Around four years of automotive electronics development experience across stamped, die-cast, and injection-molded housings, tolerance analysis, thermal management, and production issue closure."
-    }
-  },
-  "summary": {
-    "heading": {
-      "zh": "职业概述",
-      "en": "Profile"
-    },
-    "paragraphs": [
+    "metrics": [
       {
-        "zh": "具备材料科学与机械工程中法双学位背景，能够从材料、结构、工艺和装配边界协同分析产品问题。",
-        "en": "Sino-French dual-degree training in materials science and mechanical engineering supports cross-functional analysis of materials, structures, processes, and assembly interfaces."
+        "id": "experience",
+        "value": {
+          "zh": "4 年",
+          "en": "4 years"
+        },
+        "label": {
+          "zh": "汽车电子结构研发",
+          "en": "Automotive electronics R&D"
+        }
       },
       {
-        "zh": "工作经历集中于汽车电子控制器结构开发和量产导入，并持续拓展机器人与自动化设备结构设计能力。",
-        "en": "Experience centers on structural development and production launch for automotive electronic controllers, with a growing focus on structural design for robotics and automation equipment."
+        "id": "structures",
+        "value": {
+          "zh": "3 类",
+          "en": "3 types"
+        },
+        "label": {
+          "zh": "冲压、压铸、注塑结构",
+          "en": "Stamped, die-cast, and molded structures"
+        }
+      },
+      {
+        "id": "patent",
+        "value": {
+          "zh": "1 项",
+          "en": "1 published"
+        },
+        "label": {
+          "zh": "公开实用新型专利",
+          "en": "Utility model patent"
+        }
       }
     ]
   },
   "experience": [
     {
       "id": "bmw-brilliance-product-engineer",
+      "featured": false,
       "logo": {
         "id": "bmw-brilliance-logo",
         "src": "/media/logo-bmw-brilliance.png",
@@ -125,22 +137,19 @@
         "en": "BMW Brilliance Project"
       },
       "summary": {
-        "zh": "参与项目产品工程与交付流程，协同处理工程信息、变更和问题闭环。",
-        "en": "Supporting product engineering and delivery processes, with coordination across engineering information, changes, and issue closure."
+        "zh": "参与宝马华晨项目产品工程，协调工程变更与问题闭环。",
+        "en": "Supports product engineering for a BMW Brilliance project, coordinating engineering changes and issue closure."
       },
       "highlights": [
         {
-          "zh": "在跨团队流程中维护结构化的工程信息与交付节奏",
-          "en": "Maintaining structured engineering information and delivery cadence across teams"
-        },
-        {
-          "zh": "围绕产品问题协调评审、跟踪与闭环",
-          "en": "Coordinating review, tracking, and closure of product issues"
+          "zh": "跨团队跟踪工程信息、变更和交付",
+          "en": "Tracks engineering information, changes, and delivery across teams"
         }
       ]
     },
     {
       "id": "schaeffler-mechanical-rd",
+      "featured": true,
       "logo": {
         "id": "schaeffler-logo",
         "src": "/media/logo-schaeffler.png",
@@ -171,17 +180,17 @@
         "en": "Schaeffler"
       },
       "summary": {
-        "zh": "负责汽车电子控制器壳体与安装绝缘结构开发，覆盖概念设计、详细设计、验证支持和量产问题闭环。",
-        "en": "Developed housings, mounting structures, and insulation concepts for automotive electronic controllers from concept and detailed design through validation support and production issue closure."
+        "zh": "负责汽车电子控制器壳体、安装与绝缘结构开发，覆盖设计、验证和量产支持。",
+        "en": "Developed controller housings, mounting features, and insulation structures across design, validation, and production support."
       },
       "highlights": [
         {
-          "zh": "跨电子、热管理、制造与供应商团队推进结构方案",
-          "en": "Advanced mechanical concepts with electronics, thermal, manufacturing, and supplier teams"
+          "zh": "冲压、压铸与注塑结构设计",
+          "en": "Stamped, die-cast, and injection-molded structures"
         },
         {
-          "zh": "运用 GD&T、尺寸链、热分析与模流结果支持设计决策",
-          "en": "Used GD&T, tolerance analysis, thermal studies, and mold-flow results to support design decisions"
+          "zh": "GD&T、尺寸链、热分析与模流协同",
+          "en": "GD&T, tolerance chains, thermal analysis, and mold-flow coordination"
         }
       ]
     }
@@ -189,25 +198,15 @@
   "projects": [
     {
       "id": "d5-pdcu-platform",
-      "code": "01 / PDCU",
+      "code": "PDCU",
       "title": {
         "zh": "D5 PDCU 平台应用与问题闭环",
         "en": "D5 PDCU Platform Applications and Issue Closure"
       },
       "summary": {
-        "zh": "支持华为、吉利和长安相关平台应用中的结构适配与量产问题分析，推动跨团队闭环。",
-        "en": "Supported structural application work and production issue analysis for platform programs associated with Huawei, Geely, and Changan, coordinating cross-team closure."
+        "zh": "支持华为、吉利和长安相关平台的结构适配与量产问题闭环。",
+        "en": "Supported structural adaptation and production issue closure for platform programs associated with Huawei, Geely, and Changan."
       },
-      "contributions": [
-        {
-          "zh": "分析结构接口、装配边界与问题影响范围",
-          "en": "Analyzed structural interfaces, assembly boundaries, and issue impact"
-        },
-        {
-          "zh": "协同设计、制造、质量和供应链推进验证与闭环",
-          "en": "Coordinated design, manufacturing, quality, and supply-chain validation and closure"
-        }
-      ],
       "capabilities": [
         {
           "zh": "平台适配",
@@ -225,25 +224,15 @@
     },
     {
       "id": "d3-ecu-housing",
-      "code": "02 / ECU",
+      "code": "ECU",
       "title": {
         "zh": "D3 ECU 冲压壳体与热管理",
         "en": "D3 ECU Stamped Housing and Thermal Management"
       },
       "summary": {
-        "zh": "围绕冲压上下壳体、连接器与绝缘导热结构开展设计，并结合热分析优化散热路径。",
-        "en": "Developed stamped upper and lower housings, connector interfaces, and insulation-conduction structures, using thermal analysis to improve heat paths."
+        "zh": "设计冲压壳体、连接器与绝缘导热结构，并用热分析支持散热优化。",
+        "en": "Developed stamped housings, connector interfaces, and insulation structures, using thermal analysis to support heat-path optimization."
       },
-      "contributions": [
-        {
-          "zh": "评估冲压成形、装配与密封相关结构边界",
-          "en": "Assessed stamping, assembly, and sealing-related structural constraints"
-        },
-        {
-          "zh": "支持连接器选型与绝缘导热方案协同",
-          "en": "Supported connector selection and insulation-conduction concept coordination"
-        }
-      ],
       "capabilities": [
         {
           "zh": "冲压件设计",
@@ -260,62 +249,16 @@
       ]
     },
     {
-      "id": "tcu-die-cast-housing",
-      "code": "03 / TCU",
-      "title": {
-        "zh": "TCU 压铸上壳体与 PCB 协同",
-        "en": "TCU Die-Cast Upper Housing and PCB Coordination"
-      },
-      "summary": {
-        "zh": "负责压铸上壳体结构设计，协调 PCB、紧固、安装和制造边界。",
-        "en": "Developed a die-cast upper housing while coordinating PCB, fastening, mounting, and manufacturing constraints."
-      },
-      "contributions": [
-        {
-          "zh": "建立壳体、PCB 与紧固系统的关键接口",
-          "en": "Defined key interfaces among the housing, PCB, and fastening system"
-        },
-        {
-          "zh": "支持结构评审与可制造性问题处理",
-          "en": "Supported structural reviews and manufacturability issue resolution"
-        }
-      ],
-      "capabilities": [
-        {
-          "zh": "压铸件设计",
-          "en": "Die-cast design"
-        },
-        {
-          "zh": "PCB 协同",
-          "en": "PCB coordination"
-        },
-        {
-          "zh": "可制造性评审",
-          "en": "Manufacturability review"
-        }
-      ]
-    },
-    {
       "id": "bms-csc-plastic-housings",
-      "code": "04 / BMS + CSC",
+      "code": "BMS + CSC",
       "title": {
         "zh": "BMS 与 CSC 注塑壳体开发",
         "en": "BMS and CSC Injection-Molded Housing Development"
       },
       "summary": {
-        "zh": "开展塑料壳体、安装与卡扣结构设计，结合尺寸链和模流结果优化筋位与装配稳定性。",
-        "en": "Developed plastic housings, mounting features, and snap-fit structures, using tolerance chains and mold-flow results to refine ribs and assembly stability."
+        "zh": "设计注塑壳体、安装与卡扣结构，结合尺寸链和模流结果优化装配。",
+        "en": "Developed molded housings, mounting features, and snap fits, using tolerance chains and mold-flow findings to improve assembly."
       },
-      "contributions": [
-        {
-          "zh": "搭建关键尺寸链并识别装配风险",
-          "en": "Built key tolerance chains and identified assembly risks"
-        },
-        {
-          "zh": "依据模流结果调整筋位与局部结构",
-          "en": "Adjusted ribs and local geometry using mold-flow findings"
-        }
-      ],
       "capabilities": [
         {
           "zh": "注塑件设计",
@@ -328,42 +271,6 @@
         {
           "zh": "模流分析协同",
           "en": "Mold-flow coordination"
-        }
-      ]
-    },
-    {
-      "id": "bms-prototype-support",
-      "code": "05 / BMS",
-      "title": {
-        "zh": "BMS 样件与材料技术支持",
-        "en": "BMS Prototype and Material Technical Support"
-      },
-      "summary": {
-        "zh": "为代工项目提供材料选择、样件评审与结构问题支持，衔接设计意图与制造反馈。",
-        "en": "Provided material selection, prototype review, and structural issue support for contract-manufacturing work, connecting design intent with manufacturing feedback."
-      },
-      "contributions": [
-        {
-          "zh": "支持材料方案比较与样件状态评审",
-          "en": "Supported material-option comparison and prototype-status reviews"
-        },
-        {
-          "zh": "整理制造反馈并推进结构问题闭环",
-          "en": "Structured manufacturing feedback and advanced mechanical issue closure"
-        }
-      ],
-      "capabilities": [
-        {
-          "zh": "材料选择",
-          "en": "Material selection"
-        },
-        {
-          "zh": "样件评审",
-          "en": "Prototype review"
-        },
-        {
-          "zh": "供应商协同",
-          "en": "Supplier coordination"
         }
       ]
     }
@@ -381,21 +288,17 @@
         "en": "Published utility model patent"
       },
       "summary": {
-        "zh": "围绕上下壳体与 PCB 的固定关系，通过条形槽和卡接结构兼顾安装可靠性与电气爬电距离。",
-        "en": "Addresses the relationship among upper and lower housings and a PCB, using a strip groove and snap-fit features to support assembly reliability and electrical creepage distance."
+        "zh": "通过条形槽与卡接结构固定壳体和 PCB，同时考虑安装可靠性与爬电距离。",
+        "en": "Uses a strip groove and snap-fit structure to retain the housing and PCB while considering assembly reliability and creepage distance."
       },
       "engineeringValue": [
         {
-          "zh": "壳体与 PCB 固定方案",
-          "en": "Housing and PCB retention concept"
+          "zh": "壳体与 PCB 固定",
+          "en": "Housing and PCB retention"
         },
         {
-          "zh": "电气爬电距离考虑",
-          "en": "Electrical creepage-distance consideration"
-        },
-        {
-          "zh": "卡接与装配结构",
-          "en": "Snap-fit and assembly structure"
+          "zh": "爬电距离与卡接装配",
+          "en": "Creepage distance and snap-fit assembly"
         }
       ],
       "sourceLabel": {
@@ -449,10 +352,10 @@
       ]
     },
     {
-      "id": "methods",
+      "id": "methods-tools",
       "title": {
-        "zh": "工程方法",
-        "en": "Engineering Methods"
+        "zh": "方法与工具",
+        "en": "Methods and Tools"
       },
       "items": [
         {
@@ -460,12 +363,12 @@
           "en": "GD&T and tolerance chains"
         },
         {
-          "zh": "热分析与设计协同",
-          "en": "Thermal analysis and design coordination"
+          "zh": "热分析与模流协同",
+          "en": "Thermal and mold-flow coordination"
         },
         {
-          "zh": "模流结果解读",
-          "en": "Mold-flow result interpretation"
+          "zh": "CATIA / Creo / AutoCAD",
+          "en": "CATIA / Creo / AutoCAD"
         },
         {
           "zh": "技术评审与问题闭环",
@@ -474,65 +377,23 @@
       ]
     },
     {
-      "id": "software",
+      "id": "collaboration-languages",
       "title": {
-        "zh": "设计软件",
-        "en": "Design Software"
+        "zh": "协作与语言",
+        "en": "Collaboration and Languages"
       },
       "items": [
         {
-          "zh": "CATIA",
-          "en": "CATIA"
-        },
-        {
-          "zh": "Creo",
-          "en": "Creo"
-        },
-        {
-          "zh": "AutoCAD",
-          "en": "AutoCAD"
-        }
-      ]
-    },
-    {
-      "id": "collaboration",
-      "title": {
-        "zh": "工程协同",
-        "en": "Engineering Collaboration"
-      },
-      "items": [
-        {
-          "zh": "跨电子、热管理与制造团队评审",
-          "en": "Cross-functional reviews with electronics, thermal, and manufacturing teams"
-        },
-        {
-          "zh": "供应商技术沟通与样件跟踪",
-          "en": "Supplier technical communication and prototype tracking"
+          "zh": "跨职能评审与供应商协同",
+          "en": "Cross-functional reviews and supplier collaboration"
         },
         {
           "zh": "量产问题分析与闭环",
           "en": "Production issue analysis and closure"
-        }
-      ]
-    },
-    {
-      "id": "languages",
-      "title": {
-        "zh": "语言",
-        "en": "Languages"
-      },
-      "items": [
-        {
-          "zh": "中文母语",
-          "en": "Native Chinese"
         },
         {
-          "zh": "英语工作沟通",
-          "en": "Working English"
-        },
-        {
-          "zh": "法语 B2",
-          "en": "French B2"
+          "zh": "中文 / 英语 / 法语 B2",
+          "en": "Chinese / English / French B2"
         }
       ]
     }
@@ -568,25 +429,7 @@
       "degree": {
         "zh": "材料科学与工程学士",
         "en": "Bachelor of Engineering in Materials Science and Engineering"
-      },
-      "summary": {
-        "zh": "材料、制造与机械基础训练，为结构设计中的材料选择和工艺判断建立基础。",
-        "en": "Training in materials, manufacturing, and mechanical fundamentals supports material and process decisions in structural design."
-      },
-      "coursework": [
-        {
-          "zh": "材料力学",
-          "en": "Mechanics of Materials"
-        },
-        {
-          "zh": "工程材料",
-          "en": "Engineering Materials"
-        },
-        {
-          "zh": "制造工艺",
-          "en": "Manufacturing Processes"
-        }
-      ]
+      }
     },
     {
       "id": "toulouse-iii",
@@ -601,7 +444,7 @@
           "zh": "图卢兹第三大学保罗·萨巴捷大学",
           "en": "Université Toulouse III Paul Sabatier"
         },
-        "sourceUrl": "https://iquiz.univ-toulouse.fr/projet.html",
+        "sourceUrl": "https://www.univ-tlse3.fr/medias/fichier/2023-04-ca-088_1682515261436-pdf",
         "usageNote": {
           "zh": "仅用于标识教育经历，不代表学校背书",
           "en": "Used only to identify the education entry; no endorsement is implied"
@@ -618,103 +461,52 @@
       "degree": {
         "zh": "机械工程双学位经历",
         "en": "Dual-degree studies in Mechanical Engineering"
-      },
-      "summary": {
-        "zh": "在跨文化课程环境中完成机械工程训练，形成中英法多语言协作基础。",
-        "en": "Completed mechanical engineering study in a cross-cultural program, building a foundation for collaboration in Chinese, English, and French."
-      },
-      "coursework": [
-        {
-          "zh": "机械设计",
-          "en": "Mechanical Design"
-        },
-        {
-          "zh": "工程制图",
-          "en": "Engineering Drawing"
-        },
-        {
-          "zh": "机械系统",
-          "en": "Mechanical Systems"
-        }
-      ]
+      }
     }
   ],
   "industryContext": [
     {
-      "id": "schaeffler-bms-ipb-context",
+      "id": "schaeffler-pcb-power-module-context",
       "title": {
-        "zh": "BMS 与集成功率电子背景",
-        "en": "BMS and Integrated Power Electronics Context"
+        "zh": "PCB 嵌入式功率模块",
+        "en": "PCB-Embedded Power Module"
       },
       "description": {
-        "zh": "舍弗勒公开资料展示了 BMS 与集成功率电子方案的行业方向。此处仅作为产品领域背景，不代表所示产品均由钱美含直接负责。",
-        "en": "Schaeffler's public material illustrates industry directions in BMS and integrated power electronics. It is provided only as product-domain context and does not imply that every shown product was directly developed by Meihan Qian."
+        "zh": "舍弗勒官方图片，用于说明相关汽车电子产品领域，不代表钱美含直接负责该产品。",
+        "en": "Official Schaeffler imagery illustrating the relevant automotive electronics domain. It does not imply that Meihan Qian directly developed this product."
       },
       "image": {
-        "id": "industry-electronics-housing",
-        "src": "/media/industry-electronics-housing.jpg",
+        "id": "schaeffler-pcb-embedded-power-module",
+        "src": "/media/schaeffler-pcb-embedded-power-module.jpg",
         "alt": {
-          "zh": "工程师在双屏工作站查看电路原理图与 PCB 三维设计",
-          "en": "Engineer reviewing a circuit schematic and 3D PCB design on a dual-screen workstation"
+          "zh": "舍弗勒 PCB 嵌入式功率模块完整产品图",
+          "en": "Complete Schaeffler PCB-embedded power module product image"
         },
         "credit": {
-          "zh": "EnCata PD / Unsplash",
-          "en": "EnCata PD / Unsplash"
+          "zh": "舍弗勒集团",
+          "en": "Schaeffler Group"
         },
-        "sourceUrl": "https://unsplash.com/photos/man-looking-at-circuit-board-design-on-computer-screen-ZmDk8tXQRS0",
+        "sourceUrl": "https://media.schaeffler-cdn.com/_storage/asset/1243408/storage/large/download/schaeffler-pcb-embedded-power-module.jpg",
         "usageNote": {
-          "zh": "依据 Unsplash License 使用，仅作相关工程与行业背景",
-          "en": "Used under the Unsplash License for relevant engineering and industry context only"
+          "zh": "仅作相关产品领域识别与说明，不代表品牌背书",
+          "en": "Used only to identify and explain the relevant product domain; no endorsement is implied"
         }
       },
       "sourceLabel": {
-        "zh": "舍弗勒官方 BMS 与集成功率电子资料",
-        "en": "Official Schaeffler BMS and integrated power electronics release"
-      },
-      "sourceUrl": "https://www.schaeffler.com/en/media/press-releases/press-releases-detail.jsp?id=88211712"
-    },
-    {
-      "id": "schaeffler-controller-context",
-      "title": {
-        "zh": "控制器与电动化系统背景",
-        "en": "Controller and Electrification System Context"
-      },
-      "description": {
-        "zh": "舍弗勒在上海车展的公开资料涵盖控制器、BMS 与电动化产品。此处用于说明相关结构设计所处的系统环境。",
-        "en": "Schaeffler's public Auto Shanghai material covers controllers, BMS, and electrification products. It is referenced to explain the system environment surrounding related structural design work."
-      },
-      "image": {
-        "id": "industry-precision-manufacturing",
-        "src": "/media/industry-precision-manufacturing.jpg",
-        "alt": {
-          "zh": "蓝色照明下自动化设备内部的精密执行机构",
-          "en": "Precision actuator inside automated equipment under blue lighting"
-        },
-        "credit": {
-          "zh": "Testalize.me / Unsplash",
-          "en": "Testalize.me / Unsplash"
-        },
-        "sourceUrl": "https://unsplash.com/photos/industrial-robotic-arm-in-blue-lit-factory-9xHsWmh3m_4",
-        "usageNote": {
-          "zh": "依据 Unsplash License 使用，仅作精密制造与自动化行业背景",
-          "en": "Used under the Unsplash License for precision manufacturing and automation context only"
-        }
-      },
-      "sourceLabel": {
-        "zh": "舍弗勒 2025 上海车展官方资料",
-        "en": "Official Schaeffler Auto Shanghai 2025 release"
+        "zh": "查看舍弗勒官方资料",
+        "en": "View official Schaeffler release"
       },
       "sourceUrl": "https://www.schaeffler.com/en/media/press-releases/press-releases-detail.jsp?id=88093185"
     }
   ],
   "contact": {
     "heading": {
-      "zh": "讨论机械结构与产品开发机会",
-      "en": "Let's discuss mechanical design and product development opportunities"
+      "zh": "联系钱美含",
+      "en": "Contact Meihan Qian"
     },
     "invitation": {
-      "zh": "欢迎就机械研发、结构设计、汽车产品开发以及机器人与自动化设备结构岗位联系。",
-      "en": "Open to conversations about mechanical R&D, structural design, automotive product development, and structural roles in robotics and automation equipment."
+      "zh": "欢迎就机械研发、结构设计和汽车产品开发机会联系。",
+      "en": "Open to mechanical R&D, structural design, and automotive product development opportunities."
     }
   }
 }

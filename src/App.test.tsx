@@ -50,7 +50,33 @@ describe('App', () => {
     render(<App contentLoader={async () => siteContent} />);
 
     expect(await screen.findByRole('heading', { name: '钱美含' })).toBeInTheDocument();
-    expect(screen.getByText('机械研发工程师 / 结构设计')).toBeInTheDocument();
+    expect(screen.getByText('机械研发工程师')).toBeInTheDocument();
+  });
+
+  it('puts three recruiter proof points before the detailed sections', async () => {
+    render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    const evidence = screen.getByRole('region', { name: '核心经验' });
+    expect(evidence).toHaveTextContent('4 年');
+    expect(evidence).toHaveTextContent('3 类');
+    expect(evidence).toHaveTextContent('1 项');
+  });
+
+  it('shows only three selected engineering projects', async () => {
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    expect(container.querySelectorAll('.project-card')).toHaveLength(3);
+  });
+
+  it('omits the redundant profile summary and decorative section numbers', async () => {
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    expect(container.querySelector('.summary-section')).not.toBeInTheDocument();
+    expect(container.querySelector('.section-heading__number')).not.toBeInTheDocument();
+    expect(container.querySelector('.site-nav a > span')).not.toBeInTheDocument();
   });
 
   it('shows a bilingual error and retries without exposing the exception', async () => {
@@ -83,6 +109,12 @@ describe('App', () => {
     await user.click(screen.getByRole('button', { name: 'EN' }));
 
     expect(screen.getByRole('heading', { name: 'Meihan Qian' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Core experience' })).toHaveTextContent(
+      '4 years',
+    );
+    expect(screen.getByRole('region', { name: 'Core experience' })).not.toHaveTextContent(
+      '4 年',
+    );
     expect(document.documentElement).toHaveAttribute('lang', 'en');
     expect(window.localStorage.getItem('qian-portfolio-locale')).toBe('en');
     expect(contentLoader).toHaveBeenCalledTimes(1);

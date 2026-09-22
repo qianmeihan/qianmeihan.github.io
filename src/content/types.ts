@@ -22,6 +22,7 @@ export interface MediaItem {
 
 export interface ExperienceItem {
   id: string;
+  featured: boolean;
   logo: MediaItem;
   period: LocalizedText;
   role: LocalizedText;
@@ -35,8 +36,13 @@ export interface ProjectItem {
   code: string;
   title: LocalizedText;
   summary: LocalizedText;
-  contributions: LocalizedText[];
   capabilities: LocalizedText[];
+}
+
+export interface HeroMetric {
+  id: string;
+  value: LocalizedText;
+  label: LocalizedText;
 }
 
 export interface PatentItem {
@@ -63,8 +69,6 @@ export interface EducationItem {
   period: LocalizedText;
   institution: LocalizedText;
   degree: LocalizedText;
-  summary: LocalizedText;
-  coursework: LocalizedText[];
 }
 
 export interface IndustryContextItem {
@@ -91,13 +95,8 @@ export interface SiteContent {
     links: LinkItem[];
   };
   hero: {
-    eyebrow: LocalizedText;
     title: LocalizedText;
-    summary: LocalizedText;
-  };
-  summary: {
-    heading: LocalizedText;
-    paragraphs: LocalizedText[];
+    metrics: HeroMetric[];
   };
   experience: ExperienceItem[];
   projects: ProjectItem[];

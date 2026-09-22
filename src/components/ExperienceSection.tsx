@@ -14,14 +14,13 @@ export function ExperienceSection({ items, locale }: ExperienceSectionProps) {
 
   return (
     <section className="content-section experience-section" id="experience">
-      <SectionHeading
-        number="02"
-        title={locale === 'zh' ? '工作经历' : 'Experience'}
-        aside={locale === 'zh' ? '从结构研发到整车项目产品工程' : 'From mechanical R&D to vehicle-program product engineering'}
-      />
+      <SectionHeading title={locale === 'zh' ? '工作经历' : 'Experience'} />
       <ol className="timeline">
         {items.map((item) => (
-          <li key={item.id} className="timeline-item">
+          <li
+            key={item.id}
+            className={`timeline-item${item.featured ? ' timeline-item--featured' : ' timeline-item--secondary'}`}
+          >
             <div className="timeline-item__meta">
               <img
                 className="timeline-item__logo"
@@ -34,6 +33,11 @@ export function ExperienceSection({ items, locale }: ExperienceSectionProps) {
               </div>
             </div>
             <div className="timeline-item__body">
+              {item.featured ? (
+                <p className="timeline-item__featured-label">
+                  {locale === 'zh' ? '核心研发经历' : 'Core R&D experience'}
+                </p>
+              ) : null}
               <h3>{localized(item.role, locale)}</h3>
               <p>{localized(item.summary, locale)}</p>
               <ul>

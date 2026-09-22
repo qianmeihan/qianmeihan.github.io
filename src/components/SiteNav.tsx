@@ -5,12 +5,12 @@ interface SiteNavProps {
 }
 
 const links = [
-  { id: 'profile', number: '01', zh: '概述', en: 'Profile' },
-  { id: 'experience', number: '02', zh: '经历', en: 'Experience' },
-  { id: 'work', number: '03', zh: '工程工作', en: 'Engineering' },
-  { id: 'patent', number: '04', zh: '专利', en: 'Patent' },
-  { id: 'skills', number: '05', zh: '能力', en: 'Capabilities' },
-  { id: 'contact', number: '06', zh: '联系', en: 'Contact' },
+  { id: 'profile', zh: '概述', en: 'Profile' },
+  { id: 'experience', zh: '经历', en: 'Experience' },
+  { id: 'work', zh: '工程工作', en: 'Engineering' },
+  { id: 'patent', zh: '专利', en: 'Patent' },
+  { id: 'skills', zh: '能力', en: 'Capabilities' },
+  { id: 'contact', zh: '联系', en: 'Contact' },
 ] as const;
 
 export function SiteNav({ locale }: SiteNavProps) {
@@ -20,7 +20,6 @@ export function SiteNav({ locale }: SiteNavProps) {
         {links.map((link) => (
           <li key={link.id}>
             <a href={`#${link.id}`}>
-              <span aria-hidden="true">{link.number}</span>
               {locale === 'zh' ? link.zh : link.en}
             </a>
           </li>

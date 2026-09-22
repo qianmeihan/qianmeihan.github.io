@@ -8,11 +8,19 @@ test.beforeEach(async ({ page }) => {
 
 test('shows core recruiter information in Chinese', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('钱美含');
-  await expect(page.getByText('机械研发工程师 / 结构设计')).toBeVisible();
-  await expect(page.getByText('宝马华晨项目')).toBeVisible();
+  await expect(page.getByText('机械研发工程师', { exact: true })).toBeVisible();
+  await expect(page.getByRole('region', { name: '核心经验' })).toContainText('4 年');
+  await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
   await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();
   await expect(page.getByText('CN223978857U', { exact: true })).toBeVisible();
   await expect(page.getByText('1287187051@qq.com', { exact: true }).first()).toBeVisible();
+});
+
+test('prioritizes three selected projects and the complete patent drawing', async ({ page }) => {
+  await expect(page.locator('.project-card')).toHaveCount(3);
+  await expect(page.locator('.timeline-item--featured')).toContainText('核心研发经历');
+  await expect(page.locator('.patent-card__figure img')).toHaveAttribute('width', '729');
+  await expect(page.locator('.patent-card__figure img')).toHaveAttribute('height', '1000');
 });
 
 test('switches to English without a reload and persists the choice', async ({ page }) => {

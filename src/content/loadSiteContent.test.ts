@@ -14,7 +14,7 @@ const validContent = {
     role: bilingual('机械研发工程师', 'Mechanical R&D Engineer'),
     portrait: {
       id: 'portrait',
-      src: '/media/meihan-qian-headshot.jpg',
+      src: '/media/meihan-qian-headshot-optimized.jpg',
       alt: bilingual('钱美含职业照', 'Professional portrait of Meihan Qian'),
       credit: bilingual('本人提供', 'Provided by Meihan Qian'),
       sourceUrl: 'https://github.com/qianmeihan',
@@ -29,13 +29,12 @@ const validContent = {
     ],
   },
   hero: {
-    eyebrow: bilingual('机械研发', 'Mechanical R&D'),
     title: bilingual('结构设计与产品开发', 'Structural Design and Product Development'),
-    summary: bilingual('汽车电子结构开发经验。', 'Automotive electronics structural development experience.'),
-  },
-  summary: {
-    heading: bilingual('职业概述', 'Profile'),
-    paragraphs: [bilingual('专注机械结构开发。', 'Focused on mechanical product development.')],
+    metrics: [
+      { id: 'experience', value: bilingual('4 年', '4 years'), label: bilingual('汽车电子结构研发', 'Automotive electronics R&D') },
+      { id: 'structures', value: bilingual('3 类', '3 types'), label: bilingual('冲压、压铸、注塑结构', 'Stamped, die-cast, and molded structures') },
+      { id: 'patent', value: bilingual('1 项', '1 published'), label: bilingual('公开实用新型专利', 'Utility model patent') },
+    ],
   },
   experience: [],
   projects: [],
@@ -72,6 +71,35 @@ describe('validateSiteContent', () => {
     );
   });
 
+  it('requires exactly three recruiter proof metrics', () => {
+    const input = structuredClone(validContent) as Record<string, any>;
+    input.hero.metrics.pop();
+
+    expect(() => validateSiteContent(input)).toThrow(
+      'hero.metrics must contain exactly 3 items',
+    );
+  });
+
+  it('requires a boolean featured flag for experience entries', () => {
+    const input = structuredClone(validContent) as Record<string, any>;
+    input.experience = [
+      {
+        id: 'example-experience',
+        featured: 'yes',
+        period: bilingual('2022 至今', '2022 to present'),
+        role: bilingual('机械工程师', 'Mechanical Engineer'),
+        context: bilingual('示例公司', 'Example company'),
+        summary: bilingual('产品开发。', 'Product development.'),
+        highlights: [bilingual('结构设计', 'Mechanical design')],
+        logo: validContent.profile.portrait,
+      },
+    ];
+
+    expect(() => validateSiteContent(input)).toThrow(
+      'experience[0].featured must be a boolean',
+    );
+  });
+
   it('rejects repeated items without stable ids', () => {
     const input = structuredClone(validContent) as Record<string, any>;
     input.projects = [
@@ -96,8 +124,9 @@ describe('validateSiteContent', () => {
     const input = structuredClone(validContent) as Record<string, any>;
     input[collection] = [
       collection === 'experience'
-        ? {
+          ? {
             id: 'example-experience',
+            featured: false,
             period: bilingual('2022 至今', '2022 to present'),
             role: bilingual('机械工程师', 'Mechanical Engineer'),
             context: bilingual('示例公司', 'Example company'),
@@ -109,8 +138,6 @@ describe('validateSiteContent', () => {
             period: bilingual('2018 至 2022', '2018 to 2022'),
             institution: bilingual('示例大学', 'Example University'),
             degree: bilingual('工学学士', 'Bachelor of Engineering'),
-            summary: bilingual('工程训练。', 'Engineering training.'),
-            coursework: [bilingual('机械设计', 'Mechanical Design')],
           },
     ];
 

@@ -109,6 +109,7 @@ input, textarea, select {
 input, select { min-height: 38px; padding: 8px 10px; }
 textarea { min-height: 74px; padding: 9px 10px; resize: vertical; line-height: 1.55; }
 input:focus, textarea:focus, select:focus { border-color: #4d7562; box-shadow: 0 0 0 3px rgb(39 99 73 / 10%); }
+.field input[type='checkbox'] { width: 1.15rem; min-height: 1.15rem; margin: .3rem 0; accent-color: var(--green); }
 .media-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; }
 .upload-button { position: relative; overflow: hidden; padding: 10px 12px; border: 1px solid #bdc9c1; border-radius: 5px; color: var(--green); background: var(--green-soft); font-size: 12px; font-weight: 800; cursor: pointer; }
 .upload-button input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }

@@ -1,6 +1,7 @@
 import type {
   EducationItem,
   ExperienceItem,
+  HeroMetric,
   IndustryContextItem,
   LinkItem,
   LocalizedText,
@@ -30,6 +31,13 @@ function string(value: unknown, path: string): string {
 function number(value: unknown, path: string): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) {
     throw new Error(`${path} must be a finite number`);
+  }
+  return value;
+}
+
+function boolean(value: unknown, path: string): boolean {
+  if (typeof value !== 'boolean') {
+    throw new Error(`${path} must be a boolean`);
   }
   return value;
 }
@@ -82,6 +90,7 @@ function experience(value: unknown, path: string): ExperienceItem {
   const item = record(value, path);
   return {
     id: string(item.id, `${path}.id`),
+    featured: boolean(item.featured, `${path}.featured`),
     logo: media(item.logo, `${path}.logo`),
     period: localized(item.period, `${path}.period`),
     role: localized(item.role, `${path}.role`),
@@ -98,8 +107,16 @@ function project(value: unknown, path: string): ProjectItem {
     code: string(item.code, `${path}.code`),
     title: localized(item.title, `${path}.title`),
     summary: localized(item.summary, `${path}.summary`),
-    contributions: localizedArray(item.contributions, `${path}.contributions`),
     capabilities: localizedArray(item.capabilities, `${path}.capabilities`),
+  };
+}
+
+function heroMetric(value: unknown, path: string): HeroMetric {
+  const item = record(value, path);
+  return {
+    id: string(item.id, `${path}.id`),
+    value: localized(item.value, `${path}.value`),
+    label: localized(item.label, `${path}.label`),
   };
 }
 
@@ -138,8 +155,6 @@ function education(value: unknown, path: string): EducationItem {
     period: localized(item.period, `${path}.period`),
     institution: localized(item.institution, `${path}.institution`),
     degree: localized(item.degree, `${path}.degree`),
-    summary: localized(item.summary, `${path}.summary`),
-    coursework: localizedArray(item.coursework, `${path}.coursework`),
   };
 }
 
@@ -165,8 +180,11 @@ export function validateSiteContent(value: unknown): SiteContent {
 
   const profile = record(root.profile, 'profile');
   const hero = record(root.hero, 'hero');
-  const summary = record(root.summary, 'summary');
   const contact = record(root.contact, 'contact');
+  const metrics = array(hero.metrics, 'hero.metrics', heroMetric);
+  if (metrics.length !== 3) {
+    throw new Error('hero.metrics must contain exactly 3 items');
+  }
 
   return {
     meta: {
@@ -183,13 +201,8 @@ export function validateSiteContent(value: unknown): SiteContent {
       links: array(profile.links, 'profile.links', link),
     },
     hero: {
-      eyebrow: localized(hero.eyebrow, 'hero.eyebrow'),
       title: localized(hero.title, 'hero.title'),
-      summary: localized(hero.summary, 'hero.summary'),
-    },
-    summary: {
-      heading: localized(summary.heading, 'summary.heading'),
-      paragraphs: localizedArray(summary.paragraphs, 'summary.paragraphs'),
+      metrics,
     },
     experience: array(root.experience, 'experience', experience),
     projects: array(root.projects, 'projects', project),

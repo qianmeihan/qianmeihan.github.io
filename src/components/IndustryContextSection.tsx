@@ -15,11 +15,7 @@ export function IndustryContextSection({ items, locale }: IndustryContextSection
 
   return (
     <section className="content-section industry-section" id="industry-context">
-      <SectionHeading
-        number="CTX"
-        title={locale === 'zh' ? '相关产品与行业背景' : 'Relevant Product and Industry Context'}
-        aside={locale === 'zh' ? '图片和资料仅说明相关技术领域，不代表个人直接负责所示产品' : 'Images and references illustrate related technical fields and do not claim direct responsibility for the products shown'}
-      />
+      <SectionHeading title={locale === 'zh' ? '产品领域参考' : 'Product Domain Reference'} />
       <div className="industry-grid">
         {items.map((item) => (
           <article key={item.id} className="industry-card">

@@ -15,7 +15,6 @@ export function SkillsSection({ groups, locale }: SkillsSectionProps) {
   return (
     <section className="content-section skills-section" id="skills">
       <SectionHeading
-        number="05"
         title={locale === 'zh' ? '工程能力' : 'Engineering Capabilities'}
       />
       <div className="skills-grid">

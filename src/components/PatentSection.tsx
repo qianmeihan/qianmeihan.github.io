@@ -15,19 +15,15 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
 
   return (
     <section className="content-section patent-section" id="patent">
-      <SectionHeading
-        number="04"
-        title={locale === 'zh' ? '公开专利' : 'Published Patent'}
-        aside={locale === 'zh' ? '仅展示可公开核验的专利记录' : 'Only independently verifiable public patent records are shown'}
-      />
+      <SectionHeading title={locale === 'zh' ? '公开专利' : 'Published Patent'} />
       {items.map((item) => (
         <article key={item.id} className="patent-card">
           <figure className="patent-card__figure">
             <img
               src={item.image.src}
               alt={localized(item.image.alt, locale)}
-              width="1200"
-              height="900"
+              width="729"
+              height="1000"
               loading="lazy"
               decoding="async"
             />

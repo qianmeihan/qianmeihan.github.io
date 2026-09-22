@@ -13,7 +13,6 @@ const icons = { email: Mail, linkedin: BriefcaseBusiness, github: Code2 } as con
 export function ContactSection({ contact, links, locale }: ContactSectionProps) {
   return (
     <section className="contact-section" id="contact">
-      <p className="contact-section__number">06 / CONTACT</p>
       <h2>{localized(contact.heading, locale)}</h2>
       <p>{localized(contact.invitation, locale)}</p>
       <div className="contact-links">

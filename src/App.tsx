@@ -9,7 +9,6 @@ import { LanguageSwitch } from './components/LanguageSwitch';
 import { PatentSection } from './components/PatentSection';
 import { SiteNav } from './components/SiteNav';
 import { SkillsSection } from './components/SkillsSection';
-import { SummarySection } from './components/SummarySection';
 import { ThemeSwitch } from './components/ThemeSwitch';
 import { loadSiteContent } from './content/loadSiteContent';
 import type { SiteContent } from './content/types';
@@ -99,7 +98,6 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
         <div className="site-content">
           <main id="main-content">
             <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
-            <SummarySection summary={content.summary} locale={locale} />
             <ExperienceSection items={content.experience} locale={locale} />
             <EngineeringSection items={content.projects} locale={locale} />
             <PatentSection items={content.patents} locale={locale} />

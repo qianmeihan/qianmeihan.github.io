@@ -51,14 +51,28 @@ describe('public content policy', () => {
   });
 
   it('covers every approved engineering capability group', () => {
-    expect(siteContent.skillGroups.map((group) => group.id)).toEqual(
-      expect.arrayContaining([
-        'structures',
-        'methods',
-        'software',
-        'collaboration',
-        'languages',
-      ]),
+    expect(siteContent.skillGroups.map((group) => group.id)).toEqual([
+      'structures',
+      'methods-tools',
+      'collaboration-languages',
+    ]);
+  });
+
+  it('keeps the public portfolio focused on three strongest projects', () => {
+    expect(siteContent.projects).toHaveLength(3);
+    expect(siteContent.projects.map((project) => project.id)).toEqual([
+      'd5-pdcu-platform',
+      'd3-ecu-housing',
+      'bms-csc-plastic-housings',
+    ]);
+  });
+
+  it('uses one official product-domain reference without overstating ownership', () => {
+    expect(siteContent.industryContext).toHaveLength(1);
+    expect(siteContent.industryContext[0].image.src).toBe(
+      '/media/schaeffler-pcb-embedded-power-module.jpg',
     );
+    expect(siteContent.industryContext[0].description.zh).toContain('不代表');
+    expect(siteContent.industryContext[0].description.en).toContain('does not imply');
   });
 });

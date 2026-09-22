@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { EducationSection } from './EducationSection';
 import { EngineeringSection } from './EngineeringSection';
@@ -32,6 +32,7 @@ describe('optional portfolio sections', () => {
         items={[
           {
             id: 'schaeffler',
+            featured: true,
             period: { zh: '2022 至 2026', en: '2022 to 2026' },
             role: { zh: '研发机械工程师', en: 'R&D Mechanical Engineer' },
             context: { zh: '舍弗勒', en: 'Schaeffler' },
@@ -61,8 +62,6 @@ describe('optional portfolio sections', () => {
             period: { zh: '2018 至 2022', en: '2018 to 2022' },
             institution: { zh: '东北大学', en: 'Northeastern University' },
             degree: { zh: '工学学士', en: 'Bachelor of Engineering' },
-            summary: { zh: '工程训练。', en: 'Engineering training.' },
-            coursework: [{ zh: '机械设计', en: 'Mechanical Design' }],
             logo: {
               id: 'neu-logo',
               src: '/media/logo-northeastern-university.png',
@@ -81,5 +80,46 @@ describe('optional portfolio sections', () => {
     const logo = container.querySelector(selector);
     expect(logo).toBeInTheDocument();
     expect(logo).toHaveAttribute('alt', '');
+  });
+
+  it('visually marks the core R&D experience', () => {
+    const item = {
+      id: 'schaeffler',
+      featured: true,
+      period: { zh: '2022 至 2026', en: '2022 to 2026' },
+      role: { zh: '研发机械工程师', en: 'R&D Mechanical Engineer' },
+      context: { zh: '舍弗勒', en: 'Schaeffler' },
+      summary: { zh: '结构开发。', en: 'Mechanical development.' },
+      highlights: [{ zh: '结构设计', en: 'Mechanical design' }],
+      logo: {
+        id: 'schaeffler-logo',
+        src: '/media/logo-schaeffler.png',
+        alt: { zh: '舍弗勒标志', en: 'Schaeffler logo' },
+        credit: { zh: '舍弗勒', en: 'Schaeffler' },
+        sourceUrl: 'https://www.schaeffler.com/',
+        usageNote: { zh: '用于标识经历', en: 'Used to identify the experience' },
+      },
+    };
+
+    const { container } = render(
+      <ExperienceSection items={[item]} locale="zh" />,
+    );
+
+    expect(container.querySelector('.timeline-item--featured')).toBeInTheDocument();
+    expect(screen.getByText('核心研发经历')).toBeInTheDocument();
+  });
+
+  it('keeps the complete portrait patent drawing ratio', async () => {
+    const { validateSiteContent } = await import('../content/validateSiteContent');
+    const { default: rawContent } = await import('../../public/content/site.json');
+    const content = validateSiteContent(rawContent);
+
+    render(<PatentSection items={content.patents} locale="zh" />);
+
+    const drawing = screen.getByRole('img', {
+      name: 'CN223978857U 公开专利结构图',
+    });
+    expect(drawing).toHaveAttribute('width', '729');
+    expect(drawing).toHaveAttribute('height', '1000');
   });
 });

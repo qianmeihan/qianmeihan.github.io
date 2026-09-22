@@ -14,7 +14,7 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
 
   return (
     <section className="content-section education-section" id="education">
-      <SectionHeading number="05B" title={locale === 'zh' ? '教育背景' : 'Education'} />
+      <SectionHeading title={locale === 'zh' ? '教育背景' : 'Education'} />
       <div className="education-grid">
         {items.map((item) => (
           <article key={item.id} className="education-card">
@@ -30,12 +30,6 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
               </div>
             </div>
             <p className="education-card__degree">{localized(item.degree, locale)}</p>
-            <p>{localized(item.summary, locale)}</p>
-            <ul className="tag-list">
-              {item.coursework.map((course) => (
-                <li key={course.zh}>{localized(course, locale)}</li>
-              ))}
-            </ul>
           </article>
         ))}
       </div>

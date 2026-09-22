@@ -44,7 +44,7 @@ describe('local editor content validation', () => {
     expect(() => validateEditorContent(employerDraft)).toThrow('employer');
 
     const topicDraft = cloneContent() as typeof siteContent;
-    topicDraft.hero.summary.zh = '生产计划工具';
+    topicDraft.hero.title.zh = '生产计划工具';
     expect(() => validateEditorContent(topicDraft)).toThrow('生产计划');
   });
 
