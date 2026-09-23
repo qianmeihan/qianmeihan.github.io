@@ -1,4 +1,4 @@
-import { ArrowUpRight, BriefcaseBusiness, Code2, Mail } from 'lucide-react';
+import { ArrowUpRight, BriefcaseBusiness, Code2, Download, Mail } from 'lucide-react';
 import type { LinkItem, Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
 
@@ -8,7 +8,7 @@ interface ContactSectionProps {
   locale: Locale;
 }
 
-const icons = { email: Mail, linkedin: BriefcaseBusiness, github: Code2 } as const;
+const icons = { resume: Download, email: Mail, linkedin: BriefcaseBusiness, github: Code2 } as const;
 
 export function ContactSection({ contact, links, locale }: ContactSectionProps) {
   return (
@@ -23,6 +23,7 @@ export function ContactSection({ contact, links, locale }: ContactSectionProps) 
             <a
               key={link.id}
               href={link.href}
+              download={link.id === 'resume' ? 'Meihan-Qian-Resume.pdf' : undefined}
               target={external ? '_blank' : undefined}
               rel={external ? 'noopener noreferrer' : undefined}
             >

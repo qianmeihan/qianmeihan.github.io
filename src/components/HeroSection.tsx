@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Code2, Mail, MapPin } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Code2, Download, Mail, MapPin } from 'lucide-react';
 import type { Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
 
@@ -9,6 +9,7 @@ interface HeroSectionProps {
 }
 
 const linkIcons = {
+  resume: Download,
   email: Mail,
   linkedin: BriefcaseBusiness,
   github: Code2,
@@ -46,6 +47,7 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
                   key={link.id}
                   className={link.id === 'email' ? 'button-link button-link--primary' : 'button-link'}
                   href={link.href}
+                  download={link.id === 'resume' ? 'Meihan-Qian-Resume.pdf' : undefined}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
                 >

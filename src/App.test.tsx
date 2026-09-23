@@ -70,6 +70,22 @@ describe('App', () => {
     expect(container.querySelectorAll('.project-card')).toHaveLength(3);
   });
 
+  it('offers the same downloadable Chinese resume in the hero and contact area in both languages', async () => {
+    const user = userEvent.setup();
+    render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    for (const label of ['下载简历 · PDF', 'Download résumé · Chinese PDF']) {
+      const links = screen.getAllByRole('link', { name: label });
+      expect(links).toHaveLength(2);
+      for (const link of links) {
+        expect(link).toHaveAttribute('href', '/downloads/meihan-qian-resume.pdf');
+        expect(link).toHaveAttribute('download', 'Meihan-Qian-Resume.pdf');
+      }
+      if (label.startsWith('下载')) await user.click(screen.getByRole('button', { name: 'EN' }));
+    }
+  });
+
   it('omits the redundant profile summary and decorative section numbers', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });

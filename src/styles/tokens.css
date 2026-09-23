@@ -16,7 +16,7 @@
   --radius-control: 999px;
   --content-max: 1180px;
   --sidebar-width: 248px;
-  --space-section: clamp(5rem, 9vw, 9rem);
+  --space-section: clamp(2.75rem, 4.5vw, 4.5rem);
   --font-sans: Inter, "SF Pro Text", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }

@@ -37,6 +37,14 @@
     },
     "links": [
       {
+        "id": "resume",
+        "label": {
+          "zh": "下载简历 · PDF",
+          "en": "Download résumé · Chinese PDF"
+        },
+        "href": "/downloads/meihan-qian-resume.pdf"
+      },
+      {
         "id": "email",
         "label": {
           "zh": "邮箱",
