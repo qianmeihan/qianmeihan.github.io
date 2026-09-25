@@ -44,6 +44,22 @@ test('keeps the English role descriptor on one line in the desktop sidebar', asy
   expect(lineCount).toBe(1);
 });
 
+test('keeps English name headings on one line across desktop widths', async ({ page }) => {
+  await page.getByRole('button', { name: 'EN' }).click();
+
+  for (const width of [1440, 1024]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const selector of ['.hero-section h1', '.contact-section h2']) {
+      const lineCount = await page.locator(selector).evaluate((element) => {
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        return range.getClientRects().length;
+      });
+      expect(lineCount, `${selector} stays on one line at ${width}px`).toBe(1);
+    }
+  }
+});
+
 test('applies dark and system themes', async ({ page }) => {
   await page.getByRole('button', { name: '暗色' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');

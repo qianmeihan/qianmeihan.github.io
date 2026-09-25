@@ -323,7 +323,6 @@ html[lang='en'] .shell-profile h1 {
 }
 
 html[lang='en'] .hero-section h1 {
-  max-width: 7ch;
   font-size: clamp(3rem, 5.2vw, 5rem);
 }
 
@@ -923,7 +922,6 @@ html[lang='en'] .education-card h3 {
 }
 
 .contact-section h2 {
-  max-width: 15ch;
   margin: 0;
   font-size: clamp(2.25rem, 4vw, 3.6rem);
   font-weight: 560;
