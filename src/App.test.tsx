@@ -92,7 +92,7 @@ describe('App', () => {
 
     expect(container.querySelector('.summary-section')).not.toBeInTheDocument();
     expect(container.querySelector('.section-heading__number')).not.toBeInTheDocument();
-    expect(container.querySelector('.site-nav a > span')).not.toBeInTheDocument();
+    expect(container.querySelectorAll('.site-nav a svg')).toHaveLength(8);
   });
 
   it('shows a bilingual error and retries without exposing the exception', async () => {
@@ -156,9 +156,21 @@ describe('App', () => {
       '#main-content',
     );
     const navigation = screen.getByRole('navigation', { name: '主导航' });
-    for (const target of ['profile', 'experience', 'work', 'patent', 'skills', 'contact']) {
+    for (const target of [
+      'profile',
+      'education',
+      'experience',
+      'work',
+      'patent',
+      'skills',
+      'industry-context',
+      'contact',
+    ]) {
       expect(navigation.querySelector(`a[href="#${target}"]`)).not.toBeNull();
     }
+    expect(
+      document.querySelector('#education')!.compareDocumentPosition(document.querySelector('#experience')!),
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(screen.getAllByRole('main')).toHaveLength(1);
     expect(screen.getAllByRole('contentinfo')).toHaveLength(1);
 
@@ -166,5 +178,31 @@ describe('App', () => {
       (element) => element.id,
     );
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('marks the selected navigation section and uses the requested section labels', async () => {
+    const user = userEvent.setup();
+    render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    const navigation = screen.getByRole('navigation', { name: '主导航' });
+    expect(navigation.querySelector('a[aria-current="location"]')).toHaveAttribute(
+      'href',
+      '#profile',
+    );
+    await user.click(screen.getByRole('link', { name: '工作经历' }));
+
+    expect(navigation.querySelector('a[aria-current="location"]')).toHaveAttribute(
+      'href',
+      '#experience',
+    );
+    expect(screen.getByRole('link', { name: '教育经历' })).toHaveAttribute(
+      'href',
+      '#education',
+    );
+    expect(screen.getByRole('link', { name: '代表项目' })).toHaveAttribute(
+      'href',
+      '#work',
+    );
   });
 });

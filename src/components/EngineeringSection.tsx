@@ -15,7 +15,7 @@ export function EngineeringSection({ items, locale }: EngineeringSectionProps) {
 
   return (
     <section className="content-section engineering-section" id="work">
-      <SectionHeading title={locale === 'zh' ? '代表性工程工作' : 'Selected Engineering Work'} />
+      <SectionHeading title={locale === 'zh' ? '代表项目' : 'Selected Projects'} />
       <div className="project-list">
         {items.map((item) => (
           <article key={item.id} className="project-card">

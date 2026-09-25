@@ -69,9 +69,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
       <div className="site-shell">
         <header className="site-sidebar">
           <a className="site-brand" href="#profile" aria-label={localized(content.profile.name, locale)}>
-            <span className="site-brand__mark" aria-hidden="true">
-              MQ
-            </span>
+            <img className="site-brand__portrait" src={content.profile.portrait.src} alt="" />
             <span className="site-brand__text">
               <strong>{localized(content.profile.name, locale)}</strong>
               <span>{locale === 'zh' ? '机械设计档案' : 'Mechanical dossier'}</span>
@@ -98,11 +96,11 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
         <div className="site-content">
           <main id="main-content">
             <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
+            <EducationSection items={content.education} locale={locale} />
             <ExperienceSection items={content.experience} locale={locale} />
             <EngineeringSection items={content.projects} locale={locale} />
             <PatentSection items={content.patents} locale={locale} />
             <SkillsSection groups={content.skillGroups} locale={locale} />
-            <EducationSection items={content.education} locale={locale} />
             <IndustryContextSection items={content.industryContext} locale={locale} />
             <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />
           </main>

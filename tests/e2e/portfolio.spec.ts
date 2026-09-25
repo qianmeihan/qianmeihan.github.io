@@ -45,15 +45,18 @@ test('applies dark and system themes', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
-test('navigates to experience, patent, and contact sections', async ({ page }) => {
+test('navigates to the selected sections and keeps the current section highlighted', async ({ page }) => {
   for (const [name, hash] of [
-    ['经历', '#experience'],
+    ['教育经历', '#education'],
+    ['工作经历', '#experience'],
+    ['代表项目', '#work'],
     ['专利', '#patent'],
     ['联系', '#contact'],
   ] as const) {
     await page.getByRole('link', { name, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`${hash}$`));
     await expect(page.locator(hash)).toBeVisible();
+    await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', hash);
   }
 });
 
@@ -135,7 +138,7 @@ test('stacks education cards before tablet columns become cramped', async ({ pag
 test('keeps phone anchor targets visible below the sticky header', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.getByRole('link', { name: '经历', exact: true }).click();
+  await page.getByRole('link', { name: '工作经历', exact: true }).click();
 
   const positions = await page.evaluate(() => ({
     headerBottom: document.querySelector('.site-sidebar')?.getBoundingClientRect().bottom ?? 0,
@@ -166,7 +169,7 @@ test('preserves the desktop sidebar and two-column hero composition', async ({ p
 });
 
 test('supports keyboard navigation through all header controls', async ({ page }) => {
-  const expected = ['钱美含', '概述', '经历', '工程工作', '专利', '能力', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
+  const expected = ['钱美含', '概述', '教育经历', '工作经历', '代表项目', '专利', '专业能力', '产品领域', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
   const visited: string[] = [];
 
   for (let index = 0; index < 16; index += 1) {
