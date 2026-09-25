@@ -33,6 +33,17 @@ test('switches to English without a reload and persists the choice', async ({ pa
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Meihan Qian');
 });
 
+test('keeps the English role descriptor on one line in the desktop sidebar', async ({ page }) => {
+  await page.getByRole('button', { name: 'EN' }).click();
+  const lineCount = await page.locator('.site-brand__text span').evaluate((element) => {
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    return range.getClientRects().length;
+  });
+
+  expect(lineCount).toBe(1);
+});
+
 test('applies dark and system themes', async ({ page }) => {
   await page.getByRole('button', { name: '暗色' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');

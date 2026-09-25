@@ -104,6 +104,7 @@ button {
 }
 
 .site-brand__text {
+  min-width: 0;
   display: grid;
   line-height: 1.2;
 }
@@ -116,10 +117,10 @@ button {
 .site-brand__text span {
   margin-top: 0.22rem;
   color: var(--color-ink-soft);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: 0.56rem;
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 .site-nav {

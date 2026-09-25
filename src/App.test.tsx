@@ -143,7 +143,7 @@ describe('App', () => {
 
     expect(screen.getByText('机械工程师 / 产品工程师')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'EN' }));
-    expect(screen.getByText('Mechanical Engineer / Product Engineer')).toBeInTheDocument();
+    expect(screen.getByText('Mechanical / Product Engineer')).toBeInTheDocument();
   });
 
   it('switches to dark mode and persists the theme preference', async () => {

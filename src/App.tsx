@@ -75,7 +75,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
               <span>
                 {locale === 'zh'
                   ? '机械工程师 / 产品工程师'
-                  : 'Mechanical Engineer / Product Engineer'}
+                  : 'Mechanical / Product Engineer'}
               </span>
             </span>
           </a>
