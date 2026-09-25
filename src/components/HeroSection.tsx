@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, Download, Mail, MapPin } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Download, Mail } from 'lucide-react';
 import { BrandIcon } from './BrandIcon';
 import type { Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
@@ -6,7 +6,6 @@ import { localized } from '../lib/localized';
 interface HeroSectionProps {
   hero: SiteContent['hero'];
   profile: SiteContent['profile'];
-  skillGroups: SiteContent['skillGroups'];
   locale: Locale;
 }
 
@@ -15,35 +14,17 @@ const linkIcons = {
   email: Mail,
 } as const;
 
-export function HeroSection({ hero, profile, skillGroups, locale }: HeroSectionProps) {
-  const languages = skillGroups.find((group) => group.id === 'collaboration-languages')?.items.at(-1);
+export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
   return (
     <>
       <section className="hero-section" id="profile">
         <div className="hero-copy">
           <h1>{localized(profile.name, locale)}</h1>
           <p className="hero-role">{localized(profile.role, locale)}</p>
-          <p className="hero-statement">{localized(hero.title, locale)}</p>
-
-          <dl className="hero-facts">
-            <div>
-              <dt>{locale === 'zh' ? '年龄' : 'Age'}</dt>
-              <dd>{locale === 'zh' ? `${profile.age} 岁` : profile.age}</dd>
-            </div>
-            <div>
-              <dt>{locale === 'zh' ? '所在地' : 'Based in'}</dt>
-              <dd>
-                <MapPin aria-hidden="true" size={15} />
-                {localized(profile.location, locale)}
-              </dd>
-            </div>
-            {languages ? (
-              <div>
-                <dt>{locale === 'zh' ? '语言' : 'Languages'}</dt>
-                <dd>{localized(languages, locale)}</dd>
-              </div>
-            ) : null}
-          </dl>
+          <p className="hero-intro">{localized(hero.intro, locale)}</p>
+          <p className="hero-meta">
+            {locale === 'zh' ? `${profile.age} 岁` : profile.age} · {localized(profile.location, locale)}
+          </p>
 
           <div className="hero-actions">
             {profile.links.map((link) => {

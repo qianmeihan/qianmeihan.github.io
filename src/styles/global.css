@@ -333,44 +333,19 @@ html[lang='en'] .hero-section h1 {
   font-weight: 560;
 }
 
-.hero-statement {
-  max-width: 33rem;
-  margin: 1.2rem 0 0;
-  font-size: clamp(1.3rem, 2.5vw, 2.15rem);
-  font-weight: 520;
-  letter-spacing: -0.035em;
-  line-height: 1.22;
+.hero-intro {
+  max-width: 35rem;
+  margin: 1.35rem 0 0;
+  color: var(--color-ink-soft);
+  font-size: clamp(1.1rem, 1.65vw, 1.3rem);
+  line-height: 1.58;
 }
 
-.hero-facts {
-  max-width: 34rem;
-  margin: 1.55rem 0 0;
-  padding: 0.95rem 0;
-  border-block: 1px solid var(--color-line);
-  display: grid;
-  grid-template-columns: 0.75fr 1.25fr 1.65fr;
-  gap: clamp(0.6rem, 1.5vw, 1.1rem);
-}
-
-.hero-facts div {
-  min-width: 0;
-}
-
-.hero-facts dt {
-  margin-bottom: 0.3rem;
-  color: var(--color-line-strong);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.hero-facts dd {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.84rem;
+.hero-meta {
+  margin: 1.1rem 0 0;
+  color: var(--color-ink-soft);
+  font-size: 0.83rem;
+  letter-spacing: 0.015em;
 }
 
 .hero-actions {
@@ -1213,9 +1188,9 @@ html[lang='en'] .education-card h3 {
   }
 
   .hero-role,
-  .hero-statement,
+  .hero-intro,
+  .hero-meta,
   .hero-portrait,
-  .hero-facts,
   .hero-actions {
     margin-top: 0;
     margin-bottom: 0;
@@ -1233,13 +1208,8 @@ html[lang='en'] .education-card h3 {
     font-size: clamp(2.8rem, 15vw, 4.6rem);
   }
 
-  .hero-statement {
-    font-size: 1.35rem;
-  }
-
-  .hero-facts {
-    grid-template-columns: 0.75fr 1.25fr;
-    row-gap: 0.75rem;
+  .hero-intro {
+    font-size: 1.15rem;
   }
 
   .hero-portrait {

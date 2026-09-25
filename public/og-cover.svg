@@ -9,8 +9,8 @@
   <circle cx="980" cy="315" r="156" fill="none" stroke="#4f7567" stroke-width="3"/>
   <circle cx="980" cy="315" r="100" fill="#dce6e1" stroke="#4f7567" stroke-width="2"/>
   <path d="M980 117v396M782 315h396" stroke="#4f7567" stroke-width="2" stroke-dasharray="10 10"/>
-  <text x="96" y="120" fill="#4f7567" font-family="monospace" font-size="23" letter-spacing="6">MECHANICAL R&amp;D</text>
+  <text x="96" y="120" fill="#4f7567" font-family="monospace" font-size="23" letter-spacing="4">MECHANICAL / PRODUCT ENGINEER</text>
   <text x="90" y="286" fill="#151a1d" font-family="Arial, sans-serif" font-size="86" font-weight="600">Meihan Qian</text>
-  <text x="96" y="360" fill="#556066" font-family="Arial, sans-serif" font-size="34">Structural Design · Product Development</text>
+  <text x="96" y="360" fill="#556066" font-family="Arial, sans-serif" font-size="34">Mechanical Engineering Portfolio</text>
   <text x="96" y="526" fill="#151a1d" font-family="monospace" font-size="22">qianmeihan.github.io</text>
 </svg>

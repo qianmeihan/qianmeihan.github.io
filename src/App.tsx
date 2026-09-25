@@ -74,7 +74,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
               <strong>{localized(content.profile.name, locale)}</strong>
               <span>
                 {locale === 'zh'
-                  ? '机械工程师 / 产品工程师'
+                  ? '机械/产品工程师'
                   : 'Mechanical / Product Engineer'}
               </span>
             </span>
@@ -99,7 +99,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
 
         <div className="site-content">
           <main id="main-content">
-            <HeroSection hero={content.hero} profile={content.profile} skillGroups={content.skillGroups} locale={locale} />
+            <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
             <EducationSection items={content.education} locale={locale} />
             <ExperienceSection items={content.experience} locale={locale} />
             <EngineeringSection items={content.projects} locale={locale} />

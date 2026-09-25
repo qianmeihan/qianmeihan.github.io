@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-09-23",
+    "updatedAt": "2026-09-25",
     "defaultLocale": "zh"
   },
   "profile": {
@@ -15,8 +15,8 @@
       "en": "Shenyang, China"
     },
     "role": {
-      "zh": "机械工程师 / 产品工程师",
-      "en": "Mechanical Engineer / Product Engineer"
+      "zh": "机械/产品工程师",
+      "en": "Mechanical / Product Engineer"
     },
     "portrait": {
       "id": "portrait",
@@ -71,9 +71,9 @@
     ]
   },
   "hero": {
-    "title": {
-      "zh": "机械设计与产品开发",
-      "en": "Mechanical Design & Product Development"
+    "intro": {
+      "zh": "你好，我是钱美含。热衷于把机械结构设计转化为可靠、可制造的产品，熟悉冲压、压铸和注塑件设计，也重视量产中的实际问题。",
+      "en": "Hi, I'm Meihan Qian. I enjoy turning mechanical designs into reliable, manufacturable products. My work spans stamped, die-cast, and injection-molded parts, with close attention to real production challenges."
     },
     "metrics": [
       {

@@ -29,7 +29,7 @@ const validContent = {
     ],
   },
   hero: {
-    title: bilingual('结构设计与产品开发', 'Structural Design and Product Development'),
+    intro: bilingual('你好，我是钱美含。', "Hi, I'm Meihan Qian."),
     metrics: [
       { id: 'experience', value: bilingual('4 年', '4 years'), label: bilingual('汽车电子结构研发', 'Automotive electronics R&D') },
       { id: 'structures', value: bilingual('3 类', '3 types'), label: bilingual('冲压、压铸、注塑结构', 'Stamped, die-cast, and molded structures') },
@@ -62,12 +62,21 @@ describe('validateSiteContent', () => {
     );
   });
 
-  it('rejects a localized field missing English copy', () => {
+  it('rejects a profile role missing English copy', () => {
     const input = structuredClone(validContent) as Record<string, any>;
-    delete input.hero.title.en;
+    delete input.profile.role.en;
 
     expect(() => validateSiteContent(input)).toThrow(
-      'hero.title.en must be a non-empty string',
+      'profile.role.en must be a non-empty string',
+    );
+  });
+
+  it('requires an English introduction', () => {
+    const input = structuredClone(validContent) as Record<string, any>;
+    delete input.hero.intro.en;
+
+    expect(() => validateSiteContent(input)).toThrow(
+      'hero.intro.en must be a non-empty string',
     );
   });
 

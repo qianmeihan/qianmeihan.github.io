@@ -13,7 +13,7 @@ const labels = {
   experience: '工作经历', projects: '工程项目', patents: '公开专利',
   skillGroups: '专业能力', education: '教育经历', industryContext: '行业背景', contact: '联系区域',
   updatedAt: '最后更新日期', defaultLocale: '默认语言', name: '姓名', age: '年龄', email: '邮箱',
-  location: '所在地', role: '职位方向', portrait: '职业照片', links: '外部链接', eyebrow: '眉题',
+  location: '所在地', role: '职位方向', intro: '个人介绍', portrait: '职业照片', links: '外部链接', eyebrow: '眉题',
   title: '标题', heading: '区块标题', paragraphs: '段落', period: '时间', context: '项目 / 公司背景',
   highlights: '工作要点', code: '项目编号', capabilities: '相关能力',
   number: '专利号', status: '状态', engineeringValue: '工程价值', sourceLabel: '来源名称', sourceUrl: '来源网址',

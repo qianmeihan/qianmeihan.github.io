@@ -30,9 +30,9 @@ describe('local editor content validation', () => {
 
   it('rejects content that removes an English translation', () => {
     const draft = cloneContent() as typeof siteContent;
-    draft.hero.title.en = '';
+    draft.hero.intro.en = '';
 
-    expect(() => validateEditorContent(draft)).toThrow('hero.title.en');
+    expect(() => validateEditorContent(draft)).toThrow('hero.intro.en');
   });
 
   it('rejects current-employer fields and excluded work topics', () => {
@@ -44,7 +44,7 @@ describe('local editor content validation', () => {
     expect(() => validateEditorContent(employerDraft)).toThrow('employer');
 
     const topicDraft = cloneContent() as typeof siteContent;
-    topicDraft.hero.title.zh = '生产计划工具';
+    topicDraft.hero.intro.zh = '生产计划工具';
     expect(() => validateEditorContent(topicDraft)).toThrow('生产计划');
   });
 

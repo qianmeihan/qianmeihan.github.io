@@ -95,7 +95,7 @@ export interface SiteContent {
     links: LinkItem[];
   };
   hero: {
-    title: LocalizedText;
+    intro: LocalizedText;
     metrics: HeroMetric[];
   };
   experience: ExperienceItem[];

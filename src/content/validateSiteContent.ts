@@ -201,7 +201,7 @@ export function validateSiteContent(value: unknown): SiteContent {
       links: array(profile.links, 'profile.links', link),
     },
     hero: {
-      title: localized(hero.title, 'hero.title'),
+      intro: localized(hero.intro, 'hero.intro'),
       metrics,
     },
     experience: array(root.experience, 'experience', experience),

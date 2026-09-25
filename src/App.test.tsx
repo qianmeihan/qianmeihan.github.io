@@ -50,13 +50,11 @@ describe('App', () => {
     render(<App contentLoader={async () => siteContent} />);
 
     expect(await screen.findByRole('heading', { name: '钱美含' })).toBeInTheDocument();
-    expect(screen.getAllByText('机械工程师 / 产品工程师')).toHaveLength(2);
-    expect(screen.getByText('机械设计与产品开发')).toBeInTheDocument();
-    const facts = document.querySelector('.hero-facts');
-    expect(facts).toHaveTextContent('年龄');
-    expect(facts).toHaveTextContent('所在地');
-    expect(facts).toHaveTextContent('语言');
-    expect(facts).toHaveTextContent('中文 / 英语 / 法语 B2');
+    expect(screen.getAllByText('机械/产品工程师')).toHaveLength(2);
+    expect(screen.queryByText('机械设计与产品开发')).not.toBeInTheDocument();
+    expect(screen.getByText(/你好，我是钱美含。热衷于把机械结构设计转化为可靠、可制造的产品/)).toBeInTheDocument();
+    expect(document.querySelector('.hero-meta')).toHaveTextContent('26 岁 · 中国沈阳');
+    expect(document.querySelector('.hero-section')).not.toHaveTextContent('法语 B2');
     expect(screen.getByRole('link', { name: /查看代表项目/ })).toHaveAttribute('href', '#work');
   });
 
@@ -148,9 +146,10 @@ describe('App', () => {
     render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
 
-    expect(screen.getAllByText('机械工程师 / 产品工程师')).toHaveLength(2);
+    expect(screen.getAllByText('机械/产品工程师')).toHaveLength(2);
     await user.click(screen.getByRole('button', { name: 'EN' }));
-    expect(screen.getByText('Mechanical Engineer / Product Engineer')).toBeInTheDocument();
+    expect(screen.getAllByText('Mechanical / Product Engineer')).toHaveLength(2);
+    expect(screen.getByText(/Hi, I'm Meihan Qian\. I enjoy turning mechanical designs/)).toBeInTheDocument();
   });
 
   it('switches to dark mode and persists the theme preference', async () => {
