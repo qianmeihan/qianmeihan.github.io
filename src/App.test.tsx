@@ -50,7 +50,14 @@ describe('App', () => {
     render(<App contentLoader={async () => siteContent} />);
 
     expect(await screen.findByRole('heading', { name: '钱美含' })).toBeInTheDocument();
-    expect(screen.getByText('机械研发工程师')).toBeInTheDocument();
+    expect(screen.getAllByText('机械工程师 / 产品工程师')).toHaveLength(2);
+    expect(screen.getByText('机械设计与产品开发')).toBeInTheDocument();
+    const facts = document.querySelector('.hero-facts');
+    expect(facts).toHaveTextContent('年龄');
+    expect(facts).toHaveTextContent('所在地');
+    expect(facts).toHaveTextContent('语言');
+    expect(facts).toHaveTextContent('中文 / 英语 / 法语 B2');
+    expect(screen.getByRole('link', { name: /查看代表项目/ })).toHaveAttribute('href', '#work');
   });
 
   it('puts three recruiter proof points before the detailed sections', async () => {
@@ -75,7 +82,7 @@ describe('App', () => {
     render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
 
-    for (const label of ['下载简历 · PDF', 'Download résumé · Chinese PDF']) {
+    for (const label of ['下载中文简历 · PDF', 'Download résumé · Chinese PDF']) {
       const links = screen.getAllByRole('link', { name: label });
       expect(links).toHaveLength(2);
       for (const link of links) {
@@ -141,9 +148,9 @@ describe('App', () => {
     render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
 
-    expect(screen.getByText('机械工程师 / 产品工程师')).toBeInTheDocument();
+    expect(screen.getAllByText('机械工程师 / 产品工程师')).toHaveLength(2);
     await user.click(screen.getByRole('button', { name: 'EN' }));
-    expect(screen.getByText('Mechanical / Product Engineer')).toBeInTheDocument();
+    expect(screen.getByText('Mechanical Engineer / Product Engineer')).toBeInTheDocument();
   });
 
   it('switches to dark mode and persists the theme preference', async () => {

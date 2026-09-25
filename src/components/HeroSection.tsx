@@ -1,21 +1,22 @@
-import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Code2, Download, Mail, MapPin } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Download, Mail, MapPin } from 'lucide-react';
+import { BrandIcon } from './BrandIcon';
 import type { Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
 
 interface HeroSectionProps {
   hero: SiteContent['hero'];
   profile: SiteContent['profile'];
+  skillGroups: SiteContent['skillGroups'];
   locale: Locale;
 }
 
 const linkIcons = {
   resume: Download,
   email: Mail,
-  linkedin: BriefcaseBusiness,
-  github: Code2,
 } as const;
 
-export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
+export function HeroSection({ hero, profile, skillGroups, locale }: HeroSectionProps) {
+  const languages = skillGroups.find((group) => group.id === 'collaboration-languages')?.items.at(-1);
   return (
     <>
       <section className="hero-section" id="profile">
@@ -36,6 +37,12 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
                 {localized(profile.location, locale)}
               </dd>
             </div>
+            {languages ? (
+              <div>
+                <dt>{locale === 'zh' ? '语言' : 'Languages'}</dt>
+                <dd>{localized(languages, locale)}</dd>
+              </div>
+            ) : null}
           </dl>
 
           <div className="hero-actions">
@@ -51,14 +58,18 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
                 >
-                  <Icon aria-hidden="true" size={16} />
+                  {link.id === 'linkedin' || link.id === 'github' ? (
+                    <BrandIcon brand={link.id as 'linkedin' | 'github'} size={16} />
+                  ) : (
+                    <Icon aria-hidden="true" size={16} />
+                  )}
                   {localized(link.label, locale)}
                   {external ? <ArrowUpRight aria-hidden="true" size={14} /> : null}
                 </a>
               );
             })}
-            <a className="text-link" href="#experience">
-              {locale === 'zh' ? '查看经历' : 'View experience'}
+            <a className="text-link" href="#work">
+              {locale === 'zh' ? '查看代表项目' : 'View selected projects'}
               <ArrowDown aria-hidden="true" size={15} />
             </a>
           </div>

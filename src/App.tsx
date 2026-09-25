@@ -99,7 +99,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
 
         <div className="site-content">
           <main id="main-content">
-            <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
+            <HeroSection hero={content.hero} profile={content.profile} skillGroups={content.skillGroups} locale={locale} />
             <EducationSection items={content.education} locale={locale} />
             <ExperienceSection items={content.experience} locale={locale} />
             <EngineeringSection items={content.projects} locale={locale} />

@@ -15,8 +15,8 @@
       "en": "Shenyang, China"
     },
     "role": {
-      "zh": "机械研发工程师",
-      "en": "Mechanical R&D Engineer"
+      "zh": "机械工程师 / 产品工程师",
+      "en": "Mechanical Engineer / Product Engineer"
     },
     "portrait": {
       "id": "portrait",
@@ -39,7 +39,7 @@
       {
         "id": "resume",
         "label": {
-          "zh": "下载简历 · PDF",
+          "zh": "下载中文简历 · PDF",
           "en": "Download résumé · Chinese PDF"
         },
         "href": "/downloads/meihan-qian-resume.pdf"
@@ -72,8 +72,8 @@
   },
   "hero": {
     "title": {
-      "zh": "汽车电子结构设计与产品开发",
-      "en": "Automotive electronics mechanical design and product development"
+      "zh": "机械设计与产品开发",
+      "en": "Mechanical Design & Product Development"
     },
     "metrics": [
       {
@@ -83,8 +83,8 @@
           "en": "4 years"
         },
         "label": {
-          "zh": "汽车电子结构研发",
-          "en": "Automotive electronics R&D"
+          "zh": "机械与产品研发经验",
+          "en": "Mechanical and product development"
         }
       },
       {

@@ -8,7 +8,10 @@ test.beforeEach(async ({ page }) => {
 
 test('shows core recruiter information in Chinese', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('钱美含');
-  await expect(page.getByText('机械研发工程师', { exact: true })).toBeVisible();
+  await expect(page.locator('.hero-role')).toHaveText('机械工程师 / 产品工程师');
+  await expect(page.locator('.hero-statement')).toHaveText('机械设计与产品开发');
+  await expect(page.locator('.hero-facts')).toContainText('中文 / 英语 / 法语 B2');
+  await expect(page.getByRole('link', { name: /查看代表项目/ })).toHaveAttribute('href', '#work');
   await expect(page.getByRole('region', { name: '核心经验' })).toContainText('4 年');
   await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
   await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();

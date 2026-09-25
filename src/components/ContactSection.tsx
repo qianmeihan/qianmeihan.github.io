@@ -1,4 +1,6 @@
-import { ArrowUpRight, BriefcaseBusiness, Code2, Download, Mail } from 'lucide-react';
+import { ArrowUpRight, Download, Mail } from 'lucide-react';
+import { SiGithub } from '@icons-pack/react-simple-icons';
+import { BrandIcon } from './BrandIcon';
 import type { LinkItem, Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
 
@@ -8,7 +10,7 @@ interface ContactSectionProps {
   locale: Locale;
 }
 
-const icons = { resume: Download, email: Mail, linkedin: BriefcaseBusiness, github: Code2 } as const;
+const icons = { resume: Download, email: Mail, github: SiGithub } as const;
 
 export function ContactSection({ contact, links, locale }: ContactSectionProps) {
   return (
@@ -27,7 +29,13 @@ export function ContactSection({ contact, links, locale }: ContactSectionProps) 
               target={external ? '_blank' : undefined}
               rel={external ? 'noopener noreferrer' : undefined}
             >
-              <Icon aria-hidden="true" size={18} />
+              {link.id === 'linkedin' ? (
+                <BrandIcon brand="linkedin" size={18} />
+              ) : link.id === 'github' ? (
+                <BrandIcon brand="github" size={18} />
+              ) : (
+                <Icon aria-hidden="true" size={18} />
+              )}
               <span>{localized(link.label, locale)}</span>
               {external ? <ArrowUpRight aria-hidden="true" size={16} /> : null}
             </a>
