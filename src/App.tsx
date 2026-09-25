@@ -72,7 +72,11 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
             <img className="site-brand__portrait" src={content.profile.portrait.src} alt="" />
             <span className="site-brand__text">
               <strong>{localized(content.profile.name, locale)}</strong>
-              <span>{locale === 'zh' ? '机械设计档案' : 'Mechanical dossier'}</span>
+              <span>
+                {locale === 'zh'
+                  ? '机械工程师 / 产品工程师'
+                  : 'Mechanical Engineer / Product Engineer'}
+              </span>
             </span>
           </a>
 

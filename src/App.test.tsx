@@ -136,6 +136,16 @@ describe('App', () => {
     expect(contentLoader).toHaveBeenCalledTimes(1);
   });
 
+  it('shows both engineering role titles in Chinese and English', async () => {
+    const user = userEvent.setup();
+    render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    expect(screen.getByText('机械工程师 / 产品工程师')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'EN' }));
+    expect(screen.getByText('Mechanical Engineer / Product Engineer')).toBeInTheDocument();
+  });
+
   it('switches to dark mode and persists the theme preference', async () => {
     const user = userEvent.setup();
     render(<App contentLoader={async () => siteContent} />);

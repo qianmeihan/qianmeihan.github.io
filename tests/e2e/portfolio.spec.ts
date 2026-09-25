@@ -36,6 +36,12 @@ test('switches to English without a reload and persists the choice', async ({ pa
 test('applies dark and system themes', async ({ page }) => {
   await page.getByRole('button', { name: '暗色' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect.poll(() => page.locator('html').evaluate((element) =>
+    getComputedStyle(element).getPropertyValue('--color-paper').trim(),
+  )).toBe('#0b0f0c');
+  await expect.poll(() => page.locator('html').evaluate((element) =>
+    getComputedStyle(element).getPropertyValue('--color-accent').trim(),
+  )).toBe('#2f7042');
 
   await page.emulateMedia({ colorScheme: 'light' });
   await page.getByRole('button', { name: '跟随系统' }).click();
