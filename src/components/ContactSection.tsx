@@ -23,11 +23,16 @@ export function ContactSection({ contact, links, locale }: ContactSectionProps) 
           const downloadName = link.id === 'resume'
             ? 'Meihan-Qian-Resume-ZH.pdf'
             : link.id === 'resume-en' ? 'Meihan-Qian-Resume-EN.pdf' : undefined;
+          const updatedAt = link.updatedAt
+            ? `${locale === 'zh' ? '更新于' : 'Updated'} ${link.updatedAt}`
+            : undefined;
           return (
             <a
               key={link.id}
               href={link.href}
               download={downloadName}
+              data-updated-at={updatedAt}
+              aria-description={updatedAt}
               target={external ? '_blank' : undefined}
               rel={external ? 'noopener noreferrer' : undefined}
             >
@@ -36,7 +41,7 @@ export function ContactSection({ contact, links, locale }: ContactSectionProps) 
               ) : link.id === 'github' ? (
                 <BrandIcon brand="github" size={18} />
               ) : (
-                <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : undefined} size={18} />
+                <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : link.id === 'email' ? 'email-icon' : undefined} size={18} />
               )}
               <span>{localized(link.label, locale)}</span>
               {external ? <ArrowUpRight aria-hidden="true" size={16} /> : null}

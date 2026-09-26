@@ -31,19 +31,24 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
               const downloadName = link.id === 'resume'
                 ? 'Meihan-Qian-Resume-ZH.pdf'
                 : link.id === 'resume-en' ? 'Meihan-Qian-Resume-EN.pdf' : undefined;
+              const updatedAt = link.updatedAt
+                ? `${locale === 'zh' ? '更新于' : 'Updated'} ${link.updatedAt}`
+                : undefined;
               return (
                 <a
                   key={link.id}
-                  className={link.id === 'email' ? 'button-link button-link--primary' : 'button-link'}
+                  className="button-link"
                   href={link.href}
                   download={downloadName}
+                  data-updated-at={updatedAt}
+                  aria-description={updatedAt}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
                 >
                   {link.id === 'linkedin' || link.id === 'github' ? (
                     <BrandIcon brand={link.id as 'linkedin' | 'github'} size={18} />
                   ) : (
-                    <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : undefined} size={18} />
+                    <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : link.id === 'email' ? 'email-icon' : undefined} size={18} />
                   )}
                   {localized(link.label, locale)}
                   {external ? <ArrowUpRight aria-hidden="true" size={14} /> : null}

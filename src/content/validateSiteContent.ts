@@ -75,6 +75,7 @@ function link(value: unknown, path: string): LinkItem {
   return {
     id: string(item.id, `${path}.id`),
     label: localized(item.label, `${path}.label`),
+    ...(item.updatedAt === undefined ? {} : { updatedAt: string(item.updatedAt, `${path}.updatedAt`) }),
     href: string(item.href, `${path}.href`),
   };
 }

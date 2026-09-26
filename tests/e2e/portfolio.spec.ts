@@ -26,6 +26,24 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
   await expect(page.getByText('1287187051@qq.com', { exact: true }).first()).toBeVisible();
 });
 
+test('keeps each hero action in its own matching pill and reveals resume dates on hover', async ({ page }) => {
+  const actions = page.locator('.hero-actions');
+  const chinese = actions.getByRole('link', { name: '中文简历' });
+  const english = actions.getByRole('link', { name: '英文简历' });
+  const email = actions.getByRole('link', { name: '邮箱' });
+
+  expect(await email.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe(
+    await chinese.evaluate((element) => getComputedStyle(element).backgroundColor),
+  );
+  await expect(chinese).toHaveCSS('border-radius', await email.evaluate((element) => getComputedStyle(element).borderRadius));
+
+  for (const [link, date] of [[chinese, '更新于 2026.08.25'], [english, '更新于 2026.04.17']] as const) {
+    await expect(link).toHaveAttribute('data-updated-at', date);
+    await link.hover();
+    await expect.poll(() => link.evaluate((element) => getComputedStyle(element, '::after').opacity)).toBe('1');
+  }
+});
+
 test('prioritizes three selected projects and the complete patent drawing', async ({ page }) => {
   await expect(page.locator('.project-card')).toHaveCount(3);
   await expect(page.locator('.timeline-item--featured')).toContainText('核心研发经历');

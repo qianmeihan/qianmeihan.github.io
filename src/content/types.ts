@@ -8,6 +8,7 @@ export type LocalizedText = {
 export interface LinkItem {
   id: string;
   label: LocalizedText;
+  updatedAt?: string;
   href: string;
 }
 

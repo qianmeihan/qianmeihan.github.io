@@ -99,6 +99,33 @@ describe('App', () => {
     }
   });
 
+  it('shows each original resume date on its own download link without changing the link label', async () => {
+    const user = userEvent.setup();
+    render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    for (const [label, date] of [
+      ['中文简历', '2026.08.25'],
+      ['英文简历', '2026.04.17'],
+    ]) {
+      for (const link of screen.getAllByRole('link', { name: label })) {
+        expect(link).toHaveAttribute('data-updated-at', `更新于 ${date}`);
+        expect(link).toHaveAttribute('aria-description', `更新于 ${date}`);
+        expect(link).not.toHaveAttribute('title');
+      }
+    }
+
+    await user.click(screen.getByRole('button', { name: 'EN' }));
+    for (const [label, date] of [
+      ['Chinese résumé', '2026.08.25'],
+      ['English résumé', '2026.04.17'],
+    ]) {
+      for (const link of screen.getAllByRole('link', { name: label })) {
+        expect(link).toHaveAttribute('data-updated-at', `Updated ${date}`);
+      }
+    }
+  });
+
   it('omits the redundant profile summary and decorative section numbers', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
