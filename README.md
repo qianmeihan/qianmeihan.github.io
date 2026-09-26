@@ -127,7 +127,6 @@ qianmeihan.github.io/
 │   └── e2e/
 │       └── portfolio.spec.ts       # 浏览器端到端测试
 ├── tools/
-│   ├── build-public-resumes.py     # 根据公开内容重建两份简历 PDF
 │   ├── build/
 │   │   └── portraitPreload.ts      # 构建时按当前头像自动生成预加载提示
 │   └── editor/
@@ -164,11 +163,10 @@ pnpm check        # 运行单元测试并构建网页
 
 ## 内容边界
 
-下载区提供独立的中文和英文简历：`public/downloads/meihan-qian-resume.pdf` 与 `public/downloads/meihan-qian-resume-en.pdf`。两份一页 PDF 根据网站已核实的职业内容制作，均不含手机号、薪资或当前公司名称。修改网页文字不会自动改动 PDF；如需同步简历，可在安装 `reportlab` 和 `pypdf` 的 macOS Python 环境中运行 `python3 tools/build-public-resumes.py`，检查生成文件后再提交、推送。
+下载区提供独立的中文和英文原版简历：`public/downloads/meihan-qian-resume.pdf` 来自「钱美含简历/简历/新简历/钱美含简历.pdf」（2026 年 8 月版），`public/downloads/meihan-qian-resume-en.pdf` 来自「钱美含简历/简历/旧简历/中英文简历-分开/CV_QianMeihan.pdf」（2026 年 4 月版）。两份 PDF 均按原文件字节复制，未编辑或脱敏；英文版时间较早，经历表述可能与中文版不同。原版简历包含其中原有的个人信息，任何人都可以下载。修改网页文字不会自动改动 PDF；如需更新简历，请将确认过的新原版 PDF 覆盖对应下载文件，检查后提交、推送。
 
 - 网页公开邮箱、宝马华晨项目、舍弗勒经历和公开专利；首屏不显示年龄与所在地。
-- 不公开当前公司的名称。
-- 不公开手机号、家庭地址、证件号码、薪资、账号密码和保密项目资料。
+- 网页正文不展示当前公司名称、手机号、薪资、证件号码或保密项目资料；下载的原版简历不受这条正文规则限制。
 - 不添加优化算法、库存优化或生产计划工具内容。
 - 行业配图只用于说明相关技术领域，不表示图片中的产品均由钱美含本人设计。
 
