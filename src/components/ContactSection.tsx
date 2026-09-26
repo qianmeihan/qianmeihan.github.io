@@ -1,5 +1,4 @@
-import { ArrowUpRight, Download, Mail } from 'lucide-react';
-import { SiGithub } from '@icons-pack/react-simple-icons';
+import { ArrowUpRight, FileDown, Mail } from 'lucide-react';
 import { BrandIcon } from './BrandIcon';
 import type { LinkItem, Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
@@ -10,7 +9,7 @@ interface ContactSectionProps {
   locale: Locale;
 }
 
-const icons = { resume: Download, email: Mail, github: SiGithub } as const;
+const icons = { resume: FileDown, 'resume-en': FileDown, email: Mail } as const;
 
 export function ContactSection({ contact, links, locale }: ContactSectionProps) {
   return (
@@ -21,11 +20,14 @@ export function ContactSection({ contact, links, locale }: ContactSectionProps) 
         {links.map((link) => {
           const Icon = icons[link.id as keyof typeof icons] ?? ArrowUpRight;
           const external = link.href.startsWith('https://');
+          const downloadName = link.id === 'resume'
+            ? 'Meihan-Qian-Resume-ZH.pdf'
+            : link.id === 'resume-en' ? 'Meihan-Qian-Resume-EN.pdf' : undefined;
           return (
             <a
               key={link.id}
               href={link.href}
-              download={link.id === 'resume' ? 'Meihan-Qian-Resume.pdf' : undefined}
+              download={downloadName}
               target={external ? '_blank' : undefined}
               rel={external ? 'noopener noreferrer' : undefined}
             >
@@ -34,7 +36,7 @@ export function ContactSection({ contact, links, locale }: ContactSectionProps) 
               ) : link.id === 'github' ? (
                 <BrandIcon brand="github" size={18} />
               ) : (
-                <Icon aria-hidden="true" size={18} />
+                <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : undefined} size={18} />
               )}
               <span>{localized(link.label, locale)}</span>
               {external ? <ArrowUpRight aria-hidden="true" size={16} /> : null}

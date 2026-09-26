@@ -28,13 +28,6 @@ function string(value: unknown, path: string): string {
   return value;
 }
 
-function number(value: unknown, path: string): number {
-  if (typeof value !== 'number' || !Number.isFinite(value)) {
-    throw new Error(`${path} must be a finite number`);
-  }
-  return value;
-}
-
 function boolean(value: unknown, path: string): boolean {
   if (typeof value !== 'boolean') {
     throw new Error(`${path} must be a boolean`);
@@ -193,9 +186,7 @@ export function validateSiteContent(value: unknown): SiteContent {
     },
     profile: {
       name: localized(profile.name, 'profile.name'),
-      age: number(profile.age, 'profile.age'),
       email: string(profile.email, 'profile.email'),
-      location: localized(profile.location, 'profile.location'),
       role: localized(profile.role, 'profile.role'),
       portrait: media(profile.portrait, 'profile.portrait'),
       links: array(profile.links, 'profile.links', link),

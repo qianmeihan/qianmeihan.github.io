@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, Download, Mail } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, FileDown, Mail } from 'lucide-react';
 import { BrandIcon } from './BrandIcon';
 import type { Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
@@ -10,7 +10,8 @@ interface HeroSectionProps {
 }
 
 const linkIcons = {
-  resume: Download,
+  resume: FileDown,
+  'resume-en': FileDown,
   email: Mail,
 } as const;
 
@@ -22,27 +23,27 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
           <h1>{localized(profile.name, locale)}</h1>
           <p className="hero-role">{localized(profile.role, locale)}</p>
           <p className="hero-intro">{localized(hero.intro, locale)}</p>
-          <p className="hero-meta">
-            {locale === 'zh' ? `${profile.age} 岁` : profile.age} · {localized(profile.location, locale)}
-          </p>
 
           <div className="hero-actions">
             {profile.links.map((link) => {
               const Icon = linkIcons[link.id as keyof typeof linkIcons] ?? ArrowUpRight;
               const external = link.href.startsWith('https://');
+              const downloadName = link.id === 'resume'
+                ? 'Meihan-Qian-Resume-ZH.pdf'
+                : link.id === 'resume-en' ? 'Meihan-Qian-Resume-EN.pdf' : undefined;
               return (
                 <a
                   key={link.id}
                   className={link.id === 'email' ? 'button-link button-link--primary' : 'button-link'}
                   href={link.href}
-                  download={link.id === 'resume' ? 'Meihan-Qian-Resume.pdf' : undefined}
+                  download={downloadName}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
                 >
                   {link.id === 'linkedin' || link.id === 'github' ? (
-                    <BrandIcon brand={link.id as 'linkedin' | 'github'} size={16} />
+                    <BrandIcon brand={link.id as 'linkedin' | 'github'} size={18} />
                   ) : (
-                    <Icon aria-hidden="true" size={16} />
+                    <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : undefined} size={18} />
                   )}
                   {localized(link.label, locale)}
                   {external ? <ArrowUpRight aria-hidden="true" size={14} /> : null}
@@ -67,7 +68,6 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
               decoding="async"
             />
           </div>
-          <figcaption>{localized(profile.portrait.credit, locale)}</figcaption>
         </figure>
       </section>
 

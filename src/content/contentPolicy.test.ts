@@ -12,7 +12,8 @@ describe('public content policy', () => {
     expect(serialized).toContain('CN223978857U');
     expect(serialized.match(/CN223978857U/g)?.length).toBeGreaterThan(0);
     expect(serialized).toContain('1287187051@qq.com');
-    expect(siteContent.profile.age).toBe(26);
+    expect(siteContent.profile).not.toHaveProperty('age');
+    expect(siteContent.profile).not.toHaveProperty('location');
     expect(siteContent.patents).toHaveLength(1);
   });
 

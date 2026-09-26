@@ -108,6 +108,7 @@ qianmeihan.github.io/
 ├── public/
 │   ├── content/
 │   │   └── site.json               # 网页的中英文文字内容
+│   ├── downloads/                 # 对外下载的中英文简历 PDF
 │   ├── media/                      # 头像、学校/公司标志、专利图和行业图片
 │   ├── favicon.svg                 # 浏览器标签图标
 │   ├── og-cover.svg                # 社交平台分享封面
@@ -126,6 +127,7 @@ qianmeihan.github.io/
 │   └── e2e/
 │       └── portfolio.spec.ts       # 浏览器端到端测试
 ├── tools/
+│   ├── build-public-resumes.py     # 根据公开内容重建两份简历 PDF
 │   ├── build/
 │   │   └── portraitPreload.ts      # 构建时按当前头像自动生成预加载提示
 │   └── editor/
@@ -162,9 +164,9 @@ pnpm check        # 运行单元测试并构建网页
 
 ## 内容边界
 
-下载简历是经本人明确确认公开的原始中文版 PDF，包含手机号、期望薪资及当前公司名称。下列限制仍适用于网页正文。下载文件位于 `public/downloads/meihan-qian-resume.pdf`；以后替换这个文件并提交、推送即可更新，首屏和联系区共用同一下载地址。
+下载区提供独立的中文和英文简历：`public/downloads/meihan-qian-resume.pdf` 与 `public/downloads/meihan-qian-resume-en.pdf`。两份一页 PDF 根据网站已核实的职业内容制作，均不含手机号、薪资或当前公司名称。修改网页文字不会自动改动 PDF；如需同步简历，可在安装 `reportlab` 和 `pypdf` 的 macOS Python 环境中运行 `python3 tools/build-public-resumes.py`，检查生成文件后再提交、推送。
 
-- 可以公开年龄、邮箱、宝马华晨项目、舍弗勒经历和公开专利。
+- 网页公开邮箱、宝马华晨项目、舍弗勒经历和公开专利；首屏不显示年龄与所在地。
 - 不公开当前公司的名称。
 - 不公开手机号、家庭地址、证件号码、薪资、账号密码和保密项目资料。
 - 不添加优化算法、库存优化或生产计划工具内容。

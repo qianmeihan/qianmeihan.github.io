@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-09-25",
+    "updatedAt": "2026-09-26",
     "defaultLocale": "zh"
   },
   "profile": {
@@ -8,12 +8,7 @@
       "zh": "钱美含",
       "en": "Meihan Qian"
     },
-    "age": 26,
     "email": "1287187051@qq.com",
-    "location": {
-      "zh": "中国沈阳",
-      "en": "Shenyang, China"
-    },
     "role": {
       "zh": "机械/产品工程师",
       "en": "Mechanical / Product Engineer"
@@ -26,8 +21,8 @@
         "en": "Professional portrait of Meihan Qian"
       },
       "credit": {
-        "zh": "钱美含本人提供",
-        "en": "Provided by Meihan Qian"
+        "zh": "钱美含",
+        "en": "Meihan Qian"
       },
       "sourceUrl": "https://github.com/qianmeihan",
       "usageNote": {
@@ -39,10 +34,18 @@
       {
         "id": "resume",
         "label": {
-          "zh": "下载中文简历 · PDF",
-          "en": "Download résumé · Chinese PDF"
+          "zh": "中文简历",
+          "en": "Chinese résumé"
         },
         "href": "/downloads/meihan-qian-resume.pdf"
+      },
+      {
+        "id": "resume-en",
+        "label": {
+          "zh": "英文简历",
+          "en": "English résumé"
+        },
+        "href": "/downloads/meihan-qian-resume-en.pdf"
       },
       {
         "id": "email",

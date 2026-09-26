@@ -341,17 +341,10 @@ html[lang='en'] .hero-section h1 {
   line-height: 1.58;
 }
 
-.hero-meta {
-  margin: 1.1rem 0 0;
-  color: var(--color-ink-soft);
-  font-size: 0.83rem;
-  letter-spacing: 0.015em;
-}
-
 .hero-actions {
   margin-top: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 10rem));
   align-items: center;
   gap: 0.6rem;
 }
@@ -368,11 +361,30 @@ html[lang='en'] .hero-section h1 {
 }
 
 .button-link {
-  padding-inline: 0.95rem;
+  width: 100%;
+  min-height: 2.8rem;
+  padding-inline: 0.65rem;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-control);
   background: var(--color-surface);
+  white-space: nowrap;
   transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.resume-icon {
+  color: #d7272f;
+}
+
+.brand-icon--linkedin {
+  color: #0a66c2;
+}
+
+.brand-icon--github {
+  color: #181717;
+}
+
+html[data-theme='dark'] .hero-actions .brand-icon--github {
+  color: #f0f6fc;
 }
 
 .button-link:hover {
@@ -391,12 +403,17 @@ html[lang='en'] .hero-section h1 {
   color: var(--color-on-accent);
 }
 
+html[data-theme='dark'] .button-link--primary {
+  color: #102218;
+}
+
 .text-link {
-  margin-inline-start: 0.35rem;
+  min-height: 2.8rem;
+  padding-inline: 0.65rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
   color: var(--color-ink-soft);
-  text-decoration: underline;
-  text-decoration-color: var(--color-line-strong);
-  text-underline-offset: 0.3em;
+  white-space: nowrap;
 }
 
 .hero-portrait {
@@ -876,6 +893,7 @@ html[lang='en'] .education-card h3 {
 
 .industry-card figcaption {
   padding-inline: 0.2rem;
+  color: #556066;
 }
 
 .industry-card > div {
@@ -896,6 +914,10 @@ html[lang='en'] .education-card h3 {
   color: var(--color-on-accent);
 }
 
+html[data-theme='dark'] .contact-section {
+  background: #234631;
+}
+
 .contact-section h2 {
   margin: 0;
   font-size: clamp(2.25rem, 4vw, 3.6rem);
@@ -912,27 +934,31 @@ html[lang='en'] .education-card h3 {
 
 .contact-links {
   margin-top: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 10rem));
   gap: 0.7rem;
 }
 
 .contact-links a {
-  min-height: 3rem;
-  padding: 0.7rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--color-on-accent) 34%, transparent);
+  width: 100%;
+  min-height: 2.8rem;
+  padding: 0.7rem 0.65rem;
+  border: 1px solid transparent;
   border-radius: var(--radius-control);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  color: var(--color-on-accent);
+  background: #fff;
+  color: #181717;
   font-size: 0.82rem;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .contact-links a:hover {
-  background: var(--color-on-accent);
-  color: var(--color-accent-strong);
+  background: #f0f5f2;
+  color: #181717;
 }
 
 .site-footer {
@@ -966,6 +992,10 @@ html[lang='en'] .education-card h3 {
 }
 
 @media (min-width: 821px) and (max-width: 1100px) {
+  .hero-actions {
+    grid-template-columns: repeat(2, minmax(0, 10rem));
+  }
+
   .project-list {
     grid-template-columns: 1fr;
   }
@@ -1189,7 +1219,6 @@ html[lang='en'] .education-card h3 {
 
   .hero-role,
   .hero-intro,
-  .hero-meta,
   .hero-portrait,
   .hero-actions {
     margin-top: 0;
@@ -1210,6 +1239,20 @@ html[lang='en'] .education-card h3 {
 
   .hero-intro {
     font-size: 1.15rem;
+  }
+
+  .hero-actions .button-link,
+  .hero-actions .text-link,
+  .contact-links a {
+    min-width: 0;
+    padding-inline: 0.45rem;
+    gap: 0.35rem;
+    font-size: 0.73rem;
+  }
+
+  .hero-actions,
+  .contact-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .hero-portrait {

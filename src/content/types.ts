@@ -87,9 +87,7 @@ export interface SiteContent {
   };
   profile: {
     name: LocalizedText;
-    age: number;
     email: string;
-    location: LocalizedText;
     role: LocalizedText;
     portrait: MediaItem;
     links: LinkItem[];

@@ -8,15 +8,13 @@ const validContent = {
   meta: { updatedAt: '2026-09-21', defaultLocale: 'zh' },
   profile: {
     name: bilingual('钱美含', 'Meihan Qian'),
-    age: 26,
     email: '1287187051@qq.com',
-    location: bilingual('沈阳', 'Shenyang, China'),
     role: bilingual('机械研发工程师', 'Mechanical R&D Engineer'),
     portrait: {
       id: 'portrait',
       src: '/media/meihan-qian-headshot-optimized.jpg',
       alt: bilingual('钱美含职业照', 'Professional portrait of Meihan Qian'),
-      credit: bilingual('本人提供', 'Provided by Meihan Qian'),
+      credit: bilingual('钱美含', 'Meihan Qian'),
       sourceUrl: 'https://github.com/qianmeihan',
       usageNote: bilingual('本人授权用于个人作品集', 'Authorized for this personal portfolio'),
     },

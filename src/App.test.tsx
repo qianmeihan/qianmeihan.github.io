@@ -53,7 +53,7 @@ describe('App', () => {
     expect(screen.getAllByText('机械/产品工程师')).toHaveLength(2);
     expect(screen.queryByText('机械设计与产品开发')).not.toBeInTheDocument();
     expect(screen.getByText(/你好，我是钱美含。热衷于把机械结构设计转化为可靠、可制造的产品/)).toBeInTheDocument();
-    expect(document.querySelector('.hero-meta')).toHaveTextContent('26 岁 · 中国沈阳');
+    expect(document.querySelector('.hero-meta')).not.toBeInTheDocument();
     expect(document.querySelector('.hero-section')).not.toHaveTextContent('法语 B2');
     expect(screen.getByRole('link', { name: /查看代表项目/ })).toHaveAttribute('href', '#work');
   });
@@ -75,19 +75,27 @@ describe('App', () => {
     expect(container.querySelectorAll('.project-card')).toHaveLength(3);
   });
 
-  it('offers the same downloadable Chinese resume in the hero and contact area in both languages', async () => {
+  it('offers separate Chinese and English resume downloads in both languages', async () => {
     const user = userEvent.setup();
     render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
 
-    for (const label of ['下载中文简历 · PDF', 'Download résumé · Chinese PDF']) {
-      const links = screen.getAllByRole('link', { name: label });
-      expect(links).toHaveLength(2);
-      for (const link of links) {
-        expect(link).toHaveAttribute('href', '/downloads/meihan-qian-resume.pdf');
-        expect(link).toHaveAttribute('download', 'Meihan-Qian-Resume.pdf');
+    for (const labels of [
+      ['中文简历', '英文简历'],
+      ['Chinese résumé', 'English résumé'],
+    ]) {
+      for (const [label, href, filename] of [
+        [labels[0], '/downloads/meihan-qian-resume.pdf', 'Meihan-Qian-Resume-ZH.pdf'],
+        [labels[1], '/downloads/meihan-qian-resume-en.pdf', 'Meihan-Qian-Resume-EN.pdf'],
+      ]) {
+        const links = screen.getAllByRole('link', { name: label });
+        expect(links).toHaveLength(2);
+        for (const link of links) {
+          expect(link).toHaveAttribute('href', href);
+          expect(link).toHaveAttribute('download', filename);
+        }
       }
-      if (label.startsWith('下载')) await user.click(screen.getByRole('button', { name: 'EN' }));
+      if (labels[0] === '中文简历') await user.click(screen.getByRole('button', { name: 'EN' }));
     }
   });
 

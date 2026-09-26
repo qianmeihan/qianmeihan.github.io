@@ -10,7 +10,13 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('钱美含');
   await expect(page.locator('.hero-role')).toHaveText('机械/产品工程师');
   await expect(page.locator('.hero-intro')).toContainText('你好，我是钱美含');
-  await expect(page.locator('.hero-meta')).toHaveText('26 岁 · 中国沈阳');
+  await expect(page.locator('.hero-meta')).toHaveCount(0);
+  await expect(page.locator('.hero-actions .button-link')).toHaveCount(5);
+  for (const path of ['/downloads/meihan-qian-resume.pdf', '/downloads/meihan-qian-resume-en.pdf']) {
+    const response = await page.request.get(path);
+    expect(response.ok()).toBe(true);
+    expect(response.headers()['content-type']).toContain('application/pdf');
+  }
   await expect(page.locator('.hero-section')).not.toContainText('法语 B2');
   await expect(page.getByRole('link', { name: /查看代表项目/ })).toHaveAttribute('href', '#work');
   await expect(page.getByRole('region', { name: '核心经验' })).toContainText('4 年');
