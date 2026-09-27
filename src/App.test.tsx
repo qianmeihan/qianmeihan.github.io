@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import siteContentJson from '../public/content/site.json';
@@ -55,7 +55,26 @@ describe('App', () => {
     expect(screen.getByText(/你好，我是钱美含。热衷于把机械结构设计转化为可靠、可制造的产品/)).toBeInTheDocument();
     expect(document.querySelector('.hero-meta')).not.toBeInTheDocument();
     expect(document.querySelector('.hero-section')).not.toHaveTextContent('法语 B2');
-    expect(screen.getByRole('link', { name: /查看代表项目/ })).toHaveAttribute('href', '#work');
+    expect(screen.getByRole('link', { name: '了解更多' })).toHaveAttribute('href', '#education');
+    expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
+  });
+
+  it('groups the six hero actions without an email button and keeps email in contact', async () => {
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    const actions = container.querySelector('.hero-actions');
+    expect(actions).not.toBeNull();
+    expect(within(actions as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
+      '/downloads/meihan-qian-resume.pdf',
+      '/downloads/meihan-qian-resume-en.pdf',
+      '#education',
+      '#contact',
+      'https://www.linkedin.com/in/qianmeihan/',
+      'https://github.com/qianmeihan',
+    ]);
+    expect(within(actions as HTMLElement).queryByRole('link', { name: '邮箱' })).not.toBeInTheDocument();
+    expect(within(container.querySelector('#contact') as HTMLElement).getByRole('link', { name: '邮箱' })).toHaveAttribute('href', 'mailto:1287187051@qq.com');
   });
 
   it('puts three recruiter proof points before the detailed sections', async () => {

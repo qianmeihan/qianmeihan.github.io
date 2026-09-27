@@ -18,7 +18,8 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
     expect(response.headers()['content-type']).toContain('application/pdf');
   }
   await expect(page.locator('.hero-section')).not.toContainText('法语 B2');
-  await expect(page.getByRole('link', { name: /查看代表项目/ })).toHaveAttribute('href', '#work');
+  await expect(page.locator('.hero-actions').getByRole('link', { name: '了解更多' })).toHaveAttribute('href', '#education');
+  await expect(page.locator('.hero-actions').getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
   await expect(page.getByRole('region', { name: '核心经验' })).toContainText('4 年');
   await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
   await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();
@@ -30,12 +31,13 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
   const actions = page.locator('.hero-actions');
   const chinese = actions.getByRole('link', { name: '中文简历' });
   const english = actions.getByRole('link', { name: '英文简历' });
-  const email = actions.getByRole('link', { name: '邮箱' });
+  const contact = actions.getByRole('link', { name: '联系我' });
 
-  expect(await email.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe(
+  expect(await contact.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe(
     await chinese.evaluate((element) => getComputedStyle(element).backgroundColor),
   );
-  await expect(chinese).toHaveCSS('border-radius', await email.evaluate((element) => getComputedStyle(element).borderRadius));
+  await expect(chinese).toHaveCSS('border-radius', await contact.evaluate((element) => getComputedStyle(element).borderRadius));
+  await expect(actions.getByRole('link', { name: '邮箱' })).toHaveCount(0);
 
   for (const [link, date] of [[chinese, '更新于 2026.08.25'], [english, '更新于 2026.04.17']] as const) {
     await expect(link).toHaveAttribute('data-updated-at', date);
@@ -119,6 +121,13 @@ test('navigates to the selected sections and keeps the current section highlight
     await expect(page.locator(hash)).toBeVisible();
     await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', hash);
   }
+});
+
+test('highlights contact after the hero contact button reaches the bottom of the page', async ({ page }) => {
+  await page.locator('.hero-actions').getByRole('link', { name: '联系我' }).click();
+  await expect(page).toHaveURL(/#contact$/);
+  await expect(page.locator('#contact')).toBeVisible();
+  await expect(page.locator('.site-nav a[href="#contact"]')).toHaveAttribute('aria-current', 'location');
 });
 
 test('opens safe external links with noopener and noreferrer', async ({ page }) => {

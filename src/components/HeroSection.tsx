@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUpRight, FileDown, Mail } from 'lucide-react';
 import { BrandIcon } from './BrandIcon';
-import type { Locale, SiteContent } from '../content/types';
+import type { LinkItem, Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
 
 interface HeroSectionProps {
@@ -12,10 +12,41 @@ interface HeroSectionProps {
 const linkIcons = {
   resume: FileDown,
   'resume-en': FileDown,
-  email: Mail,
 } as const;
 
 export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
+  const renderProfileLink = (link: LinkItem) => {
+    const Icon = linkIcons[link.id as keyof typeof linkIcons] ?? ArrowUpRight;
+    const external = link.href.startsWith('https://');
+    const downloadName = link.id === 'resume'
+      ? 'Meihan-Qian-Resume-ZH.pdf'
+      : link.id === 'resume-en' ? 'Meihan-Qian-Resume-EN.pdf' : undefined;
+    const updatedAt = link.updatedAt
+      ? `${locale === 'zh' ? '更新于' : 'Updated'} ${link.updatedAt}`
+      : undefined;
+
+    return (
+      <a
+        key={link.id}
+        className="button-link"
+        href={link.href}
+        download={downloadName}
+        data-updated-at={updatedAt}
+        aria-description={updatedAt}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
+      >
+        {link.id === 'linkedin' || link.id === 'github' ? (
+          <BrandIcon brand={link.id as 'linkedin' | 'github'} size={18} />
+        ) : (
+          <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : undefined} size={18} />
+        )}
+        {localized(link.label, locale)}
+        {external ? <ArrowUpRight aria-hidden="true" size={14} /> : null}
+      </a>
+    );
+  };
+
   return (
     <>
       <section className="hero-section" id="profile">
@@ -25,40 +56,16 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
           <p className="hero-intro">{localized(hero.intro, locale)}</p>
 
           <div className="hero-actions">
-            {profile.links.map((link) => {
-              const Icon = linkIcons[link.id as keyof typeof linkIcons] ?? ArrowUpRight;
-              const external = link.href.startsWith('https://');
-              const downloadName = link.id === 'resume'
-                ? 'Meihan-Qian-Resume-ZH.pdf'
-                : link.id === 'resume-en' ? 'Meihan-Qian-Resume-EN.pdf' : undefined;
-              const updatedAt = link.updatedAt
-                ? `${locale === 'zh' ? '更新于' : 'Updated'} ${link.updatedAt}`
-                : undefined;
-              return (
-                <a
-                  key={link.id}
-                  className="button-link"
-                  href={link.href}
-                  download={downloadName}
-                  data-updated-at={updatedAt}
-                  aria-description={updatedAt}
-                  target={external ? '_blank' : undefined}
-                  rel={external ? 'noopener noreferrer' : undefined}
-                >
-                  {link.id === 'linkedin' || link.id === 'github' ? (
-                    <BrandIcon brand={link.id as 'linkedin' | 'github'} size={18} />
-                  ) : (
-                    <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : link.id === 'email' ? 'email-icon' : undefined} size={18} />
-                  )}
-                  {localized(link.label, locale)}
-                  {external ? <ArrowUpRight aria-hidden="true" size={14} /> : null}
-                </a>
-              );
-            })}
-            <a className="text-link" href="#work">
-              {locale === 'zh' ? '查看代表项目' : 'View selected projects'}
+            {profile.links.filter((link) => link.id === 'resume' || link.id === 'resume-en').map(renderProfileLink)}
+            <a className="text-link" href="#education">
+              {locale === 'zh' ? '了解更多' : 'Learn more'}
               <ArrowDown aria-hidden="true" size={15} />
             </a>
+            <a className="button-link" href="#contact">
+              <Mail aria-hidden="true" className="email-icon" size={18} />
+              {locale === 'zh' ? '联系我' : 'Contact me'}
+            </a>
+            {profile.links.filter((link) => !['resume', 'resume-en', 'email'].includes(link.id)).map(renderProfileLink)}
           </div>
         </div>
 

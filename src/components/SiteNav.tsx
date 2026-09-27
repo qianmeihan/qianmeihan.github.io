@@ -37,7 +37,7 @@ export function SiteNav({ locale }: SiteNavProps) {
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
         if (visible) setActiveId(visible.target.id);
       },
-      { rootMargin: '-20% 0px -65% 0px', threshold: 0 },
+      { rootMargin: '-20% 0px -45% 0px', threshold: 0 },
     );
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
