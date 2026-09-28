@@ -310,6 +310,13 @@ html[lang='en'] .shell-profile h1 {
   gap: clamp(1.5rem, 3vw, 3rem);
 }
 
+@media (min-width: 821px) {
+  .hero-section {
+    min-height: min(540px, 76dvh);
+    padding-block: clamp(2rem, 3vw, 2.75rem);
+  }
+}
+
 .hero-copy {
   min-width: 0;
 }

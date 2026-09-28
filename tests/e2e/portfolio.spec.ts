@@ -255,6 +255,27 @@ test('preserves the desktop sidebar and two-column hero composition', async ({ p
   expect(layout.actionColumns).toBe(3);
 });
 
+test('fits the complete overview in a compact desktop viewport in both languages', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 650 });
+
+  for (const locale of ['zh', 'en'] as const) {
+    if (locale === 'en') await page.getByRole('button', { name: 'EN', exact: true }).click();
+
+    const bounds = await page.evaluate(() => ({
+      viewport: window.innerHeight,
+      heroTop: document.querySelector('.hero-section')?.getBoundingClientRect().top ?? Infinity,
+      metricsBottom: document.querySelector('.evidence-strip')?.getBoundingClientRect().bottom ?? Infinity,
+      portraitBottom: document.querySelector('.hero-portrait')?.getBoundingClientRect().bottom ?? Infinity,
+      actionsBottom: document.querySelector('.hero-actions')?.getBoundingClientRect().bottom ?? Infinity,
+    }));
+
+    expect(bounds.heroTop).toBeGreaterThanOrEqual(0);
+    expect(bounds.metricsBottom).toBeLessThanOrEqual(bounds.viewport);
+    expect(bounds.portraitBottom).toBeLessThanOrEqual(bounds.viewport);
+    expect(bounds.actionsBottom).toBeLessThanOrEqual(bounds.viewport);
+  }
+});
+
 test('supports keyboard navigation through all header controls', async ({ page }) => {
   const expected = ['钱美含', '概述', '教育经历', '工作经历', '代表项目', '专利', '专业能力', '产品领域', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
   const visited: string[] = [];
