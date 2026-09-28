@@ -57,15 +57,15 @@ export function HeroSection({ hero, profile, locale }: HeroSectionProps) {
 
           <div className="hero-actions">
             {profile.links.filter((link) => link.id === 'resume' || link.id === 'resume-en').map(renderProfileLink)}
+            {profile.links.filter((link) => !['resume', 'resume-en', 'email'].includes(link.id)).map(renderProfileLink)}
+            <a className="text-link" href="#contact">
+              <Mail aria-hidden="true" size={18} />
+              {locale === 'zh' ? '联系我' : 'Contact me'}
+            </a>
             <a className="text-link" href="#education">
               {locale === 'zh' ? '了解更多' : 'Learn more'}
               <ArrowDown aria-hidden="true" size={15} />
             </a>
-            <a className="button-link" href="#contact">
-              <Mail aria-hidden="true" className="email-icon" size={18} />
-              {locale === 'zh' ? '联系我' : 'Contact me'}
-            </a>
-            {profile.links.filter((link) => !['resume', 'resume-en', 'email'].includes(link.id)).map(renderProfileLink)}
           </div>
         </div>
 

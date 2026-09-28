@@ -65,16 +65,21 @@ describe('App', () => {
 
     const actions = container.querySelector('.hero-actions');
     expect(actions).not.toBeNull();
-    expect(within(actions as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
+    const expectedOrder = [
       '/downloads/meihan-qian-resume.pdf',
       '/downloads/meihan-qian-resume-en.pdf',
-      '#education',
-      '#contact',
       'https://www.linkedin.com/in/qianmeihan/',
       'https://github.com/qianmeihan',
-    ]);
+      '#contact',
+      '#education',
+    ];
+    expect(within(actions as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual(expectedOrder);
+    expect(within(actions as HTMLElement).getByRole('link', { name: '联系我' })).toHaveClass('text-link');
+    expect(within(actions as HTMLElement).getByRole('link', { name: '了解更多' })).toHaveClass('text-link');
     expect(within(actions as HTMLElement).queryByRole('link', { name: '邮箱' })).not.toBeInTheDocument();
     expect(within(container.querySelector('#contact') as HTMLElement).getByRole('link', { name: '邮箱' })).toHaveAttribute('href', 'mailto:1287187051@qq.com');
+    await userEvent.setup().click(screen.getByRole('button', { name: 'EN' }));
+    expect(within(actions as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual(expectedOrder);
   });
 
   it('puts three recruiter proof points before the detailed sections', async () => {

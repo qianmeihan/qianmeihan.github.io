@@ -11,7 +11,17 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
   await expect(page.locator('.hero-role')).toHaveText('机械/产品工程师');
   await expect(page.locator('.hero-intro')).toContainText('你好，我是钱美含');
   await expect(page.locator('.hero-meta')).toHaveCount(0);
-  await expect(page.locator('.hero-actions .button-link')).toHaveCount(5);
+  await expect(page.locator('.hero-actions .button-link')).toHaveCount(4);
+  await expect(page.locator('.hero-actions .text-link')).toHaveCount(2);
+  await expect(page.locator('.hero-actions a')).toHaveCount(6);
+  expect(await page.locator('.hero-actions a').evaluateAll((links) => links.map((link) => link.getAttribute('href')))).toEqual([
+    '/downloads/meihan-qian-resume.pdf',
+    '/downloads/meihan-qian-resume-en.pdf',
+    'https://www.linkedin.com/in/qianmeihan/',
+    'https://github.com/qianmeihan',
+    '#contact',
+    '#education',
+  ]);
   for (const path of ['/downloads/meihan-qian-resume.pdf', '/downloads/meihan-qian-resume-en.pdf']) {
     const response = await page.request.get(path);
     expect(response.ok()).toBe(true);
@@ -32,11 +42,15 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
   const chinese = actions.getByRole('link', { name: '中文简历' });
   const english = actions.getByRole('link', { name: '英文简历' });
   const contact = actions.getByRole('link', { name: '联系我' });
+  const learnMore = actions.getByRole('link', { name: '了解更多' });
 
   expect(await contact.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe(
-    await chinese.evaluate((element) => getComputedStyle(element).backgroundColor),
+    await learnMore.evaluate((element) => getComputedStyle(element).backgroundColor),
   );
-  await expect(chinese).toHaveCSS('border-radius', await contact.evaluate((element) => getComputedStyle(element).borderRadius));
+  await expect(contact).toHaveCSS('color', await learnMore.evaluate((element) => getComputedStyle(element).color));
+  await expect(contact).toHaveCSS('border-color', await learnMore.evaluate((element) => getComputedStyle(element).borderColor));
+  await expect(contact).toHaveCSS('border-radius', await learnMore.evaluate((element) => getComputedStyle(element).borderRadius));
+  await expect(contact.locator('svg')).toHaveCSS('color', await learnMore.locator('svg').evaluate((element) => getComputedStyle(element).color));
   await expect(actions.getByRole('link', { name: '邮箱' })).toHaveCount(0);
 
   for (const [link, date] of [[chinese, '更新于 2026.08.25'], [english, '更新于 2026.04.17']] as const) {
@@ -225,17 +239,20 @@ test('preserves the desktop sidebar and two-column hero composition', async ({ p
     const sidebar = document.querySelector('.site-sidebar')?.getBoundingClientRect();
     const heading = document.querySelector('.hero-section h1')?.getBoundingClientRect();
     const portrait = document.querySelector('.hero-portrait')?.getBoundingClientRect();
+    const actionGrid = document.querySelector('.hero-actions');
     return {
       sidebarHeight: sidebar?.height ?? 0,
       sidebarWidth: sidebar?.width ?? 0,
       headingRight: heading?.right ?? 0,
       portraitLeft: portrait?.left ?? 0,
+      actionColumns: actionGrid ? getComputedStyle(actionGrid).gridTemplateColumns.split(' ').length : 0,
     };
   });
 
   expect(layout.sidebarHeight).toBe(900);
   expect(layout.sidebarWidth).toBeGreaterThan(200);
   expect(layout.portraitLeft).toBeGreaterThan(layout.headingRight);
+  expect(layout.actionColumns).toBe(3);
 });
 
 test('supports keyboard navigation through all header controls', async ({ page }) => {

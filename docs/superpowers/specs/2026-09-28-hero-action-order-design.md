@@ -15,7 +15,8 @@ Chinese labels remain `中文简历`, `英文简历`, `LinkedIn`, `GitHub`, `联
 
 ## Scope and behavior
 
-- Reorder only the hero action markup. Keep button dimensions, colors, icons, resume file URLs, download names, update-date tooltips, and contact-section links unchanged.
+- Reorder the hero action markup and give the final two in-page actions the same existing muted `text-link` treatment. The Contact me mail icon inherits the muted text color instead of the accent color.
+- Keep button dimensions, resume and social colors/icons, resume file URLs, download names, update-date tooltips, and contact-section links unchanged.
 - Preserve responsive behavior: three columns on wide desktop, two columns at the existing tablet/mobile breakpoints. The DOM order follows the table, so narrow layouts keep Contact me and Learn more last.
 - Keep all six links keyboard accessible and maintain the current focus/hover states.
 
@@ -23,7 +24,7 @@ Chinese labels remain `中文简历`, `英文简历`, `LinkedIn`, `GitHub`, `联
 
 - Unit test the exact six-link DOM order in both languages and the two anchor destinations.
 - Run the existing project checks and browser tests, including narrow-viewport overflow checks.
-- Visually inspect the hero in Chinese and English at desktop and phone widths; confirm labels do not wrap unexpectedly and light/dark styles remain legible.
+- Visually inspect the hero in Chinese and English at desktop and phone widths; confirm the final two buttons match, labels do not wrap unexpectedly, and light/dark styles remain legible.
 
 ## Out of scope
 
