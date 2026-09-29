@@ -1,5 +1,6 @@
 import type {
   EducationItem,
+  EducationCourse,
   ExperienceItem,
   HeroMetric,
   IndustryContextItem,
@@ -66,6 +67,7 @@ function media(value: unknown, path: string): MediaItem {
     alt: localized(item.alt, `${path}.alt`),
     credit: localized(item.credit, `${path}.credit`),
     sourceUrl: string(item.sourceUrl, `${path}.sourceUrl`),
+    ...(item.licenseUrl === undefined ? {} : { licenseUrl: string(item.licenseUrl, `${path}.licenseUrl`) }),
     usageNote: localized(item.usageNote, `${path}.usageNote`),
   };
 }
@@ -151,7 +153,18 @@ function education(value: unknown, path: string): EducationItem {
     period: localized(item.period, `${path}.period`),
     institution: localized(item.institution, `${path}.institution`),
     degree: localized(item.degree, `${path}.degree`),
-    courses: localizedArray(item.courses, `${path}.courses`),
+    courses: array(item.courses, `${path}.courses`, educationCourse),
+  };
+}
+
+function educationCourse(value: unknown, path: string): EducationCourse {
+  const item = record(value, path);
+  return {
+    id: string(item.id, `${path}.id`),
+    title: localized(item.title, `${path}.title`),
+    summary: localized(item.summary, `${path}.summary`),
+    courseUrl: string(item.courseUrl, `${path}.courseUrl`),
+    image: media(item.image, `${path}.image`),
   };
 }
 

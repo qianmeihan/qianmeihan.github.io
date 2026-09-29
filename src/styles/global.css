@@ -880,7 +880,6 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   font-size: 0.84rem;
 }
 
-.education-grid,
 .industry-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -889,10 +888,15 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .education-section__lead {
   max-width: 54ch;
-  margin: 0 0 clamp(2rem, 4vw, 3rem);
+  margin: 0 0 clamp(1.3rem, 3vw, 2rem);
   color: var(--color-ink-soft);
   font-size: clamp(0.95rem, 1.3vw, 1.08rem);
   line-height: 1.75;
+}
+
+.education-schools {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
 }
 
 .industry-grid {
@@ -901,66 +905,138 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .education-card {
   min-width: 0;
-  padding: clamp(1.4rem, 2.3vw, 2rem);
-  border: 1px solid var(--color-line);
-  background: var(--color-surface);
 }
 
 .education-card__header {
   display: grid;
-  grid-template-columns: 6.75rem minmax(0, 1fr);
-  gap: 1rem;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 1.1rem;
   align-items: center;
 }
 
 .education-card__logo {
-  width: 6.75rem;
-  height: 4.4rem;
-  padding: 0.55rem;
+  width: 5.5rem;
+  height: 4.5rem;
+  padding: 0.5rem;
 }
 
 .education-card h3 {
-  margin-top: 0.45rem;
+  margin-top: 0.2rem;
   text-wrap: balance;
 }
 
 .education-card__degree {
-  min-height: 3.5em;
-  margin-top: 1.3rem !important;
-  color: var(--color-ink) !important;
-  font-weight: 560;
+  margin: 0.35rem 0 0 !important;
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  line-height: 1.45;
 }
 
 .education-card__coursework {
-  margin-top: 1.5rem;
-  padding-top: 1.2rem;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--color-line);
 }
 
 .education-card__coursework h4 {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.9rem;
   color: var(--color-accent-strong);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 650;
   letter-spacing: 0.03em;
 }
 
-.education-card__courses {
-  margin: 0;
-  padding: 0;
+.education-course-grid {
   display: grid;
-  gap: 0.43rem;
-  list-style: none;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
 }
 
-.education-card__courses li {
-  padding-inline-start: 0.8rem;
-  border-inline-start: 2px solid var(--color-line-strong);
+.course-card {
+  min-width: 0;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.course-card__image-link {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: #e9e9e4;
+}
+
+.course-card__image-link img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(0.78) contrast(1.02);
+  transition: transform 220ms ease;
+}
+
+.course-card__image-link:hover img {
+  transform: scale(1.035);
+}
+
+.course-card__image-link img[src$='edu-materials-mechanics.jpg'],
+.course-card__image-link img[src$='edu-cad.jpg'] {
+  object-fit: contain;
+}
+
+.course-card__body {
+  min-width: 0;
+  padding: 0.95rem 1rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.course-card h5 {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.course-card p {
+  margin: 0.45rem 0 0;
   color: var(--color-ink-soft);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.course-card__links {
+  margin-top: auto;
+  padding-top: 0.8rem;
+  display: grid;
+  justify-items: start;
+  gap: 0.18rem;
+}
+
+.course-card__links a {
+  color: var(--color-ink-soft);
+  font-size: 0.65rem;
   line-height: 1.45;
+  text-decoration-color: var(--color-line-strong);
+  text-underline-offset: 0.2em;
   overflow-wrap: anywhere;
+}
+
+.course-card__links a:first-child {
+  margin-bottom: 0.25rem;
+  color: var(--color-accent-strong);
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.education-section__note {
+  margin: 1.4rem 0 0;
+  color: var(--color-ink-soft);
+  font-size: 0.7rem;
+  line-height: 1.5;
 }
 
 html[lang='en'] .education-card h3 {
@@ -1255,8 +1331,8 @@ html[data-theme='dark'] .contact-section {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .education-grid {
-    grid-template-columns: 1fr;
+  .education-course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1424,21 +1500,17 @@ html[data-theme='dark'] .contact-section {
     height: 3.25rem;
   }
 
-  .education-card {
-    padding: 1.2rem;
-  }
-
   .education-card__header {
-    grid-template-columns: 5.75rem minmax(0, 1fr);
+    grid-template-columns: 4.7rem minmax(0, 1fr);
   }
 
   .education-card__logo {
-    width: 5.75rem;
-    height: 4rem;
+    width: 4.7rem;
+    height: 3.8rem;
   }
 
   .skills-grid,
-  .education-grid,
+  .education-course-grid,
   .industry-grid {
     grid-template-columns: 1fr;
   }

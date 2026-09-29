@@ -86,7 +86,7 @@ test('shows four proof points and two verified patents in both languages', async
   await expect(page.getByRole('heading', { name: 'Published Patents' })).toBeVisible();
   await page.getByRole('link', { name: 'Overview', exact: true }).click();
   await expect(page.locator('.evidence-strip')).toContainText('3 languages');
-  await page.getByRole('link', { name: 'Patent' }).click();
+  await page.getByRole('link', { name: 'Patent', exact: true }).click();
   await expect(page.locator('.patent-card')).toHaveCount(2);
 });
 
@@ -146,7 +146,7 @@ test('applies dark and system themes', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
-test('navigates to the selected sections and keeps the current section highlighted', async ({ page }) => {
+test('navigates within one continuous page and highlights the selected section', async ({ page }) => {
   for (const [name, hash] of [
     ['教育经历', '#education'],
     ['工作经历', '#experience'],
@@ -156,16 +156,24 @@ test('navigates to the selected sections and keeps the current section highlight
   ] as const) {
     await page.getByRole('link', { name, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`${hash}$`));
-    await expect(page.locator(hash)).toBeVisible();
+    await expect(page.locator(hash)).toBeInViewport();
     await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', hash);
-    await expect(page.locator('main > section')).toHaveCount(1);
+    await expect(page.locator('main > section')).toHaveCount(9);
   }
+});
+
+test('scrolling from education continues into experience and updates navigation', async ({ page }) => {
+  await page.getByRole('link', { name: '教育经历', exact: true }).click();
+  await expect(page.locator('#education')).toBeInViewport();
+  await page.locator('#experience').scrollIntoViewIfNeeded();
+  await expect(page.locator('#experience')).toBeInViewport();
+  await expect(page.locator('.site-nav a[href="#experience"]')).toHaveAttribute('aria-current', 'location');
 });
 
 test('highlights contact after the hero contact button changes the active module', async ({ page }) => {
   await page.locator('.hero-actions').getByRole('link', { name: '联系我' }).click();
   await expect(page).toHaveURL(/#contact$/);
-  await expect(page.locator('#contact')).toBeVisible();
+  await expect(page.locator('#contact')).toBeInViewport();
   await expect(page.locator('.site-nav a[href="#contact"]')).toHaveAttribute('aria-current', 'location');
 });
 
@@ -180,15 +188,12 @@ test('opens safe external links with noopener and noreferrer', async ({ page }) 
 });
 
 test('loads every portfolio image when it enters the viewport', async ({ page }) => {
-  for (const hash of ['#profile', '#education', '#experience', '#patent', '#industry-context']) {
-    await page.goto(`/${hash}`);
-    const images = page.locator('main img');
-    expect(await images.count()).toBeGreaterThan(0);
-    for (let index = 0; index < (await images.count()); index += 1) {
-      const image = images.nth(index);
-      await image.scrollIntoViewIfNeeded();
-      await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
-    }
+  const images = page.locator('main img');
+  expect(await images.count()).toBeGreaterThan(11);
+  for (let index = 0; index < (await images.count()); index += 1) {
+    const image = images.nth(index);
+    await image.scrollIntoViewIfNeeded();
+    await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   }
 });
 
@@ -241,21 +246,24 @@ test('fits the complete navigation inside a phone viewport', async ({ page }) =>
   }
 });
 
-test('stacks education cards before tablet columns become cramped', async ({ page }) => {
-  await page.setViewportSize({ width: 600, height: 900 });
+test('uses a three-column course gallery on desktop and one column on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.getByRole('link', { name: '教育经历', exact: true }).click();
-
-  const columns = await page.locator('.education-grid').evaluate((grid) =>
+  const desktopColumns = await page.locator('.education-course-grid').first().evaluate((grid) =>
     getComputedStyle(grid).gridTemplateColumns.split(' ').length,
   );
-
-  expect(columns).toBe(1);
+  expect(desktopColumns).toBe(3);
+  await page.setViewportSize({ width: 390, height: 844 });
+  const phoneColumns = await page.locator('.education-course-grid').first().evaluate((grid) =>
+    getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+  );
+  expect(phoneColumns).toBe(1);
 });
 
 test('opens a selected module directly and restores it through browser history', async ({ page }) => {
   await page.goto('/#education');
   await expect(page.locator('#education')).toBeVisible();
-  await expect(page.locator('#profile')).toHaveCount(0);
+  await expect(page.locator('#profile')).toHaveCount(1);
   await expect(page.getByText('材料力学')).toBeVisible();
   await expect(page.getByText('连续介质力学')).toBeVisible();
   await page.getByRole('link', { name: '代表项目', exact: true }).click();
@@ -272,6 +280,8 @@ test('keeps education content bilingual in the same view', async ({ page }) => {
   await expect(page.getByText('Mechanics of Materials')).toBeVisible();
   await expect(page.getByText('Continuum Mechanics')).toBeVisible();
   await expect(page.locator('.education-card')).toHaveCount(2);
+  await expect(page.locator('.course-card')).toHaveCount(11);
+  await expect(page.locator('.course-card__image-link[href^="https://"]')).toHaveCount(11);
 });
 
 test('keeps phone anchor targets visible below the sticky header', async ({ page }) => {

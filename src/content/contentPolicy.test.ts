@@ -5,11 +5,25 @@ const serialized = JSON.stringify(siteContent);
 
 describe('public content policy', () => {
   it('uses verified education dates and selected courses without private transcript data', () => {
-    expect(siteContent.education[0].courses.map((course) => course.zh)).toContain('材料力学');
+    expect(siteContent.education[0].courses.map((course) => course.title.zh)).toContain('材料力学');
     expect(siteContent.education[1].period.zh).toBe('2021 至 2022');
     expect(siteContent.education[1].degree.zh).toBe('机械学学士（航空机械工程方向）');
-    expect(siteContent.education[1].courses.map((course) => course.zh)).toContain('机械设计');
+    expect(siteContent.education[1].courses.map((course) => course.title.zh)).toContain('机械设计');
     expect(serialized).not.toMatch(/成绩单|学号|绩点|GPA|transcript|student number|grade point/i);
+  });
+
+  it('links illustrated courses to official university curricula with traceable photo licenses', () => {
+    expect(siteContent.education.map((school) => school.courses.length)).toEqual([5, 6]);
+    for (const school of siteContent.education) {
+      for (const course of school.courses) {
+        expect(course.courseUrl).toMatch(/^https:\/\/(?:sfie\.neu\.edu\.cn|fsi\.utoulouse\.fr)\//);
+        expect(course.image.sourceUrl).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+        expect(course.image.usageNote.zh).toContain('非本人课程作品');
+        if (!course.image.credit.en.includes('Public domain') && !course.image.credit.en.includes('CC0')) {
+          expect(course.image.licenseUrl).toMatch(/^https:\/\/creativecommons\.org\//);
+        }
+      }
+    }
   });
   it('contains the approved career facts and two verified patents', () => {
     expect(serialized).toContain('BMW Brilliance');

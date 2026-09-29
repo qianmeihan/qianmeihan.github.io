@@ -15,6 +15,7 @@ import type { SiteContent } from './content/types';
 import { useSitePreferences } from './hooks/useSitePreferences';
 import { localized } from './lib/localized';
 import { sectionFromHash, type SectionId } from './lib/sectionNavigation';
+import { sectionIds } from './lib/sectionNavigation';
 
 interface AppProps {
   contentLoader?: () => Promise<SiteContent>;
@@ -29,7 +30,6 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
   const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' });
   const [activeSection, setActiveSection] = useState<SectionId>(() => sectionFromHash(window.location.hash));
   const mainRef = useRef<HTMLElement>(null);
-  const previousSection = useRef(activeSection);
   const {
     locale,
     setLocale,
@@ -59,12 +59,44 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
   }, []);
 
   useEffect(() => {
-    if (previousSection.current !== activeSection && loadState.status === 'ready') {
-      mainRef.current?.focus({ preventScroll: true });
-      window.scrollTo(0, 0);
+    if (loadState.status !== 'ready') return;
+
+    const initialTarget = sectionFromHash(window.location.hash);
+    let frame = 0;
+    if (window.location.hash && initialTarget !== 'profile') {
+      frame = window.requestAnimationFrame(() => {
+        document.getElementById(initialTarget)?.scrollIntoView({ block: 'start' });
+      });
     }
-    previousSection.current = activeSection;
-  }, [activeSection, loadState.status]);
+
+    if (typeof IntersectionObserver === 'undefined') {
+      return () => window.cancelAnimationFrame(frame);
+    }
+    const observer = new IntersectionObserver(() => {
+      const footer = document.querySelector('.site-footer');
+      if (footer && footer.getBoundingClientRect().top < window.innerHeight) {
+        setActiveSection('contact');
+        return;
+      }
+      const guide = window.innerHeight * 0.34;
+      const current = [...sectionIds].reverse().find((id) => {
+        const section = document.getElementById(id);
+        return section && section.getBoundingClientRect().top <= guide;
+      });
+      setActiveSection(current ?? 'profile');
+    }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+
+    for (const id of sectionIds) {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    }
+    const footer = document.querySelector('.site-footer');
+    if (footer) observer.observe(footer);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [loadState.status]);
 
   if (loadState.status === 'loading') {
     return <main role="status">Loading portfolio</main>;
@@ -124,14 +156,14 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
 
         <div className="site-content">
           <main id="main-content" ref={mainRef} tabIndex={-1} aria-label={locale === 'zh' ? '主要内容' : 'Main content'}>
-            {activeSection === 'profile' && <HeroSection hero={content.hero} profile={content.profile} locale={locale} />}
-            {activeSection === 'education' && <EducationSection items={content.education} locale={locale} />}
-            {activeSection === 'experience' && <ExperienceSection items={content.experience} locale={locale} />}
-            {activeSection === 'work' && <EngineeringSection items={content.projects} locale={locale} />}
-            {activeSection === 'patent' && <PatentSection items={content.patents} locale={locale} />}
-            {activeSection === 'skills' && <SkillsSection groups={content.skillGroups} locale={locale} />}
-            {activeSection === 'industry-context' && <IndustryContextSection items={content.industryContext} locale={locale} />}
-            {activeSection === 'contact' && <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />}
+            <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
+            <EducationSection items={content.education} locale={locale} />
+            <ExperienceSection items={content.experience} locale={locale} />
+            <EngineeringSection items={content.projects} locale={locale} />
+            <PatentSection items={content.patents} locale={locale} />
+            <SkillsSection groups={content.skillGroups} locale={locale} />
+            <IndustryContextSection items={content.industryContext} locale={locale} />
+            <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />
           </main>
           <footer className="site-footer">
             <span>© 2026 {localized(content.profile.name, locale)}</span>

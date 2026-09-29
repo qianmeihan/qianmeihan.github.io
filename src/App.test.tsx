@@ -29,6 +29,7 @@ describe('App', () => {
     window.localStorage.clear();
     stubColorScheme();
     vi.stubGlobal('scrollTo', vi.fn());
+    Element.prototype.scrollIntoView = vi.fn();
     vi.spyOn(window.navigator, 'languages', 'get').mockReturnValue(['zh-CN']);
     vi.spyOn(window.navigator, 'language', 'get').mockReturnValue('zh-CN');
   });
@@ -62,27 +63,30 @@ describe('App', () => {
     expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
   });
 
-  it('shows only the module named in the URL and follows hash changes', async () => {
+  it('keeps every module in one continuous page while following hash changes', async () => {
     window.history.replaceState(null, '', '/#education');
     const { container } = render(<App contentLoader={async () => siteContent} />);
     expect(await screen.findByRole('heading', { name: '教育经历' })).toBeInTheDocument();
     expect(container.querySelector('#education')).toBeInTheDocument();
-    expect(container.querySelector('#profile')).not.toBeInTheDocument();
-    expect(container.querySelector('#experience')).not.toBeInTheDocument();
+    expect(container.querySelector('#profile')).toBeInTheDocument();
+    expect(container.querySelector('#experience')).toBeInTheDocument();
+    expect(container.querySelector('#contact')).toBeInTheDocument();
 
     act(() => {
       window.history.pushState(null, '', '/#patent');
       window.dispatchEvent(new HashChangeEvent('hashchange'));
     });
     expect(container.querySelector('#patent')).toBeInTheDocument();
-    expect(container.querySelector('#education')).not.toBeInTheDocument();
+    expect(container.querySelector('#education')).toBeInTheDocument();
+    expect(container.querySelector('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#patent');
 
     act(() => {
       window.history.pushState(null, '', '/#profile');
       window.dispatchEvent(new PopStateEvent('popstate'));
     });
     expect(container.querySelector('.hero-section')).toBeInTheDocument();
-    expect(container.querySelector('#patent')).not.toBeInTheDocument();
+    expect(container.querySelector('#patent')).toBeInTheDocument();
+    expect(window.scrollTo).not.toHaveBeenCalled();
   });
 
   it('keeps the selected module when skipping to main content', async () => {
@@ -152,7 +156,7 @@ describe('App', () => {
         [labels[1], '/downloads/meihan-qian-resume-en.pdf', 'Meihan-Qian-Resume-EN.pdf'],
       ]) {
         const links = screen.getAllByRole('link', { name: label });
-        expect(links).toHaveLength(1);
+        expect(links).toHaveLength(2);
         for (const link of links) {
           expect(link).toHaveAttribute('href', href);
           expect(link).toHaveAttribute('download', filename);
@@ -283,7 +287,7 @@ describe('App', () => {
       expect(navigation.querySelector(`a[href="#${target}"]`)).not.toBeNull();
     }
     expect(document.querySelector('#profile')).toBeInTheDocument();
-    expect(document.querySelector('#education')).not.toBeInTheDocument();
+    expect(document.querySelector('#education')).toBeInTheDocument();
     expect(screen.getAllByRole('main')).toHaveLength(1);
     expect(screen.getAllByRole('contentinfo')).toHaveLength(1);
 

@@ -62,7 +62,20 @@ describe('optional portfolio sections', () => {
             period: { zh: '2018 至 2022', en: '2018 to 2022' },
             institution: { zh: '东北大学', en: 'Northeastern University' },
             degree: { zh: '工学学士', en: 'Bachelor of Engineering' },
-            courses: [{ zh: '材料力学', en: 'Mechanics of Materials' }],
+            courses: [{
+              id: 'materials-mechanics',
+              title: { zh: '材料力学', en: 'Mechanics of Materials' },
+              summary: { zh: '结构强度分析。', en: 'Structural strength analysis.' },
+              courseUrl: 'https://sfie.neu.edu.cn/pyfa/list.htm',
+              image: {
+                id: 'materials-mechanics-photo',
+                src: '/media/edu-materials-mechanics.jpg',
+                alt: { zh: '材料拉伸试验设备', en: 'Materials tensile testing equipment' },
+                credit: { zh: '图源：公开授权摄影', en: 'Photo: openly licensed source' },
+                sourceUrl: 'https://commons.wikimedia.org/',
+                usageNote: { zh: '课程示意图', en: 'Course illustration' },
+              },
+            }],
             logo: {
               id: 'neu-logo',
               src: '/media/logo-northeastern-university.png',
@@ -88,12 +101,15 @@ describe('optional portfolio sections', () => {
     const { default: rawContent } = await import('../../public/content/site.json');
     const content = validateSiteContent(rawContent);
     const { rerender } = render(<EducationSection items={content.education} locale="zh" />);
-    expect(screen.getAllByRole('article')).toHaveLength(2);
+    expect(screen.getAllByRole('article')).toHaveLength(13);
     expect(screen.getByText('材料力学')).toBeInTheDocument();
     expect(screen.getByText('连续介质力学')).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: /查看学校课程设置/ })).toHaveLength(11);
+    expect(screen.getAllByRole('img', { name: /课程示意/ })).toHaveLength(11);
     rerender(<EducationSection items={content.education} locale="en" />);
     expect(screen.getByText('Mechanics of Materials')).toBeInTheDocument();
     expect(screen.getByText('Continuum Mechanics')).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: /View university curriculum/ })).toHaveLength(11);
   });
 
   it('visually marks the core R&D experience', () => {

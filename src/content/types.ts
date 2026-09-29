@@ -18,6 +18,7 @@ export interface MediaItem {
   alt: LocalizedText;
   credit: LocalizedText;
   sourceUrl: string;
+  licenseUrl?: string;
   usageNote: LocalizedText;
 }
 
@@ -72,7 +73,15 @@ export interface EducationItem {
   period: LocalizedText;
   institution: LocalizedText;
   degree: LocalizedText;
-  courses: LocalizedText[];
+  courses: EducationCourse[];
+}
+
+export interface EducationCourse {
+  id: string;
+  title: LocalizedText;
+  summary: LocalizedText;
+  courseUrl: string;
+  image: MediaItem;
 }
 
 export interface IndustryContextItem {

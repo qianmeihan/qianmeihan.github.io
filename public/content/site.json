@@ -519,11 +519,155 @@
         "en": "Bachelor of Engineering in Materials Science and Engineering"
       },
       "courses": [
-        { "zh": "工程图学基础", "en": "Fundamentals of Engineering Graphics" },
-        { "zh": "材料力学", "en": "Mechanics of Materials" },
-        { "zh": "动力学", "en": "Dynamics" },
-        { "zh": "材料性能", "en": "Materials Properties" },
-        { "zh": "计算机辅助设计（CAD）", "en": "Computer-Aided Design (CAD)" }
+        {
+          "id": "graphics",
+          "title": {
+            "zh": "工程图学基础",
+            "en": "Fundamentals of Engineering Graphics"
+          },
+          "summary": {
+            "zh": "工程制图与零件表达，是结构沟通的基础。",
+            "en": "Engineering drawings and part representation for clear structural communication."
+          },
+          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
+          "image": {
+            "id": "course-graphics-image",
+            "src": "/media/edu-engineering-graphics.jpg",
+            "alt": {
+              "zh": "课程示意：机械图纸与设计手册",
+              "en": "Course illustration: mechanical drawings and a design handbook"
+            },
+            "credit": {
+              "zh": "Benrobuck / CC BY-SA 3.0",
+              "en": "Benrobuck / CC BY-SA 3.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_drawings_with_Machinery%27s_Handbook.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "materials-mechanics",
+          "title": {
+            "zh": "材料力学",
+            "en": "Mechanics of Materials"
+          },
+          "summary": {
+            "zh": "从受力、变形与强度理解结构可靠性。",
+            "en": "Study loads, deformation and strength in structural design."
+          },
+          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
+          "image": {
+            "id": "course-materials-mechanics-image",
+            "src": "/media/edu-materials-mechanics.jpg",
+            "alt": {
+              "zh": "课程示意：铸铁拉伸试验断口",
+              "en": "Course illustration: cast-iron tensile test specimens"
+            },
+            "credit": {
+              "zh": "Sigmund / CC BY-SA 3.0",
+              "en": "Sigmund / CC BY-SA 3.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cast_iron_tensile_test.JPG",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "dynamics",
+          "title": {
+            "zh": "动力学",
+            "en": "Dynamics"
+          },
+          "summary": {
+            "zh": "分析机构运动与动力响应。",
+            "en": "Analyze mechanism motion and dynamic response."
+          },
+          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
+          "image": {
+            "id": "course-dynamics-image",
+            "src": "/media/edu-dynamics.jpg",
+            "alt": {
+              "zh": "课程示意：机械齿轮传动",
+              "en": "Course illustration: a mechanical gear train"
+            },
+            "credit": {
+              "zh": "Steven Fine / CC0",
+              "en": "Steven Fine / CC0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gears_on_Tide_Predicting_Machine_No._2.jpg",
+            "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "material-properties",
+          "title": {
+            "zh": "材料性能",
+            "en": "Materials Properties"
+          },
+          "summary": {
+            "zh": "结合显微组织与性能理解材料选型。",
+            "en": "Connect microstructure with properties and material selection."
+          },
+          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
+          "image": {
+            "id": "course-material-properties-image",
+            "src": "/media/edu-material-properties.jpg",
+            "alt": {
+              "zh": "课程示意：工程合金的显微组织",
+              "en": "Course illustration: engineering alloy microstructures"
+            },
+            "credit": {
+              "zh": "OndrejAmbroz / CC BY 4.0",
+              "en": "OndrejAmbroz / CC BY 4.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Color_Metallography_of_Engineering_Alloys.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "cad",
+          "title": {
+            "zh": "计算机辅助设计（CAD）",
+            "en": "Computer-Aided Design (CAD)"
+          },
+          "summary": {
+            "zh": "建立零件与装配模型，辅助结构设计。",
+            "en": "Model parts and assemblies to support structural design."
+          },
+          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
+          "image": {
+            "id": "course-cad-image",
+            "src": "/media/edu-cad.jpg",
+            "alt": {
+              "zh": "课程示意：工程师使用 CAD 工作站",
+              "en": "Course illustration: an engineer using a CAD workstation"
+            },
+            "credit": {
+              "zh": "Hughes Aircraft Company / 公有领域",
+              "en": "Hughes Aircraft Company / Public domain"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineer_working_on_CAD_workstation_with_light_pen_Hughes_Aircraft_Company.jpg",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        }
       ]
     },
     {
@@ -558,12 +702,183 @@
         "en": "Bachelor's degree in Mechanics, Aeronautical Mechanical Engineering track"
       },
       "courses": [
-        { "zh": "机械学", "en": "Mechanics" },
-        { "zh": "连续介质力学", "en": "Continuum Mechanics" },
-        { "zh": "机械设计", "en": "Mechanical Design" },
-        { "zh": "材料", "en": "Materials" },
-        { "zh": "制造工艺", "en": "Manufacturing Processes" },
-        { "zh": "结构", "en": "Structures" }
+        {
+          "id": "mechanics",
+          "title": {
+            "zh": "机械学",
+            "en": "Mechanics"
+          },
+          "summary": {
+            "zh": "用力学模型理解机械系统的运动与受力。",
+            "en": "Use mechanics models to understand loads and motion in machinery."
+          },
+          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
+          "image": {
+            "id": "course-mechanics-image",
+            "src": "/media/edu-mechanics.jpg",
+            "alt": {
+              "zh": "课程示意：贝内特四连杆机构实物",
+              "en": "Course illustration: a physical Bennett four-bar linkage"
+            },
+            "credit": {
+              "zh": "Twdragon / CC BY-SA 3.0",
+              "en": "Twdragon / CC BY-SA 3.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bennett_four-bar_linkage.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "continuum-mechanics",
+          "title": {
+            "zh": "连续介质力学",
+            "en": "Continuum Mechanics"
+          },
+          "summary": {
+            "zh": "研究应力、应变与材料受载行为。",
+            "en": "Study stress, strain and material behavior under load."
+          },
+          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
+          "image": {
+            "id": "course-continuum-mechanics-image",
+            "src": "/media/edu-continuum-mechanics.jpg",
+            "alt": {
+              "zh": "课程示意：在梁上安装应变计",
+              "en": "Course illustration: installing strain gauges on a beam"
+            },
+            "credit": {
+              "zh": "美国联邦公路管理局 / 公有领域",
+              "en": "Federal Highway Administration / Public domain"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Strain_Gauge_Installation_in_SCC_Beams-2_SC_(8496265082).jpg",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "mechanical-design",
+          "title": {
+            "zh": "机械设计",
+            "en": "Mechanical Design"
+          },
+          "summary": {
+            "zh": "梳理机构方案、连接与装配设计。",
+            "en": "Develop mechanisms, joints and assembly choices."
+          },
+          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
+          "image": {
+            "id": "course-mechanical-design-image",
+            "src": "/media/edu-mechanical-design.jpg",
+            "alt": {
+              "zh": "课程示意：机械零件原型",
+              "en": "Course illustration: a mechanical component prototype"
+            },
+            "credit": {
+              "zh": "NASA / Ben Smegelsky / Public domain",
+              "en": "NASA / Ben Smegelsky / Public domain"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_Labs-_Prototype_Development_Laboratory_(PDL)_(KSC-20201021-PH-JBS01_0020).jpg",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "materials",
+          "title": {
+            "zh": "材料",
+            "en": "Materials"
+          },
+          "summary": {
+            "zh": "比较金属材料特性与工程选用。",
+            "en": "Compare metallic materials and their engineering uses."
+          },
+          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
+          "image": {
+            "id": "course-materials-image",
+            "src": "/media/edu-materials.jpg",
+            "alt": {
+              "zh": "课程示意：不同金属材料样品",
+              "en": "Course illustration: samples of different metals"
+            },
+            "credit": {
+              "zh": "Bill Abbott / CC BY-SA 2.0",
+              "en": "Bill Abbott / CC BY-SA 2.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Alloy_and_metal_samples_-_Beryllium-Copper,_Inconel,_Steel,_Titanium,_Aluminum,_Magnesium.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "manufacturing",
+          "title": {
+            "zh": "制造工艺",
+            "en": "Manufacturing Processes"
+          },
+          "summary": {
+            "zh": "选择加工工艺并考虑零件可制造性。",
+            "en": "Choose manufacturing processes with part manufacturability in mind."
+          },
+          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
+          "image": {
+            "id": "course-manufacturing-image",
+            "src": "/media/edu-manufacturing.jpg",
+            "alt": {
+              "zh": "课程示意：数控铣削加工",
+              "en": "Course illustration: CNC milling in progress"
+            },
+            "credit": {
+              "zh": "Impressionmanufacturer / CC BY-SA 4.0",
+              "en": "Impressionmanufacturer / CC BY-SA 4.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:CNC_milling_machine.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "structures",
+          "title": {
+            "zh": "结构",
+            "en": "Structures"
+          },
+          "summary": {
+            "zh": "理解结构分析、试验与尺寸设计。",
+            "en": "Study structural analysis, testing and sizing."
+          },
+          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
+          "image": {
+            "id": "course-structures-image",
+            "src": "/media/edu-structures.jpg",
+            "alt": {
+              "zh": "课程示意：机翼结构试验装置",
+              "en": "Course illustration: an aircraft-wing structural test rig"
+            },
+            "credit": {
+              "zh": "NASA / Carla Escamilla / Public domain",
+              "en": "NASA / Carla Escamilla / Public domain"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:NASA_Pushes_Wing_Design_to_Find_Its_Structural_Limits_(AFRC2025-0136-2115).jpg",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        }
       ]
     }
   ],
