@@ -30,7 +30,7 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
   await expect(page.locator('.hero-section')).not.toContainText('法语 B2');
   await expect(page.locator('.hero-actions').getByRole('link', { name: '了解更多' })).toHaveAttribute('href', '#education');
   await expect(page.locator('.hero-actions').getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
-  await expect(page.getByRole('region', { name: '核心经验' })).toContainText('4 年');
+  await expect(page.getByRole('region', { name: '核心经验' })).toContainText('4年经验');
   await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
   await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();
   await expect(page.getByText('CN223978857U', { exact: true })).toBeVisible();

@@ -84,7 +84,7 @@
       {
         "id": "experience",
         "value": {
-          "zh": "4 年",
+          "zh": "4年经验",
           "en": "4 years"
         },
         "label": {
@@ -95,7 +95,7 @@
       {
         "id": "structures",
         "value": {
-          "zh": "3 类",
+          "zh": "3种工艺",
           "en": "3 types"
         },
         "label": {
@@ -106,7 +106,7 @@
       {
         "id": "patent",
         "value": {
-          "zh": "2 项",
+          "zh": "2项专利",
           "en": "2 published"
         },
         "label": {
@@ -117,7 +117,7 @@
       {
         "id": "languages",
         "value": {
-          "zh": "3 种语言",
+          "zh": "3种语言",
           "en": "3 languages"
         },
         "label": {

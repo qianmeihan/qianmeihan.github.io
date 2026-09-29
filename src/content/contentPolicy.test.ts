@@ -33,7 +33,12 @@ describe('public content policy', () => {
       'patent',
       'languages',
     ]);
-    expect(siteContent.hero.metrics.find((metric) => metric.id === 'patent')?.value.zh).toBe('2 项');
+    expect(siteContent.hero.metrics.map((metric) => metric.value.zh)).toEqual([
+      '4年经验',
+      '3种工艺',
+      '2项专利',
+      '3种语言',
+    ]);
   });
 
   it('excludes private and out-of-scope material', () => {

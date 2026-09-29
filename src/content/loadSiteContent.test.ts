@@ -29,10 +29,10 @@ const validContent = {
   hero: {
     intro: bilingual('你好，我是钱美含。', "Hi, I'm Meihan Qian."),
     metrics: [
-      { id: 'experience', value: bilingual('4 年', '4 years'), label: bilingual('汽车电子结构研发', 'Automotive electronics R&D') },
-      { id: 'structures', value: bilingual('3 类', '3 types'), label: bilingual('冲压、压铸、注塑结构', 'Stamped, die-cast, and molded structures') },
-      { id: 'patent', value: bilingual('2 项', '2 published'), label: bilingual('公开实用新型专利', 'Utility model patents') },
-      { id: 'languages', value: bilingual('3 种语言', '3 languages'), label: bilingual('中文、英语、法语 B2', 'Chinese, English, French B2') },
+      { id: 'experience', value: bilingual('4年经验', '4 years'), label: bilingual('汽车电子结构研发', 'Automotive electronics R&D') },
+      { id: 'structures', value: bilingual('3种工艺', '3 types'), label: bilingual('冲压、压铸、注塑结构', 'Stamped, die-cast, and molded structures') },
+      { id: 'patent', value: bilingual('2项专利', '2 published'), label: bilingual('公开实用新型专利', 'Utility model patents') },
+      { id: 'languages', value: bilingual('3种语言', '3 languages'), label: bilingual('中文、英语、法语 B2', 'Chinese, English, French B2') },
     ],
   },
   experience: [],

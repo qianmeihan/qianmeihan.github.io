@@ -87,10 +87,10 @@ describe('App', () => {
     await screen.findByRole('heading', { name: '钱美含' });
 
     const evidence = screen.getByRole('region', { name: '核心经验' });
-    expect(evidence).toHaveTextContent('4 年');
-    expect(evidence).toHaveTextContent('3 类');
-    expect(evidence).toHaveTextContent('2 项');
-    expect(evidence).toHaveTextContent('3 种语言');
+    expect(evidence).toHaveTextContent('4年经验');
+    expect(evidence).toHaveTextContent('3种工艺');
+    expect(evidence).toHaveTextContent('2项专利');
+    expect(evidence).toHaveTextContent('3种语言');
   });
 
   it('shows only three selected engineering projects', async () => {
@@ -194,7 +194,7 @@ describe('App', () => {
       '4 years',
     );
     expect(screen.getByRole('region', { name: 'Core experience' })).not.toHaveTextContent(
-      '4 年',
+      '4年经验',
     );
     expect(document.documentElement).toHaveAttribute('lang', 'en');
     expect(window.localStorage.getItem('qian-portfolio-locale')).toBe('en');
