@@ -31,7 +31,8 @@ const validContent = {
     metrics: [
       { id: 'experience', value: bilingual('4 年', '4 years'), label: bilingual('汽车电子结构研发', 'Automotive electronics R&D') },
       { id: 'structures', value: bilingual('3 类', '3 types'), label: bilingual('冲压、压铸、注塑结构', 'Stamped, die-cast, and molded structures') },
-      { id: 'patent', value: bilingual('1 项', '1 published'), label: bilingual('公开实用新型专利', 'Utility model patent') },
+      { id: 'patent', value: bilingual('2 项', '2 published'), label: bilingual('公开实用新型专利', 'Utility model patents') },
+      { id: 'languages', value: bilingual('3 种语言', '3 languages'), label: bilingual('中文、英语、法语 B2', 'Chinese, English, French B2') },
     ],
   },
   experience: [],
@@ -78,12 +79,12 @@ describe('validateSiteContent', () => {
     );
   });
 
-  it('requires exactly three recruiter proof metrics', () => {
+  it('requires exactly four recruiter proof metrics', () => {
     const input = structuredClone(validContent) as Record<string, any>;
     input.hero.metrics.pop();
 
     expect(() => validateSiteContent(input)).toThrow(
-      'hero.metrics must contain exactly 3 items',
+      'hero.metrics must contain exactly 4 items',
     );
   });
 

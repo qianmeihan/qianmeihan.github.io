@@ -52,6 +52,8 @@ export interface PatentItem {
   title: LocalizedText;
   status: LocalizedText;
   summary: LocalizedText;
+  inventors: LocalizedText;
+  ownership: LocalizedText;
   engineeringValue: LocalizedText[];
   sourceLabel: LocalizedText;
   sourceUrl: string;

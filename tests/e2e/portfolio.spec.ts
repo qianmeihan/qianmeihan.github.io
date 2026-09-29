@@ -63,8 +63,21 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
 test('prioritizes three selected projects and the complete patent drawing', async ({ page }) => {
   await expect(page.locator('.project-card')).toHaveCount(3);
   await expect(page.locator('.timeline-item--featured')).toContainText('核心研发经历');
-  await expect(page.locator('.patent-card__figure img')).toHaveAttribute('width', '729');
-  await expect(page.locator('.patent-card__figure img')).toHaveAttribute('height', '1000');
+  const drawing = page.getByRole('img', { name: 'CN223978857U 公开专利结构图' });
+  await expect(drawing).toHaveAttribute('width', '729');
+  await expect(drawing).toHaveAttribute('height', '1000');
+});
+
+test('shows four proof points and two verified patents in both languages', async ({ page }) => {
+  await expect(page.locator('.evidence-strip__item')).toHaveCount(4);
+  await expect(page.locator('.patent-card')).toHaveCount(2);
+  await expect(page.locator('.patent-card a[href="https://patents.google.com/patent/CN222839946U/zh"]')).toHaveCount(1);
+  await expect(page.locator('.patent-card a[href="https://patents.google.com/patent/CN223978857U/zh"]')).toHaveCount(1);
+
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Published Patents' })).toBeVisible();
+  await expect(page.locator('.evidence-strip')).toContainText('3 languages');
+  await expect(page.locator('.patent-card')).toHaveCount(2);
 });
 
 test('switches to English without a reload and persists the choice', async ({ page }) => {

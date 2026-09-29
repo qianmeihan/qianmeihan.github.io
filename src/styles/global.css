@@ -509,15 +509,15 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .evidence-strip {
-  padding: 0 clamp(1.5rem, 5vw, 4.5rem) 2rem;
+  padding: 0 clamp(1.5rem, 5vw, 4.5rem) 1.4rem;
   border-bottom: 1px solid var(--color-line);
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .evidence-strip__item {
   min-width: 0;
-  padding: 1rem clamp(1rem, 2vw, 1.5rem);
+  padding: 0.8rem clamp(1rem, 2vw, 1.5rem);
   border-top: 1px solid var(--color-line-strong);
   border-right: 1px solid var(--color-line);
   display: grid;
@@ -536,7 +536,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .evidence-strip__item strong {
   color: var(--color-accent-strong);
-  font-size: clamp(1.85rem, 3.3vw, 3rem);
+  font-size: clamp(1.7rem, 2.5vw, 2.4rem);
   font-weight: 610;
   letter-spacing: -0.045em;
   line-height: 1;
@@ -765,11 +765,20 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   font-size: 0.62rem;
 }
 
+.patent-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
 .patent-card {
   display: grid;
-  grid-template-columns: minmax(200px, 280px) minmax(0, 1fr);
-  gap: clamp(1.5rem, 3vw, 3rem);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  align-content: start;
+  align-items: start;
+  border-top: 1px solid var(--color-line-strong);
+  padding-top: 1rem;
 }
 
 .patent-card__figure,
@@ -788,10 +797,23 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .patent-card__figure img {
-  max-height: 42rem;
+  max-height: 15rem;
   aspect-ratio: 729 / 1000;
   object-fit: contain;
   background: #fff;
+}
+
+.patent-card h3 {
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+}
+
+.patent-card__inventors {
+  color: var(--color-ink) !important;
+  font-weight: 620;
+}
+
+.patent-card__ownership {
+  font-size: 0.78rem;
 }
 
 .patent-card__status {
@@ -1030,6 +1052,10 @@ html[data-theme='dark'] .contact-section {
 }
 
 @media (min-width: 821px) and (max-width: 1100px) {
+  .patent-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .hero-actions {
     grid-template-columns: repeat(2, minmax(0, 10rem));
   }
@@ -1049,6 +1075,14 @@ html[data-theme='dark'] .contact-section {
 }
 
 @media (max-width: 820px) {
+  .patent-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .evidence-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .site-shell {
     display: block;
   }

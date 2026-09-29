@@ -165,7 +165,7 @@ pnpm check        # 运行单元测试并构建网页
 
 下载区提供独立的中文和英文原版简历：`public/downloads/meihan-qian-resume.pdf` 来自「钱美含简历/简历/新简历/钱美含简历.pdf」（2026 年 8 月版），`public/downloads/meihan-qian-resume-en.pdf` 来自「钱美含简历/简历/旧简历/中英文简历-分开/CV_QianMeihan.pdf」（2026 年 4 月版）。两份 PDF 均按原文件字节复制，未编辑或脱敏；英文版时间较早，经历表述可能与中文版不同。原版简历包含其中原有的个人信息，任何人都可以下载。修改网页文字不会自动改动 PDF；如需更新简历，请将确认过的新原版 PDF 覆盖对应下载文件，检查后提交、推送。
 
-- 网页公开邮箱、宝马华晨项目、舍弗勒经历和公开专利；首屏不显示年龄与所在地。
+- 网页公开邮箱、宝马华晨项目、舍弗勒经历和两项已公开实用新型专利；首屏不显示年龄与所在地。专利只展示公开资料中的发明人署名，专利权归原单位。
 - 网页正文不展示当前公司名称、手机号、薪资、证件号码或保密项目资料；下载的原版简历不受这条正文规则限制。
 - 不添加优化算法、库存优化或生产计划工具内容。
 - 行业配图只用于说明相关技术领域，不表示图片中的产品均由钱美含本人设计。
@@ -174,4 +174,5 @@ pnpm check        # 运行单元测试并构建网页
 
 - GitHub：https://github.com/qianmeihan
 - LinkedIn：https://www.linkedin.com/in/qianmeihan/
-- 公开专利：https://eureka.patsnap.com/patent/CN223978857U
+- 公开专利 CN222839946U：https://patents.google.com/patent/CN222839946U/zh
+- 公开专利 CN223978857U：https://patents.google.com/patent/CN223978857U/zh

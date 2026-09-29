@@ -122,6 +122,8 @@ function patent(value: unknown, path: string): PatentItem {
     title: localized(item.title, `${path}.title`),
     status: localized(item.status, `${path}.status`),
     summary: localized(item.summary, `${path}.summary`),
+    inventors: localized(item.inventors, `${path}.inventors`),
+    ownership: localized(item.ownership, `${path}.ownership`),
     engineeringValue: localizedArray(
       item.engineeringValue,
       `${path}.engineeringValue`,
@@ -176,8 +178,8 @@ export function validateSiteContent(value: unknown): SiteContent {
   const hero = record(root.hero, 'hero');
   const contact = record(root.contact, 'contact');
   const metrics = array(hero.metrics, 'hero.metrics', heroMetric);
-  if (metrics.length !== 3) {
-    throw new Error('hero.metrics must contain exactly 3 items');
+  if (metrics.length !== 4) {
+    throw new Error('hero.metrics must contain exactly 4 items');
   }
 
   return {

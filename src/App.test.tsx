@@ -82,14 +82,15 @@ describe('App', () => {
     expect(within(actions as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual(expectedOrder);
   });
 
-  it('puts three recruiter proof points before the detailed sections', async () => {
+  it('puts four recruiter proof points before the detailed sections', async () => {
     render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
 
     const evidence = screen.getByRole('region', { name: '核心经验' });
     expect(evidence).toHaveTextContent('4 年');
     expect(evidence).toHaveTextContent('3 类');
-    expect(evidence).toHaveTextContent('1 项');
+    expect(evidence).toHaveTextContent('2 项');
+    expect(evidence).toHaveTextContent('3 种语言');
   });
 
   it('shows only three selected engineering projects', async () => {

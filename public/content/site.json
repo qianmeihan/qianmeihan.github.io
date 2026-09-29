@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-09-27",
+    "updatedAt": "2026-09-29",
     "defaultLocale": "zh"
   },
   "profile": {
@@ -99,19 +99,30 @@
           "en": "3 types"
         },
         "label": {
-          "zh": "冲压、压铸、注塑结构",
-          "en": "Stamped, die-cast, and molded structures"
+          "zh": "冲压件、压铸件、注塑件设计",
+          "en": "Stamped, die-cast and molded part design"
         }
       },
       {
         "id": "patent",
         "value": {
-          "zh": "1 项",
-          "en": "1 published"
+          "zh": "2 项",
+          "en": "2 published"
         },
         "label": {
           "zh": "公开实用新型专利",
-          "en": "Utility model patent"
+          "en": "Utility model patents"
+        }
+      },
+      {
+        "id": "languages",
+        "value": {
+          "zh": "3 种语言",
+          "en": "3 languages"
+        },
+        "label": {
+          "zh": "中文、英语、法语 B2",
+          "en": "Chinese, English, French B2"
         }
       }
     ]
@@ -290,10 +301,66 @@
   ],
   "patents": [
     {
+      "id": "cn222839946u-bms-housing-snap-fit",
+      "number": "CN222839946U",
+      "title": {
+        "zh": "用于BMS控制器壳体的卡扣结构和BMS控制器壳体",
+        "en": "Buckle Structure for a BMS Controller Housing and BMS Controller Housing"
+      },
+      "status": {
+        "zh": "公开实用新型专利",
+        "en": "Published utility model patent"
+      },
+      "summary": {
+        "zh": "双面卡扣限制壳体连接处双向位移，降低振动或外力下的脱开风险。",
+        "en": "A double-sided snap-fit limits movement at the housing joint and reduces disengagement risk under vibration or external force."
+      },
+      "inventors": {
+        "zh": "发明人：钱美含",
+        "en": "Inventor: Meihan Qian"
+      },
+      "ownership": {
+        "zh": "职务发明，专利权归原单位",
+        "en": "Employer-owned patent; inventor credit does not imply ownership"
+      },
+      "engineeringValue": [
+        {
+          "zh": "双面卡扣结构",
+          "en": "Double-sided snap-fit"
+        },
+        {
+          "zh": "壳体装配可靠性",
+          "en": "Housing assembly reliability"
+        }
+      ],
+      "sourceLabel": {
+        "zh": "查看公开专利记录",
+        "en": "View public patent record"
+      },
+      "sourceUrl": "https://patents.google.com/patent/CN222839946U/zh",
+      "image": {
+        "id": "patent-cn222839946u-figure",
+        "src": "/media/patent-cn222839946u-figure.png",
+        "alt": {
+          "zh": "CN222839946U 公开专利完整附图",
+          "en": "Complete published drawing from patent CN222839946U"
+        },
+        "credit": {
+          "zh": "CN222839946U 公开专利文件",
+          "en": "Published patent document CN222839946U"
+        },
+        "sourceUrl": "https://patents.google.com/patent/CN222839946U/zh",
+        "usageNote": {
+          "zh": "仅展示已公开的专利附图",
+          "en": "Displays only the published patent drawing"
+        }
+      }
+    },
+    {
       "id": "cn223978857u-electronic-device",
       "number": "CN223978857U",
       "title": {
-        "zh": "电子设备",
+        "zh": "电子装置",
         "en": "Electronic Device"
       },
       "status": {
@@ -301,8 +368,16 @@
         "en": "Published utility model patent"
       },
       "summary": {
-        "zh": "通过条形槽与卡接结构固定壳体和 PCB，同时考虑安装可靠性与爬电距离。",
-        "en": "Uses a strip groove and snap-fit structure to retain the housing and PCB while considering assembly reliability and creepage distance."
+        "zh": "壳体结构固定 PCB，并通过条形槽与压接柱改善导体之间的爬电距离。",
+        "en": "Housing features retain the PCB while a strip groove and pressure posts improve creepage distance between conductors."
+      },
+      "inventors": {
+        "zh": "共同发明人：李雪、钱美含",
+        "en": "Co-inventors: Xue Li and Meihan Qian"
+      },
+      "ownership": {
+        "zh": "职务发明，专利权归原单位",
+        "en": "Employer-owned patent; inventor credit does not imply ownership"
       },
       "engineeringValue": [
         {
@@ -318,7 +393,7 @@
         "zh": "查看公开专利记录",
         "en": "View public patent record"
       },
-      "sourceUrl": "https://eureka.patsnap.com/patent/CN223978857U",
+      "sourceUrl": "https://patents.google.com/patent/CN223978857U/zh",
       "image": {
         "id": "patent-cn223978857u-figure",
         "src": "/media/patent-cn223978857u-figure.png",
@@ -327,13 +402,13 @@
           "en": "Public structural drawing from patent CN223978857U"
         },
         "credit": {
-          "zh": "公开专利记录",
-          "en": "Public patent record"
+          "zh": "CN223978857U 公开专利文件",
+          "en": "Published patent document CN223978857U"
         },
-        "sourceUrl": "https://eureka.patsnap.com/patent/CN223978857U",
+        "sourceUrl": "https://patents.google.com/patent/CN223978857U/zh",
         "usageNote": {
-          "zh": "用于说明公开专利结构背景",
-          "en": "Used to illustrate the published patent context"
+          "zh": "仅展示已公开的专利附图",
+          "en": "Displays only the published patent drawing"
         }
       }
     }

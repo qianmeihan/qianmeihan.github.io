@@ -4,17 +4,36 @@ import siteContent from '../../public/content/site.json';
 const serialized = JSON.stringify(siteContent);
 
 describe('public content policy', () => {
-  it('contains the approved career facts and one verified patent', () => {
+  it('contains the approved career facts and two verified patents', () => {
     expect(serialized).toContain('BMW Brilliance');
     expect(serialized).toContain('宝马华晨');
     expect(serialized).toContain('Schaeffler');
     expect(serialized).toContain('舍弗勒');
     expect(serialized).toContain('CN223978857U');
+    expect(serialized).toContain('CN222839946U');
     expect(serialized.match(/CN223978857U/g)?.length).toBeGreaterThan(0);
     expect(serialized).toContain('1287187051@qq.com');
     expect(siteContent.profile).not.toHaveProperty('age');
     expect(siteContent.profile).not.toHaveProperty('location');
-    expect(siteContent.patents).toHaveLength(1);
+    expect(siteContent.patents).toHaveLength(2);
+    expect(siteContent.patents.map((patent) => patent.number)).toEqual([
+      'CN222839946U',
+      'CN223978857U',
+    ]);
+    expect(siteContent.patents.map((patent) => patent.title.zh)).toEqual([
+      '用于BMS控制器壳体的卡扣结构和BMS控制器壳体',
+      '电子装置',
+    ]);
+    expect(siteContent.patents[0].inventors.zh).toBe('发明人：钱美含');
+    expect(siteContent.patents[1].inventors.zh).toBe('共同发明人：李雪、钱美含');
+    expect(siteContent.patents.every((patent) => patent.ownership.zh.includes('原单位'))).toBe(true);
+    expect(siteContent.hero.metrics.map((metric) => metric.id)).toEqual([
+      'experience',
+      'structures',
+      'patent',
+      'languages',
+    ]);
+    expect(siteContent.hero.metrics.find((metric) => metric.id === 'patent')?.value.zh).toBe('2 项');
   });
 
   it('excludes private and out-of-scope material', () => {

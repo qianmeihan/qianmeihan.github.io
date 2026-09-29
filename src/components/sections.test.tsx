@@ -122,4 +122,17 @@ describe('optional portfolio sections', () => {
     expect(drawing).toHaveAttribute('width', '729');
     expect(drawing).toHaveAttribute('height', '1000');
   });
+
+  it('shows both employer-owned published patents with inventor credit', async () => {
+    const { validateSiteContent } = await import('../content/validateSiteContent');
+    const { default: rawContent } = await import('../../public/content/site.json');
+    const content = validateSiteContent(rawContent);
+    const { container } = render(<PatentSection items={content.patents} locale="zh" />);
+
+    expect(container.querySelectorAll('.patent-card')).toHaveLength(2);
+    expect(screen.getByText('发明人：钱美含')).toBeInTheDocument();
+    expect(screen.getByText('共同发明人：李雪、钱美含')).toBeInTheDocument();
+    expect(screen.getAllByText('职务发明，专利权归原单位')).toHaveLength(2);
+    expect(screen.getAllByRole('link', { name: '查看公开专利记录' })).toHaveLength(2);
+  });
 });
