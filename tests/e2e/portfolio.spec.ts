@@ -260,6 +260,20 @@ test('uses a three-column course gallery on desktop and one column on phones', a
   expect(phoneColumns).toBe(1);
 });
 
+test('keeps course photos compact at desktop and phone widths', async ({ page }) => {
+  for (const viewport of [
+    { width: 1440, height: 900 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/#education');
+    const imageFrame = page.locator('.course-card__image-link').first();
+    const bounds = await imageFrame.boundingBox();
+    expect(bounds).not.toBeNull();
+    expect(bounds!.height / bounds!.width).toBeLessThanOrEqual(0.65);
+  }
+});
+
 test('opens a selected module directly and restores it through browser history', async ({ page }) => {
   await page.goto('/#education');
   await expect(page.locator('#education')).toBeVisible();

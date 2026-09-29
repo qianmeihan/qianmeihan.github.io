@@ -964,7 +964,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 .course-card__image-link {
   display: block;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   background: #e9e9e4;
 }
 
