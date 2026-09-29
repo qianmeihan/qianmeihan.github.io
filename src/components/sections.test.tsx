@@ -62,6 +62,7 @@ describe('optional portfolio sections', () => {
             period: { zh: '2018 至 2022', en: '2018 to 2022' },
             institution: { zh: '东北大学', en: 'Northeastern University' },
             degree: { zh: '工学学士', en: 'Bachelor of Engineering' },
+            courses: [{ zh: '材料力学', en: 'Mechanics of Materials' }],
             logo: {
               id: 'neu-logo',
               src: '/media/logo-northeastern-university.png',
@@ -80,6 +81,19 @@ describe('optional portfolio sections', () => {
     const logo = container.querySelector(selector);
     expect(logo).toBeInTheDocument();
     expect(logo).toHaveAttribute('alt', '');
+  });
+
+  it('shows selected coursework in both languages', async () => {
+    const { validateSiteContent } = await import('../content/validateSiteContent');
+    const { default: rawContent } = await import('../../public/content/site.json');
+    const content = validateSiteContent(rawContent);
+    const { rerender } = render(<EducationSection items={content.education} locale="zh" />);
+    expect(screen.getAllByRole('article')).toHaveLength(2);
+    expect(screen.getByText('材料力学')).toBeInTheDocument();
+    expect(screen.getByText('连续介质力学')).toBeInTheDocument();
+    rerender(<EducationSection items={content.education} locale="en" />);
+    expect(screen.getByText('Mechanics of Materials')).toBeInTheDocument();
+    expect(screen.getByText('Continuum Mechanics')).toBeInTheDocument();
   });
 
   it('visually marks the core R&D experience', () => {

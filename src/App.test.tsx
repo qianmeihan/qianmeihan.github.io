@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import siteContentJson from '../public/content/site.json';
@@ -25,13 +25,16 @@ function stubColorScheme(prefersDark = false) {
 
 describe('App', () => {
   beforeEach(() => {
+    window.history.replaceState(null, '', '/');
     window.localStorage.clear();
     stubColorScheme();
+    vi.stubGlobal('scrollTo', vi.fn());
     vi.spyOn(window.navigator, 'languages', 'get').mockReturnValue(['zh-CN']);
     vi.spyOn(window.navigator, 'language', 'get').mockReturnValue('zh-CN');
   });
 
   afterEach(() => {
+    window.history.replaceState(null, '', '/');
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
     document.documentElement.removeAttribute('data-theme');
@@ -59,6 +62,40 @@ describe('App', () => {
     expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
   });
 
+  it('shows only the module named in the URL and follows hash changes', async () => {
+    window.history.replaceState(null, '', '/#education');
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    expect(await screen.findByRole('heading', { name: '教育经历' })).toBeInTheDocument();
+    expect(container.querySelector('#education')).toBeInTheDocument();
+    expect(container.querySelector('#profile')).not.toBeInTheDocument();
+    expect(container.querySelector('#experience')).not.toBeInTheDocument();
+
+    act(() => {
+      window.history.pushState(null, '', '/#patent');
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    });
+    expect(container.querySelector('#patent')).toBeInTheDocument();
+    expect(container.querySelector('#education')).not.toBeInTheDocument();
+
+    act(() => {
+      window.history.pushState(null, '', '/#profile');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    });
+    expect(container.querySelector('.hero-section')).toBeInTheDocument();
+    expect(container.querySelector('#patent')).not.toBeInTheDocument();
+  });
+
+  it('keeps the selected module when skipping to main content', async () => {
+    window.history.replaceState(null, '', '/#education');
+    const user = userEvent.setup();
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '教育经历' });
+    await user.click(screen.getByRole('link', { name: '跳到主要内容' }));
+    expect(window.location.hash).toBe('#education');
+    expect(container.querySelector('#education')).toBeInTheDocument();
+    expect(document.activeElement).toBe(container.querySelector('#main-content'));
+  });
+
   it('groups the six hero actions without an email button and keeps email in contact', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
@@ -77,9 +114,10 @@ describe('App', () => {
     expect(within(actions as HTMLElement).getByRole('link', { name: '联系我' })).toHaveClass('text-link');
     expect(within(actions as HTMLElement).getByRole('link', { name: '了解更多' })).toHaveClass('text-link');
     expect(within(actions as HTMLElement).queryByRole('link', { name: '邮箱' })).not.toBeInTheDocument();
-    expect(within(container.querySelector('#contact') as HTMLElement).getByRole('link', { name: '邮箱' })).toHaveAttribute('href', 'mailto:1287187051@qq.com');
     await userEvent.setup().click(screen.getByRole('button', { name: 'EN' }));
     expect(within(actions as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual(expectedOrder);
+    await userEvent.setup().click(screen.getByRole('link', { name: 'Contact' }));
+    expect(within(container.querySelector('#contact') as HTMLElement).getByRole('link', { name: 'Email' })).toHaveAttribute('href', 'mailto:1287187051@qq.com');
   });
 
   it('puts four recruiter proof points before the detailed sections', async () => {
@@ -96,7 +134,7 @@ describe('App', () => {
   it('shows only three selected engineering projects', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
-
+    await userEvent.setup().click(screen.getByRole('link', { name: '代表项目' }));
     expect(container.querySelectorAll('.project-card')).toHaveLength(3);
   });
 
@@ -114,7 +152,7 @@ describe('App', () => {
         [labels[1], '/downloads/meihan-qian-resume-en.pdf', 'Meihan-Qian-Resume-EN.pdf'],
       ]) {
         const links = screen.getAllByRole('link', { name: label });
-        expect(links).toHaveLength(2);
+        expect(links).toHaveLength(1);
         for (const link of links) {
           expect(link).toHaveAttribute('href', href);
           expect(link).toHaveAttribute('download', filename);
@@ -244,9 +282,8 @@ describe('App', () => {
     ]) {
       expect(navigation.querySelector(`a[href="#${target}"]`)).not.toBeNull();
     }
-    expect(
-      document.querySelector('#education')!.compareDocumentPosition(document.querySelector('#experience')!),
-    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(document.querySelector('#profile')).toBeInTheDocument();
+    expect(document.querySelector('#education')).not.toBeInTheDocument();
     expect(screen.getAllByRole('main')).toHaveLength(1);
     expect(screen.getAllByRole('contentinfo')).toHaveLength(1);
 

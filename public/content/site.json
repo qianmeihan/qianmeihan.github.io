@@ -517,7 +517,14 @@
       "degree": {
         "zh": "材料科学与工程学士",
         "en": "Bachelor of Engineering in Materials Science and Engineering"
-      }
+      },
+      "courses": [
+        { "zh": "工程图学基础", "en": "Fundamentals of Engineering Graphics" },
+        { "zh": "材料力学", "en": "Mechanics of Materials" },
+        { "zh": "动力学", "en": "Dynamics" },
+        { "zh": "材料性能", "en": "Materials Properties" },
+        { "zh": "计算机辅助设计（CAD）", "en": "Computer-Aided Design (CAD)" }
+      ]
     },
     {
       "id": "toulouse-iii",
@@ -539,17 +546,25 @@
         }
       },
       "period": {
-        "zh": "2018 至 2022",
-        "en": "2018 to 2022"
+        "zh": "2021 至 2022",
+        "en": "2021 to 2022"
       },
       "institution": {
         "zh": "图卢兹第三大学",
         "en": "Université Toulouse III"
       },
       "degree": {
-        "zh": "机械工程双学位经历",
-        "en": "Dual-degree studies in Mechanical Engineering"
-      }
+        "zh": "机械学学士（航空机械工程方向）",
+        "en": "Bachelor's degree in Mechanics, Aeronautical Mechanical Engineering track"
+      },
+      "courses": [
+        { "zh": "机械学", "en": "Mechanics" },
+        { "zh": "连续介质力学", "en": "Continuum Mechanics" },
+        { "zh": "机械设计", "en": "Mechanical Design" },
+        { "zh": "材料", "en": "Materials" },
+        { "zh": "制造工艺", "en": "Manufacturing Processes" },
+        { "zh": "结构", "en": "Structures" }
+      ]
     }
   ],
   "industryContext": [

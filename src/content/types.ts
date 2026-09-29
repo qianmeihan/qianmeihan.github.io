@@ -72,6 +72,7 @@ export interface EducationItem {
   period: LocalizedText;
   institution: LocalizedText;
   degree: LocalizedText;
+  courses: LocalizedText[];
 }
 
 export interface IndustryContextItem {

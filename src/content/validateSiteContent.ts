@@ -151,6 +151,7 @@ function education(value: unknown, path: string): EducationItem {
     period: localized(item.period, `${path}.period`),
     institution: localized(item.institution, `${path}.institution`),
     degree: localized(item.degree, `${path}.degree`),
+    courses: localizedArray(item.courses, `${path}.courses`),
   };
 }
 

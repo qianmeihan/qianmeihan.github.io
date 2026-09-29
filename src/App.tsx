@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ContactSection } from './components/ContactSection';
 import { EducationSection } from './components/EducationSection';
 import { EngineeringSection } from './components/EngineeringSection';
@@ -14,6 +14,7 @@ import { loadSiteContent } from './content/loadSiteContent';
 import type { SiteContent } from './content/types';
 import { useSitePreferences } from './hooks/useSitePreferences';
 import { localized } from './lib/localized';
+import { sectionFromHash, type SectionId } from './lib/sectionNavigation';
 
 interface AppProps {
   contentLoader?: () => Promise<SiteContent>;
@@ -26,6 +27,9 @@ type LoadState =
 
 export default function App({ contentLoader = loadSiteContent }: AppProps) {
   const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' });
+  const [activeSection, setActiveSection] = useState<SectionId>(() => sectionFromHash(window.location.hash));
+  const mainRef = useRef<HTMLElement>(null);
+  const previousSection = useRef(activeSection);
   const {
     locale,
     setLocale,
@@ -43,6 +47,24 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
   useEffect(() => {
     load();
   }, [load]);
+
+  useEffect(() => {
+    const syncSection = () => setActiveSection(sectionFromHash(window.location.hash));
+    window.addEventListener('hashchange', syncSection);
+    window.addEventListener('popstate', syncSection);
+    return () => {
+      window.removeEventListener('hashchange', syncSection);
+      window.removeEventListener('popstate', syncSection);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (previousSection.current !== activeSection && loadState.status === 'ready') {
+      mainRef.current?.focus({ preventScroll: true });
+      window.scrollTo(0, 0);
+    }
+    previousSection.current = activeSection;
+  }, [activeSection, loadState.status]);
 
   if (loadState.status === 'loading') {
     return <main role="status">Loading portfolio</main>;
@@ -63,7 +85,10 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
   const { content } = loadState;
   return (
     <>
-      <a className="skip-link" href="#main-content">
+      <a className="skip-link" href="#main-content" onClick={(event) => {
+        event.preventDefault();
+        mainRef.current?.focus();
+      }}>
         {locale === 'zh' ? '跳到主要内容' : 'Skip to main content'}
       </a>
       <div className="site-shell">
@@ -80,7 +105,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
             </span>
           </a>
 
-          <SiteNav locale={locale} />
+          <SiteNav locale={locale} activeId={activeSection} />
 
           <div className="sidebar-tools">
             <LanguageSwitch locale={locale} onChange={setLocale} />
@@ -98,19 +123,19 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
         </header>
 
         <div className="site-content">
-          <main id="main-content">
-            <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
-            <EducationSection items={content.education} locale={locale} />
-            <ExperienceSection items={content.experience} locale={locale} />
-            <EngineeringSection items={content.projects} locale={locale} />
-            <PatentSection items={content.patents} locale={locale} />
-            <SkillsSection groups={content.skillGroups} locale={locale} />
-            <IndustryContextSection items={content.industryContext} locale={locale} />
-            <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />
+          <main id="main-content" ref={mainRef} tabIndex={-1} aria-label={locale === 'zh' ? '主要内容' : 'Main content'}>
+            {activeSection === 'profile' && <HeroSection hero={content.hero} profile={content.profile} locale={locale} />}
+            {activeSection === 'education' && <EducationSection items={content.education} locale={locale} />}
+            {activeSection === 'experience' && <ExperienceSection items={content.experience} locale={locale} />}
+            {activeSection === 'work' && <EngineeringSection items={content.projects} locale={locale} />}
+            {activeSection === 'patent' && <PatentSection items={content.patents} locale={locale} />}
+            {activeSection === 'skills' && <SkillsSection groups={content.skillGroups} locale={locale} />}
+            {activeSection === 'industry-context' && <IndustryContextSection items={content.industryContext} locale={locale} />}
+            {activeSection === 'contact' && <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />}
           </main>
           <footer className="site-footer">
             <span>© 2026 {localized(content.profile.name, locale)}</span>
-            <a href="#profile">{locale === 'zh' ? '返回顶部' : 'Back to top'}</a>
+            <a href="#profile">{locale === 'zh' ? '返回概述' : 'Back to overview'}</a>
           </footer>
         </div>
       </div>

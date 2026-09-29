@@ -15,6 +15,11 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
   return (
     <section className="content-section education-section" id="education">
       <SectionHeading title={locale === 'zh' ? '教育经历' : 'Education'} />
+      <p className="education-section__lead">
+        {locale === 'zh'
+          ? '材料科学与机械学背景，课程涵盖结构设计、材料性能与制造工艺。'
+          : 'A foundation in materials science and mechanics, with coursework spanning structural design, materials, and manufacturing.'}
+      </p>
       <div className="education-grid">
         {items.map((item) => (
           <article key={item.id} className="education-card">
@@ -30,6 +35,12 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
               </div>
             </div>
             <p className="education-card__degree">{localized(item.degree, locale)}</p>
+            <div className="education-card__coursework">
+              <h4>{locale === 'zh' ? '相关课程' : 'Selected coursework'}</h4>
+              <ul className="education-card__courses">
+                {item.courses.map((course) => <li key={course.zh}>{localized(course, locale)}</li>)}
+              </ul>
+            </div>
           </article>
         ))}
       </div>

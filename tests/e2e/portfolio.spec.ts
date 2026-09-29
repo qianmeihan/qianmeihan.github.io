@@ -31,10 +31,14 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
   await expect(page.locator('.hero-actions').getByRole('link', { name: '了解更多' })).toHaveAttribute('href', '#education');
   await expect(page.locator('.hero-actions').getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
   await expect(page.getByRole('region', { name: '核心经验' })).toContainText('4年经验');
-  await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
-  await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();
-  await expect(page.getByText('CN223978857U', { exact: true })).toBeVisible();
   await expect(page.getByText('1287187051@qq.com', { exact: true }).first()).toBeVisible();
+  await page.getByRole('link', { name: '工作经历', exact: true }).click();
+  await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();
+  await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
+  await page.getByRole('link', { name: '代表项目', exact: true }).click();
+  await expect(page.locator('.project-card')).toHaveCount(3);
+  await page.getByRole('link', { name: '专利', exact: true }).click();
+  await expect(page.getByText('CN223978857U', { exact: true })).toBeVisible();
 });
 
 test('keeps each hero action in its own matching pill and reveals resume dates on hover', async ({ page }) => {
@@ -61,8 +65,11 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
 });
 
 test('prioritizes three selected projects and the complete patent drawing', async ({ page }) => {
+  await page.getByRole('link', { name: '代表项目', exact: true }).click();
   await expect(page.locator('.project-card')).toHaveCount(3);
+  await page.getByRole('link', { name: '工作经历', exact: true }).click();
   await expect(page.locator('.timeline-item--featured')).toContainText('核心研发经历');
+  await page.getByRole('link', { name: '专利', exact: true }).click();
   const drawing = page.getByRole('img', { name: 'CN223978857U 公开专利结构图' });
   await expect(drawing).toHaveAttribute('width', '729');
   await expect(drawing).toHaveAttribute('height', '1000');
@@ -70,13 +77,16 @@ test('prioritizes three selected projects and the complete patent drawing', asyn
 
 test('shows four proof points and two verified patents in both languages', async ({ page }) => {
   await expect(page.locator('.evidence-strip__item')).toHaveCount(4);
+  await page.getByRole('link', { name: '专利', exact: true }).click();
   await expect(page.locator('.patent-card')).toHaveCount(2);
   await expect(page.locator('.patent-card a[href="https://patents.google.com/patent/CN222839946U/zh"]')).toHaveCount(1);
   await expect(page.locator('.patent-card a[href="https://patents.google.com/patent/CN223978857U/zh"]')).toHaveCount(1);
 
   await page.getByRole('button', { name: 'EN', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Published Patents' })).toBeVisible();
+  await page.getByRole('link', { name: 'Overview', exact: true }).click();
   await expect(page.locator('.evidence-strip')).toContainText('3 languages');
+  await page.getByRole('link', { name: 'Patent' }).click();
   await expect(page.locator('.patent-card')).toHaveCount(2);
 });
 
@@ -106,7 +116,8 @@ test('keeps English name headings on one line across desktop widths', async ({ p
 
   for (const width of [1440, 1024]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const selector of ['.hero-section h1', '.contact-section h2']) {
+    for (const [nav, selector] of [['Overview', '.hero-section h1'], ['Contact', '.contact-section h2']] as const) {
+      await page.getByRole('link', { name: nav, exact: true }).click();
       const lineCount = await page.locator(selector).evaluate((element) => {
         const range = document.createRange();
         range.selectNodeContents(element);
@@ -147,10 +158,11 @@ test('navigates to the selected sections and keeps the current section highlight
     await expect(page).toHaveURL(new RegExp(`${hash}$`));
     await expect(page.locator(hash)).toBeVisible();
     await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', hash);
+    await expect(page.locator('main > section')).toHaveCount(1);
   }
 });
 
-test('highlights contact after the hero contact button reaches the bottom of the page', async ({ page }) => {
+test('highlights contact after the hero contact button changes the active module', async ({ page }) => {
   await page.locator('.hero-actions').getByRole('link', { name: '联系我' }).click();
   await expect(page).toHaveURL(/#contact$/);
   await expect(page.locator('#contact')).toBeVisible();
@@ -168,22 +180,26 @@ test('opens safe external links with noopener and noreferrer', async ({ page }) 
 });
 
 test('loads every portfolio image when it enters the viewport', async ({ page }) => {
-  const images = page.locator('main img');
-  expect(await images.count()).toBeGreaterThan(0);
-
-  for (let index = 0; index < (await images.count()); index += 1) {
-    const image = images.nth(index);
-    await image.scrollIntoViewIfNeeded();
-    await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  for (const hash of ['#profile', '#education', '#experience', '#patent', '#industry-context']) {
+    await page.goto(`/${hash}`);
+    const images = page.locator('main img');
+    expect(await images.count()).toBeGreaterThan(0);
+    for (let index = 0; index < (await images.count()); index += 1) {
+      const image = images.nth(index);
+      await image.scrollIntoViewIfNeeded();
+      await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    }
   }
 });
 
 test('has no automatically detectable WCAG A or AA violations', async ({ page }) => {
-  const results = await new AxeBuilder({ page })
-    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-    .analyze();
-
-  expect(results.violations).toEqual([]);
+  for (const hash of ['#profile', '#education']) {
+    await page.goto(`/${hash}`);
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .analyze();
+    expect(results.violations).toEqual([]);
+  }
 });
 
 for (const viewport of [
@@ -192,11 +208,14 @@ for (const viewport of [
 ]) {
   test(`contains no horizontal overflow at ${viewport.width} by ${viewport.height}`, async ({ page }) => {
     await page.setViewportSize(viewport);
-    const metrics = await page.evaluate(() => ({
-      viewport: document.documentElement.clientWidth,
-      page: document.documentElement.scrollWidth,
-    }));
-    expect(metrics.page).toBeLessThanOrEqual(metrics.viewport);
+    for (const hash of ['#profile', '#education']) {
+      await page.goto(`/${hash}`);
+      const metrics = await page.evaluate(() => ({
+        viewport: document.documentElement.clientWidth,
+        page: document.documentElement.scrollWidth,
+      }));
+      expect(metrics.page).toBeLessThanOrEqual(metrics.viewport);
+    }
   });
 }
 
@@ -224,12 +243,35 @@ test('fits the complete navigation inside a phone viewport', async ({ page }) =>
 
 test('stacks education cards before tablet columns become cramped', async ({ page }) => {
   await page.setViewportSize({ width: 600, height: 900 });
+  await page.getByRole('link', { name: '教育经历', exact: true }).click();
 
   const columns = await page.locator('.education-grid').evaluate((grid) =>
     getComputedStyle(grid).gridTemplateColumns.split(' ').length,
   );
 
   expect(columns).toBe(1);
+});
+
+test('opens a selected module directly and restores it through browser history', async ({ page }) => {
+  await page.goto('/#education');
+  await expect(page.locator('#education')).toBeVisible();
+  await expect(page.locator('#profile')).toHaveCount(0);
+  await expect(page.getByText('材料力学')).toBeVisible();
+  await expect(page.getByText('连续介质力学')).toBeVisible();
+  await page.getByRole('link', { name: '代表项目', exact: true }).click();
+  await expect(page.locator('#work')).toBeVisible();
+  await page.goBack();
+  await expect(page.locator('#education')).toBeVisible();
+  await page.goForward();
+  await expect(page.locator('#work')).toBeVisible();
+});
+
+test('keeps education content bilingual in the same view', async ({ page }) => {
+  await page.getByRole('link', { name: '教育经历', exact: true }).click();
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await expect(page.getByText('Mechanics of Materials')).toBeVisible();
+  await expect(page.getByText('Continuum Mechanics')).toBeVisible();
+  await expect(page.locator('.education-card')).toHaveCount(2);
 });
 
 test('keeps phone anchor targets visible below the sticky header', async ({ page }) => {

@@ -4,6 +4,13 @@ import siteContent from '../../public/content/site.json';
 const serialized = JSON.stringify(siteContent);
 
 describe('public content policy', () => {
+  it('uses verified education dates and selected courses without private transcript data', () => {
+    expect(siteContent.education[0].courses.map((course) => course.zh)).toContain('材料力学');
+    expect(siteContent.education[1].period.zh).toBe('2021 至 2022');
+    expect(siteContent.education[1].degree.zh).toBe('机械学学士（航空机械工程方向）');
+    expect(siteContent.education[1].courses.map((course) => course.zh)).toContain('机械设计');
+    expect(serialized).not.toMatch(/成绩单|学号|绩点|GPA|transcript|student number|grade point/i);
+  });
   it('contains the approved career facts and two verified patents', () => {
     expect(serialized).toContain('BMW Brilliance');
     expect(serialized).toContain('宝马华晨');

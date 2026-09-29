@@ -48,6 +48,19 @@ const validContent = {
 };
 
 describe('validateSiteContent', () => {
+  it('requires bilingual coursework for each education entry', () => {
+    const input = structuredClone(validContent) as Record<string, any>;
+    input.education = [{
+      id: 'neu', logo: validContent.profile.portrait,
+      period: bilingual('2018 至 2022', '2018 to 2022'),
+      institution: bilingual('东北大学', 'Northeastern University'),
+      degree: bilingual('工学学士', 'Bachelor of Engineering'),
+      courses: [{ zh: '材料力学' }],
+    }];
+    expect(() => validateSiteContent(input)).toThrow('education[0].courses[0].en must be a non-empty string');
+    input.education[0].courses[0].en = 'Mechanics of Materials';
+    expect(validateSiteContent(input).education[0].courses).toEqual([bilingual('材料力学', 'Mechanics of Materials')]);
+  });
   it('accepts a complete bilingual content document', () => {
     expect(validateSiteContent(validContent)).toEqual(validContent);
   });

@@ -1,9 +1,10 @@
 import { Award, BriefcaseBusiness, FolderKanban, GraduationCap, Mail, UserRound, Wrench, Factory } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import type { Locale } from '../content/types';
+import type { SectionId } from '../lib/sectionNavigation';
 
 interface SiteNavProps {
   locale: Locale;
+  activeId: SectionId;
 }
 
 const groups = [
@@ -21,28 +22,7 @@ const groups = [
   [{ id: 'contact', zh: '联系', en: 'Contact', Icon: Mail }],
 ] as const;
 
-export function SiteNav({ locale }: SiteNavProps) {
-  const [activeId, setActiveId] = useState('profile');
-
-  useEffect(() => {
-    const sections = groups.flat().map(({ id }) => document.getElementById(id)).filter(
-      (section): section is HTMLElement => section !== null,
-    );
-    if (!('IntersectionObserver' in window)) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        if (visible) setActiveId(visible.target.id);
-      },
-      { rootMargin: '-20% 0px -45% 0px', threshold: 0 },
-    );
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
+export function SiteNav({ locale, activeId }: SiteNavProps) {
   return (
     <nav className="site-nav" aria-label={locale === 'zh' ? '主导航' : 'Primary navigation'}>
       <div className="site-nav__groups">
@@ -53,7 +33,6 @@ export function SiteNav({ locale }: SiteNavProps) {
                 <a
                   href={`#${id}`}
                   aria-current={activeId === id ? 'location' : undefined}
-                  onClick={() => setActiveId(id)}
                 >
                   <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
                   <span>{locale === 'zh' ? zh : en}</span>
