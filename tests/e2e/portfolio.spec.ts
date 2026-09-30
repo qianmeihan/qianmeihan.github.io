@@ -272,6 +272,37 @@ test('uses a compact four-column course gallery on desktop and one column on pho
   expect(phoneColumns).toBe(1);
 });
 
+test('separates the schools, keeps the lead on one desktop line, and gives each school one curriculum link', async ({ page }) => {
+  for (const width of [821, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const locale of ['zh', 'en']) {
+      await page.getByRole('button', { name: locale === 'zh' ? '中文' : 'EN', exact: true }).click();
+      const lead = page.locator('.education-section__lead');
+      const dimensions = await lead.evaluate((element) => ({
+        height: element.getBoundingClientRect().height,
+        lineHeight: parseFloat(getComputedStyle(element).lineHeight),
+        scrollWidth: element.scrollWidth,
+        clientWidth: element.clientWidth,
+      }));
+      expect(dimensions.height).toBeLessThan(dimensions.lineHeight * 1.4);
+      expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+    }
+  }
+  await page.getByRole('button', { name: '中文', exact: true }).click();
+  const schools = page.locator('.education-card');
+  await expect(schools).toHaveCount(2);
+  await expect(schools.nth(0).getByRole('link', { name: /学校课程设置/ })).toHaveCount(1);
+  await expect(schools.nth(1).getByRole('link', { name: /学校课程设置/ })).toHaveCount(1);
+  await expect(page.locator('.course-card a')).toHaveCount(0);
+  await expect(page.locator('.education-section__note')).toHaveCount(0);
+  const separator = await schools.nth(1).evaluate((school) => ({
+    width: parseFloat(getComputedStyle(school).borderTopWidth),
+    style: getComputedStyle(school).borderTopStyle,
+  }));
+  expect(separator.width).toBeGreaterThanOrEqual(2);
+  expect(separator.style).toBe('solid');
+});
+
 test('keeps course image attribution visually quiet in the footer', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   const credits = page.getByRole('region', { name: '课程图片来源与许可' });
@@ -290,7 +321,7 @@ test('keeps course photos compact at desktop and phone widths', async ({ page })
   ]) {
     await page.setViewportSize(viewport);
     await page.goto('/#education');
-    const imageFrame = page.locator('.course-card__image-link').first();
+    const imageFrame = page.locator('.course-card__image').first();
     const bounds = await imageFrame.boundingBox();
     expect(bounds).not.toBeNull();
     expect(bounds!.height / bounds!.width).toBeLessThanOrEqual(0.65);
@@ -318,7 +349,7 @@ test('keeps education content bilingual in the same view', async ({ page }) => {
   await expect(page.locator('#education').getByRole('heading', { name: 'Continuum Mechanics' })).toBeVisible();
   await expect(page.locator('.education-card')).toHaveCount(2);
   await expect(page.locator('.course-card')).toHaveCount(11);
-  await expect(page.locator('.course-card__image-link[href^="https://"]')).toHaveCount(11);
+  await expect(page.locator('.course-card__image img')).toHaveCount(11);
 });
 
 test('keeps phone anchor targets visible below the sticky header', async ({ page }) => {

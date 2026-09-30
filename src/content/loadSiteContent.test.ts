@@ -55,16 +55,17 @@ describe('validateSiteContent', () => {
       period: bilingual('2018 至 2022', '2018 to 2022'),
       institution: bilingual('东北大学', 'Northeastern University'),
       degree: bilingual('工学学士', 'Bachelor of Engineering'),
+      curriculumUrl: 'https://sfie.neu.edu.cn/pyfa/list.htm',
       courses: [{
         id: 'materials-mechanics',
         title: { zh: '材料力学' },
         summary: bilingual('结构强度分析。', 'Structural strength analysis.'),
-        courseUrl: 'https://sfie.neu.edu.cn/pyfa/list.htm',
         image: validContent.profile.portrait,
       }],
     }];
     expect(() => validateSiteContent(input)).toThrow('education[0].courses[0].title.en must be a non-empty string');
     input.education[0].courses[0].title.en = 'Mechanics of Materials';
+    expect(validateSiteContent(input).education[0].curriculumUrl).toBe('https://sfie.neu.edu.cn/pyfa/list.htm');
     expect(validateSiteContent(input).education[0].courses[0].title).toEqual(bilingual('材料力学', 'Mechanics of Materials'));
   });
   it('accepts a complete bilingual content document', () => {

@@ -73,6 +73,7 @@ export interface EducationItem {
   period: LocalizedText;
   institution: LocalizedText;
   degree: LocalizedText;
+  curriculumUrl: string;
   courses: EducationCourse[];
 }
 
@@ -80,7 +81,6 @@ export interface EducationCourse {
   id: string;
   title: LocalizedText;
   summary: LocalizedText;
-  courseUrl: string;
   image: MediaItem;
 }
 

@@ -518,6 +518,7 @@
         "zh": "材料科学与工程学士",
         "en": "Bachelor of Engineering in Materials Science and Engineering"
       },
+      "curriculumUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
       "courses": [
         {
           "id": "graphics",
@@ -529,7 +530,6 @@
             "zh": "工程制图与零件表达，是结构沟通的基础。",
             "en": "Engineering drawings and part representation for clear structural communication."
           },
-          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
           "image": {
             "id": "course-graphics-image",
             "src": "/media/edu-engineering-graphics.jpg",
@@ -559,7 +559,6 @@
             "zh": "从受力、变形与强度理解结构可靠性。",
             "en": "Study loads, deformation and strength in structural design."
           },
-          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
           "image": {
             "id": "course-materials-mechanics-image",
             "src": "/media/edu-materials-mechanics.jpg",
@@ -589,7 +588,6 @@
             "zh": "分析机构运动与动力响应。",
             "en": "Analyze mechanism motion and dynamic response."
           },
-          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
           "image": {
             "id": "course-dynamics-image",
             "src": "/media/edu-dynamics.jpg",
@@ -619,7 +617,6 @@
             "zh": "结合显微组织与性能理解材料选型。",
             "en": "Connect microstructure with properties and material selection."
           },
-          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
           "image": {
             "id": "course-material-properties-image",
             "src": "/media/edu-material-properties.jpg",
@@ -649,7 +646,6 @@
             "zh": "建立零件与装配模型，辅助结构设计。",
             "en": "Model parts and assemblies to support structural design."
           },
-          "courseUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
           "image": {
             "id": "course-cad-image",
             "src": "/media/edu-cad.jpg",
@@ -701,6 +697,7 @@
         "zh": "机械学学士（航空机械工程方向）",
         "en": "Bachelor's degree in Mechanics, Aeronautical Mechanical Engineering track"
       },
+      "curriculumUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
       "courses": [
         {
           "id": "mechanics",
@@ -712,7 +709,6 @@
             "zh": "用力学模型理解机械系统的运动与受力。",
             "en": "Use mechanics models to understand loads and motion in machinery."
           },
-          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
           "image": {
             "id": "course-mechanics-image",
             "src": "/media/edu-mechanics.jpg",
@@ -742,7 +738,6 @@
             "zh": "研究应力、应变与材料受载行为。",
             "en": "Study stress, strain and material behavior under load."
           },
-          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
           "image": {
             "id": "course-continuum-mechanics-image",
             "src": "/media/edu-continuum-mechanics.jpg",
@@ -771,7 +766,6 @@
             "zh": "梳理机构方案、连接与装配设计。",
             "en": "Develop mechanisms, joints and assembly choices."
           },
-          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
           "image": {
             "id": "course-mechanical-design-image",
             "src": "/media/edu-mechanical-design.jpg",
@@ -800,7 +794,6 @@
             "zh": "比较金属材料特性与工程选用。",
             "en": "Compare metallic materials and their engineering uses."
           },
-          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
           "image": {
             "id": "course-materials-image",
             "src": "/media/edu-materials.jpg",
@@ -830,7 +823,6 @@
             "zh": "选择加工工艺并考虑零件可制造性。",
             "en": "Choose manufacturing processes with part manufacturability in mind."
           },
-          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
           "image": {
             "id": "course-manufacturing-image",
             "src": "/media/edu-manufacturing.jpg",
@@ -860,7 +852,6 @@
             "zh": "理解结构分析、试验与尺寸设计。",
             "en": "Study structural analysis, testing and sizing."
           },
-          "courseUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
           "image": {
             "id": "course-structures-image",
             "src": "/media/edu-structures.jpg",

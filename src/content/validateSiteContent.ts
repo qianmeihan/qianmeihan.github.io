@@ -153,6 +153,7 @@ function education(value: unknown, path: string): EducationItem {
     period: localized(item.period, `${path}.period`),
     institution: localized(item.institution, `${path}.institution`),
     degree: localized(item.degree, `${path}.degree`),
+    curriculumUrl: string(item.curriculumUrl, `${path}.curriculumUrl`),
     courses: array(item.courses, `${path}.courses`, educationCourse),
   };
 }
@@ -163,7 +164,6 @@ function educationCourse(value: unknown, path: string): EducationCourse {
     id: string(item.id, `${path}.id`),
     title: localized(item.title, `${path}.title`),
     summary: localized(item.summary, `${path}.summary`),
-    courseUrl: string(item.courseUrl, `${path}.courseUrl`),
     image: media(item.image, `${path}.image`),
   };
 }

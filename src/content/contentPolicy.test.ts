@@ -12,11 +12,12 @@ describe('public content policy', () => {
     expect(serialized).not.toMatch(/成绩单|学号|绩点|GPA|transcript|student number|grade point/i);
   });
 
-  it('links illustrated courses to official university curricula with traceable photo licenses', () => {
+  it('links each school to its official curriculum with traceable course photo licenses', () => {
     expect(siteContent.education.map((school) => school.courses.length)).toEqual([5, 6]);
     for (const school of siteContent.education) {
+      expect(school.curriculumUrl).toMatch(/^https:\/\/(?:sfie\.neu\.edu\.cn|fsi\.utoulouse\.fr)\//);
       for (const course of school.courses) {
-        expect(course.courseUrl).toMatch(/^https:\/\/(?:sfie\.neu\.edu\.cn|fsi\.utoulouse\.fr)\//);
+        expect(course).not.toHaveProperty('courseUrl');
         expect(course.image.sourceUrl).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
         expect(course.image.usageNote.zh).toContain('非本人课程作品');
         if (!course.image.credit.en.includes('Public domain') && !course.image.credit.en.includes('CC0')) {

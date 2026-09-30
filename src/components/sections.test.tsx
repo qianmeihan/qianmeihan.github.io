@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { EducationSection } from './EducationSection';
 import { EngineeringSection } from './EngineeringSection';
@@ -62,11 +62,11 @@ describe('optional portfolio sections', () => {
             period: { zh: '2018 至 2022', en: '2018 to 2022' },
             institution: { zh: '东北大学', en: 'Northeastern University' },
             degree: { zh: '工学学士', en: 'Bachelor of Engineering' },
+            curriculumUrl: 'https://sfie.neu.edu.cn/pyfa/list.htm',
             courses: [{
               id: 'materials-mechanics',
               title: { zh: '材料力学', en: 'Mechanics of Materials' },
               summary: { zh: '结构强度分析。', en: 'Structural strength analysis.' },
-              courseUrl: 'https://sfie.neu.edu.cn/pyfa/list.htm',
               image: {
                 id: 'materials-mechanics-photo',
                 src: '/media/edu-materials-mechanics.jpg',
@@ -104,12 +104,21 @@ describe('optional portfolio sections', () => {
     expect(screen.getAllByRole('article')).toHaveLength(13);
     expect(screen.getByText('材料力学')).toBeInTheDocument();
     expect(screen.getByText('连续介质力学')).toBeInTheDocument();
-    expect(screen.getAllByRole('link', { name: /查看学校课程设置/ })).toHaveLength(11);
+    const schools = screen.getAllByRole('article').filter((article) => article.classList.contains('education-card'));
+    expect(schools).toHaveLength(2);
+    expect(within(schools[0]).getByRole('link', { name: /学校课程设置/ })).toHaveAttribute('href', 'https://sfie.neu.edu.cn/pyfa/list.htm');
+    expect(within(schools[1]).getByRole('link', { name: /学校课程设置/ })).toHaveAttribute('href', 'https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma');
+    expect(screen.getAllByRole('link', { name: /学校课程设置/ })).toHaveLength(2);
+    for (const card of document.querySelectorAll('.course-card')) {
+      expect(within(card as HTMLElement).queryByRole('link')).not.toBeInTheDocument();
+    }
+    expect(screen.queryByText(/不是本人上课现场或课程作品/)).not.toBeInTheDocument();
     expect(screen.getAllByRole('img', { name: /课程示意/ })).toHaveLength(11);
     rerender(<EducationSection items={content.education} locale="en" />);
     expect(screen.getByText('Mechanics of Materials')).toBeInTheDocument();
     expect(screen.getByText('Continuum Mechanics')).toBeInTheDocument();
-    expect(screen.getAllByRole('link', { name: /View university curriculum/ })).toHaveLength(11);
+    expect(screen.getAllByRole('link', { name: /University curriculum/ })).toHaveLength(2);
+    expect(screen.queryByText(/Course images are openly licensed/)).not.toBeInTheDocument();
   });
 
   it('visually marks the core R&D experience', () => {
