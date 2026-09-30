@@ -17,8 +17,8 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
       <SectionHeading title={locale === 'zh' ? '教育经历' : 'Education'} />
       <p className="education-section__lead">
         {locale === 'zh'
-          ? '材料科学与机械学背景，课程涵盖结构设计、材料性能与制造工艺。'
-          : 'Materials and mechanics: design, properties, manufacturing.'}
+          ? '材料科学与机械学背景，课程涵盖结构设计、材料性能与制造工艺。跨学科的课程组合为兼顾结构性能与制造可行性的产品设计提供了基础。'
+          : 'Materials and mechanics: design, properties, manufacturing. This cross-disciplinary coursework connects structural performance with manufacturability.'}
       </p>
       <div className="education-schools">
         {items.map((item) => (

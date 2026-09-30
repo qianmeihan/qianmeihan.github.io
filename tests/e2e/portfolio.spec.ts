@@ -90,6 +90,62 @@ test('shows four proof points and two verified patents in both languages', async
   await expect(page.locator('.patent-card')).toHaveCount(2);
 });
 
+test('centers each proof point within its overview cell', async ({ page }) => {
+  for (const width of [1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    const gaps = await page.locator('.evidence-strip__item').evaluateAll((items) =>
+      items.map((item) => {
+        const strip = item.parentElement!.getBoundingClientRect();
+        const cell = item.getBoundingClientRect();
+        const value = item.querySelector('strong')!.getBoundingClientRect();
+        const label = item.querySelector('span')!.getBoundingClientRect();
+        return {
+          valueTop: value.top,
+          top: value.top - strip.top,
+          bottom: strip.bottom - label.bottom,
+          valueCenterOffset: (value.left + value.right - cell.left - cell.right) / 2,
+          labelCenterOffset: (label.left + label.right - cell.left - cell.right) / 2,
+        };
+      }),
+    );
+    expect(gaps).toHaveLength(4);
+    for (const gap of gaps) {
+      expect(Math.abs(gap.top - gap.bottom)).toBeLessThan(11);
+      expect(Math.abs(gap.valueCenterOffset)).toBeLessThan(3);
+      expect(Math.abs(gap.labelCenterOffset)).toBeLessThan(3);
+    }
+    const valueTops = gaps.map((gap) => gap.valueTop);
+    expect(Math.max(...valueTops) - Math.min(...valueTops)).toBeLessThan(2);
+  }
+});
+
+test('keeps proof point values on one line in the narrow desktop layout', async ({ page }) => {
+  await page.setViewportSize({ width: 821, height: 900 });
+  const layout = await page.locator('.evidence-strip').evaluate((strip) => ({
+    columns: getComputedStyle(strip).gridTemplateColumns.split(' ').length,
+    values: [...strip.querySelectorAll('strong')].map((value) => ({
+      height: value.getBoundingClientRect().height,
+      lineHeight: parseFloat(getComputedStyle(value).lineHeight),
+    })),
+  }));
+  expect(layout.columns).toBe(2);
+  for (const value of layout.values) {
+    expect(value.height).toBeLessThan(value.lineHeight * 1.2);
+  }
+});
+
+test('keeps the three-process proof point label on one line at desktop width', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 900 });
+  const label = page.locator('.evidence-strip__item').nth(1).locator('span');
+  await expect(label).toHaveText('冲压、压铸、注塑件设计');
+  const renderedLines = await label.evaluate((element) => {
+    const text = document.createRange();
+    text.selectNodeContents(element);
+    return text.getClientRects().length;
+  });
+  expect(renderedLines).toBe(1);
+});
+
 test('switches to English without a reload and persists the choice', async ({ page }) => {
   await page.getByRole('button', { name: 'EN', exact: true }).click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Meihan Qian');
@@ -280,13 +336,19 @@ test('groups each school with a quiet header instead of a heavy divider', async 
     for (const locale of ['zh', 'en']) {
       await page.getByRole('button', { name: locale === 'zh' ? '中文' : 'EN', exact: true }).click();
       const lead = page.locator('.education-section__lead');
+      if (locale === 'zh') {
+        await expect(lead).toContainText('跨学科的课程组合为兼顾结构性能与制造可行性的产品设计提供了基础。');
+        await expect(lead).not.toContainText('我');
+      } else {
+        await expect(lead).toContainText('cross-disciplinary coursework');
+      }
       const dimensions = await lead.evaluate((element) => ({
         height: element.getBoundingClientRect().height,
         lineHeight: parseFloat(getComputedStyle(element).lineHeight),
         scrollWidth: element.scrollWidth,
         clientWidth: element.clientWidth,
       }));
-      expect(dimensions.height).toBeLessThan(dimensions.lineHeight * 1.4);
+      expect(dimensions.height).toBeLessThan(dimensions.lineHeight * 3.4);
       expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
     }
   }
