@@ -43,7 +43,7 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
                     {locale === 'zh' ? '学校课程设置 ↗' : 'University curriculum ↗'}
                   </a>
                 </div>
-                <div className="education-course-grid" data-course-count={item.courses.length}>
+                <div className="education-course-grid">
                   {item.courses.map((course) => (
                     <article className="course-card" key={course.id}>
                       <div className="course-card__image">

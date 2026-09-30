@@ -1027,31 +1027,6 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   line-height: 1.55;
 }
 
-@media (min-width: 1101px) {
-  .education-course-grid[data-course-count='5'] .course-card:last-child,
-  .education-course-grid[data-course-count='6'] .course-card:nth-last-child(-n + 2) {
-    display: grid;
-    grid-template-rows: minmax(0, 1fr);
-    height: 8rem;
-  }
-
-  .education-course-grid[data-course-count='5'] .course-card:last-child {
-    grid-column: span 4;
-    grid-template-columns: 24% minmax(0, 1fr);
-  }
-
-  .education-course-grid[data-course-count='6'] .course-card:nth-last-child(-n + 2) {
-    grid-column: span 2;
-    grid-template-columns: 40% minmax(0, 1fr);
-  }
-
-  .education-course-grid[data-course-count='5'] .course-card:last-child .course-card__image,
-  .education-course-grid[data-course-count='6'] .course-card:nth-last-child(-n + 2) .course-card__image {
-    height: 100%;
-    aspect-ratio: auto;
-  }
-}
-
 html[lang='en'] .education-card h3 {
   font-size: clamp(1.08rem, 1.7vw, 1.4rem);
   letter-spacing: -0.02em;

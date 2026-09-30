@@ -246,30 +246,32 @@ test('fits the complete navigation inside a phone viewport', async ({ page }) =>
   }
 });
 
-test('uses a compact four-column course gallery on desktop and one column on phones', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.getByRole('link', { name: '教育经历', exact: true }).click();
-  const desktopColumns = await page.locator('.education-course-grid').first().evaluate((grid) =>
-    getComputedStyle(grid).gridTemplateColumns.split(' ').length,
-  );
-  expect(desktopColumns).toBe(4);
-  const firstSchoolHeight = await page.locator('.education-card').first().evaluate((card) => card.getBoundingClientRect().height);
-  expect(firstSchoolHeight).toBeLessThan(560);
-  const firstGrid = page.locator('.education-course-grid').first();
-  const firstGridWidth = await firstGrid.evaluate((grid) => grid.getBoundingClientRect().width);
-  const lastCardWidth = await firstGrid.locator('.course-card').last().evaluate((card) => card.getBoundingClientRect().width);
-  expect(lastCardWidth).toBeGreaterThan(firstGridWidth * 0.9);
-  const secondGrid = page.locator('.education-course-grid').nth(1);
-  const secondGridWidth = await secondGrid.evaluate((grid) => grid.getBoundingClientRect().width);
-  for (const index of [4, 5]) {
-    const cardWidth = await secondGrid.locator('.course-card').nth(index).evaluate((card) => card.getBoundingClientRect().width);
-    expect(cardWidth).toBeGreaterThan(secondGridWidth * 0.45);
+test('keeps the final course row in the same card format at every breakpoint', async ({ page }) => {
+  for (const [width, expectedColumns] of [[1440, 4], [1024, 3], [768, 2], [390, 1]] as const) {
+    await page.setViewportSize({ width, height: 900 });
+    const grids = page.locator('.education-course-grid');
+    for (const grid of await grids.all()) {
+      const columns = await grid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length);
+      expect(columns).toBe(expectedColumns);
+      const cards = grid.locator('.course-card');
+      const firstWidth = await cards.first().evaluate((card) => card.getBoundingClientRect().width);
+      const firstImageRatio = await cards.first().locator('.course-card__image').evaluate((image) => {
+        const bounds = image.getBoundingClientRect();
+        return bounds.width / bounds.height;
+      });
+      const cardCount = await cards.count();
+      for (const index of [4, 5]) {
+        if (index >= cardCount) continue;
+        const lastWidth = await cards.nth(index).evaluate((card) => card.getBoundingClientRect().width);
+        const lastImageRatio = await cards.nth(index).locator('.course-card__image').evaluate((image) => {
+          const bounds = image.getBoundingClientRect();
+          return bounds.width / bounds.height;
+        });
+        expect(Math.abs(lastWidth - firstWidth)).toBeLessThan(2);
+        expect(Math.abs(lastImageRatio - firstImageRatio)).toBeLessThan(0.05);
+      }
+    }
   }
-  await page.setViewportSize({ width: 390, height: 844 });
-  const phoneColumns = await page.locator('.education-course-grid').first().evaluate((grid) =>
-    getComputedStyle(grid).gridTemplateColumns.split(' ').length,
-  );
-  expect(phoneColumns).toBe(1);
 });
 
 test('separates the schools, keeps the lead on one desktop line, and gives each school one curriculum link', async ({ page }) => {
