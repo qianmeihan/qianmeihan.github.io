@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ContactSection } from './components/ContactSection';
+import { CourseImageCredits } from './components/CourseImageCredits';
 import { EducationSection } from './components/EducationSection';
 import { EngineeringSection } from './components/EngineeringSection';
 import { ExperienceSection } from './components/ExperienceSection';
@@ -166,8 +167,11 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
             <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />
           </main>
           <footer className="site-footer">
-            <span>© 2026 {localized(content.profile.name, locale)}</span>
-            <a href="#profile">{locale === 'zh' ? '返回概述' : 'Back to overview'}</a>
+            <div className="site-footer__top">
+              <span>© 2026 {localized(content.profile.name, locale)}</span>
+              <a href="#profile">{locale === 'zh' ? '返回概述' : 'Back to overview'}</a>
+            </div>
+            <CourseImageCredits items={content.education} locale={locale} />
           </footer>
         </div>
       </div>

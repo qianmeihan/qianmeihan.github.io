@@ -89,6 +89,20 @@ describe('App', () => {
     expect(window.scrollTo).not.toHaveBeenCalled();
   });
 
+  it('moves each course image attribution to a small footer list', async () => {
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    const credits = await screen.findByRole('region', { name: '课程图片来源与许可' });
+    expect(within(credits).getAllByRole('listitem')).toHaveLength(11);
+    expect(within(credits).getAllByRole('link', { name: '许可协议' })).toHaveLength(7);
+    expect(within(credits).getByText('材料力学')).toBeInTheDocument();
+    expect(within(credits).getByRole('link', { name: 'Sigmund / CC BY-SA 3.0' })).toHaveAttribute(
+      'href',
+      'https://commons.wikimedia.org/wiki/File:Cast_iron_tensile_test.JPG',
+    );
+    expect(credits).toHaveTextContent('缩放');
+    expect(within(container.querySelector('#education') as HTMLElement).queryByRole('link', { name: '许可协议' })).not.toBeInTheDocument();
+  });
+
   it('keeps the selected module when skipping to main content', async () => {
     window.history.replaceState(null, '', '/#education');
     const user = userEvent.setup();

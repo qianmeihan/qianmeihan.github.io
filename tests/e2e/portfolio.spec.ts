@@ -246,18 +246,41 @@ test('fits the complete navigation inside a phone viewport', async ({ page }) =>
   }
 });
 
-test('uses a three-column course gallery on desktop and one column on phones', async ({ page }) => {
+test('uses a compact four-column course gallery on desktop and one column on phones', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.getByRole('link', { name: '教育经历', exact: true }).click();
   const desktopColumns = await page.locator('.education-course-grid').first().evaluate((grid) =>
     getComputedStyle(grid).gridTemplateColumns.split(' ').length,
   );
-  expect(desktopColumns).toBe(3);
+  expect(desktopColumns).toBe(4);
+  const firstSchoolHeight = await page.locator('.education-card').first().evaluate((card) => card.getBoundingClientRect().height);
+  expect(firstSchoolHeight).toBeLessThan(560);
+  const firstGrid = page.locator('.education-course-grid').first();
+  const firstGridWidth = await firstGrid.evaluate((grid) => grid.getBoundingClientRect().width);
+  const lastCardWidth = await firstGrid.locator('.course-card').last().evaluate((card) => card.getBoundingClientRect().width);
+  expect(lastCardWidth).toBeGreaterThan(firstGridWidth * 0.9);
+  const secondGrid = page.locator('.education-course-grid').nth(1);
+  const secondGridWidth = await secondGrid.evaluate((grid) => grid.getBoundingClientRect().width);
+  for (const index of [4, 5]) {
+    const cardWidth = await secondGrid.locator('.course-card').nth(index).evaluate((card) => card.getBoundingClientRect().width);
+    expect(cardWidth).toBeGreaterThan(secondGridWidth * 0.45);
+  }
   await page.setViewportSize({ width: 390, height: 844 });
   const phoneColumns = await page.locator('.education-course-grid').first().evaluate((grid) =>
     getComputedStyle(grid).gridTemplateColumns.split(' ').length,
   );
   expect(phoneColumns).toBe(1);
+});
+
+test('keeps course image attribution visually quiet in the footer', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const credits = page.getByRole('region', { name: '课程图片来源与许可' });
+  await expect(credits.getByRole('listitem')).toHaveCount(11);
+  const desktopFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
+  expect(desktopFontSize).toBeLessThan(10.5);
+  await page.setViewportSize({ width: 390, height: 844 });
+  const phoneFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
+  expect(phoneFontSize).toBeGreaterThanOrEqual(10);
 });
 
 test('keeps course photos compact at desktop and phone widths', async ({ page }) => {
@@ -278,8 +301,8 @@ test('opens a selected module directly and restores it through browser history',
   await page.goto('/#education');
   await expect(page.locator('#education')).toBeVisible();
   await expect(page.locator('#profile')).toHaveCount(1);
-  await expect(page.getByText('材料力学')).toBeVisible();
-  await expect(page.getByText('连续介质力学')).toBeVisible();
+  await expect(page.locator('#education').getByRole('heading', { name: '材料力学' })).toBeVisible();
+  await expect(page.locator('#education').getByRole('heading', { name: '连续介质力学' })).toBeVisible();
   await page.getByRole('link', { name: '代表项目', exact: true }).click();
   await expect(page.locator('#work')).toBeVisible();
   await page.goBack();
@@ -291,8 +314,8 @@ test('opens a selected module directly and restores it through browser history',
 test('keeps education content bilingual in the same view', async ({ page }) => {
   await page.getByRole('link', { name: '教育经历', exact: true }).click();
   await page.getByRole('button', { name: 'EN', exact: true }).click();
-  await expect(page.getByText('Mechanics of Materials')).toBeVisible();
-  await expect(page.getByText('Continuum Mechanics')).toBeVisible();
+  await expect(page.locator('#education').getByRole('heading', { name: 'Mechanics of Materials' })).toBeVisible();
+  await expect(page.locator('#education').getByRole('heading', { name: 'Continuum Mechanics' })).toBeVisible();
   await expect(page.locator('.education-card')).toHaveCount(2);
   await expect(page.locator('.course-card')).toHaveCount(11);
   await expect(page.locator('.course-card__image-link[href^="https://"]')).toHaveCount(11);
