@@ -247,7 +247,7 @@ test('fits the complete navigation inside a phone viewport', async ({ page }) =>
 });
 
 test('keeps the final course row in the same card format at every breakpoint', async ({ page }) => {
-  for (const [width, expectedColumns] of [[1440, 4], [1024, 3], [768, 2], [390, 1]] as const) {
+  for (const [width, expectedColumns] of [[1440, 4], [1024, 3], [821, 2], [768, 2], [390, 1]] as const) {
     await page.setViewportSize({ width, height: 900 });
     const grids = page.locator('.education-course-grid');
     for (const grid of await grids.all()) {
@@ -274,7 +274,7 @@ test('keeps the final course row in the same card format at every breakpoint', a
   }
 });
 
-test('separates the schools, keeps the lead on one desktop line, and gives each school one curriculum link', async ({ page }) => {
+test('groups each school with a quiet header instead of a heavy divider', async ({ page }) => {
   for (const width of [821, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const locale of ['zh', 'en']) {
@@ -293,16 +293,36 @@ test('separates the schools, keeps the lead on one desktop line, and gives each 
   await page.getByRole('button', { name: '中文', exact: true }).click();
   const schools = page.locator('.education-card');
   await expect(schools).toHaveCount(2);
-  await expect(schools.nth(0).getByRole('link', { name: /学校课程设置/ })).toHaveCount(1);
-  await expect(schools.nth(1).getByRole('link', { name: /学校课程设置/ })).toHaveCount(1);
+  await expect(schools.nth(0).locator('.education-card__header').getByRole('link', { name: /学校课程设置/ })).toHaveCount(1);
+  await expect(schools.nth(1).locator('.education-card__header').getByRole('link', { name: /学校课程设置/ })).toHaveCount(1);
   await expect(page.locator('.course-card a')).toHaveCount(0);
   await expect(page.locator('.education-section__note')).toHaveCount(0);
-  const separator = await schools.nth(1).evaluate((school) => ({
-    width: parseFloat(getComputedStyle(school).borderTopWidth),
-    style: getComputedStyle(school).borderTopStyle,
-  }));
-  expect(separator.width).toBeGreaterThanOrEqual(2);
-  expect(separator.style).toBe('solid');
+  for (const school of await schools.all()) {
+    const header = school.locator('.education-card__header');
+    const colors = await header.evaluate((element) => ({
+      header: getComputedStyle(element).backgroundColor,
+      section: getComputedStyle(element.closest('.education-section')!).backgroundColor,
+    }));
+    expect(colors.header).not.toBe('rgba(0, 0, 0, 0)');
+    expect(colors.header).not.toBe(colors.section);
+  }
+  const separatorWidth = await schools.nth(1).evaluate((school) => parseFloat(getComputedStyle(school).borderTopWidth));
+  expect(separatorWidth).toBeLessThanOrEqual(1);
+});
+
+test('short content sections end near their content rather than leaving a viewport-sized blank tail', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  for (const [sectionSelector, contentSelector] of [
+    ['#work', '.project-list'],
+    ['#skills', '.skills-grid'],
+  ] as const) {
+    const trailingSpace = await page.locator(sectionSelector).evaluate((section, selector) => {
+      const content = section.querySelector(selector as string);
+      if (!content) throw new Error(`Missing content ${selector}`);
+      return section.getBoundingClientRect().bottom - content.getBoundingClientRect().bottom;
+    }, contentSelector);
+    expect(trailingSpace, `${sectionSelector} has a consistent lower margin`).toBeLessThan(140);
+  }
 });
 
 test('keeps course image attribution visually quiet in the footer', async ({ page }) => {

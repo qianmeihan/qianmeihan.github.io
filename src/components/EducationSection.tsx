@@ -34,14 +34,14 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
                 <h3>{localized(item.institution, locale)}</h3>
                 <p className="education-card__degree">{localized(item.degree, locale)}</p>
               </div>
+              <a className="education-card__curriculum" href={item.curriculumUrl} target="_blank" rel="noopener noreferrer">
+                {locale === 'zh' ? '学校课程设置 ↗' : 'University curriculum ↗'}
+              </a>
             </div>
             {item.courses.length > 0 && (
               <div className="education-card__coursework">
                 <div className="education-card__coursework-heading">
                   <h4>{locale === 'zh' ? '精选课程' : 'Selected coursework'}</h4>
-                  <a href={item.curriculumUrl} target="_blank" rel="noopener noreferrer">
-                    {locale === 'zh' ? '学校课程设置 ↗' : 'University curriculum ↗'}
-                  </a>
                 </div>
                 <div className="education-course-grid">
                   {item.courses.map((course) => (
