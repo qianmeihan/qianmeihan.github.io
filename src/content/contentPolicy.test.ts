@@ -13,7 +13,13 @@ describe('public content policy', () => {
   });
 
   it('links each school to its official curriculum with traceable course photo licenses', () => {
-    expect(siteContent.education.map((school) => school.courses.length)).toEqual([5, 6]);
+    expect(siteContent.education.map((school) => school.courses.length)).toEqual([8, 8]);
+    expect(siteContent.education[0].courses.slice(0, 4).map((course) => course.title.zh)).toEqual([
+      '机械工程', '材料力学', '流体力学', '动力学',
+    ]);
+    expect(siteContent.education[1].courses.slice(0, 4).map((course) => course.title.zh)).toEqual([
+      '机械设计', '连续介质力学', '机械学', '结构',
+    ]);
     for (const school of siteContent.education) {
       expect(school.curriculumUrl).toMatch(/^https:\/\/(?:sfie\.neu\.edu\.cn|fsi\.utoulouse\.fr)\//);
       for (const course of school.courses) {

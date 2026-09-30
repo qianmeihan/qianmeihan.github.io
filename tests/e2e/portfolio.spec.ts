@@ -328,7 +328,7 @@ test('short content sections end near their content rather than leaving a viewpo
 test('keeps course image attribution visually quiet in the footer', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   const credits = page.getByRole('region', { name: '课程图片来源与许可' });
-  await expect(credits.getByRole('listitem')).toHaveCount(11);
+  await expect(credits.getByRole('listitem')).toHaveCount(16);
   const desktopFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
   expect(desktopFontSize).toBeLessThan(10.5);
   await page.setViewportSize({ width: 390, height: 844 });
@@ -370,8 +370,8 @@ test('keeps education content bilingual in the same view', async ({ page }) => {
   await expect(page.locator('#education').getByRole('heading', { name: 'Mechanics of Materials' })).toBeVisible();
   await expect(page.locator('#education').getByRole('heading', { name: 'Continuum Mechanics' })).toBeVisible();
   await expect(page.locator('.education-card')).toHaveCount(2);
-  await expect(page.locator('.course-card')).toHaveCount(11);
-  await expect(page.locator('.course-card__image img')).toHaveCount(11);
+  await expect(page.locator('.course-card')).toHaveCount(16);
+  await expect(page.locator('.course-card__image img')).toHaveCount(16);
 });
 
 test('keeps phone anchor targets visible below the sticky header', async ({ page }) => {

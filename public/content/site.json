@@ -521,28 +521,28 @@
       "curriculumUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
       "courses": [
         {
-          "id": "graphics",
+          "id": "mechanical-engineering",
           "title": {
-            "zh": "工程图学基础",
-            "en": "Fundamentals of Engineering Graphics"
+            "zh": "机械工程",
+            "en": "Mechanical Engineering"
           },
           "summary": {
-            "zh": "工程制图与零件表达，是结构沟通的基础。",
-            "en": "Engineering drawings and part representation for clear structural communication."
+            "zh": "从机构与零件出发，理解机械系统的设计。",
+            "en": "Explore the design of mechanisms, components and mechanical systems."
           },
           "image": {
-            "id": "course-graphics-image",
-            "src": "/media/edu-engineering-graphics.jpg",
+            "id": "course-mechanical-engineering-image",
+            "src": "/media/edu-mechanical-engineering.jpg",
             "alt": {
-              "zh": "课程示意：机械图纸与设计手册",
-              "en": "Course illustration: mechanical drawings and a design handbook"
+              "zh": "课程示意：剖开展示内部结构的发动机",
+              "en": "Course illustration: engine cutaway showing internal mechanisms"
             },
             "credit": {
-              "zh": "Benrobuck / CC BY-SA 3.0",
-              "en": "Benrobuck / CC BY-SA 3.0"
+              "zh": "Mike Babcock / CC BY 2.0",
+              "en": "Mike Babcock / CC BY 2.0"
             },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_drawings_with_Machinery%27s_Handbook.jpg",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engine_cutaway_(3287511436).jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
             "usageNote": {
               "zh": "课程主题示意，非本人课程作品或学校官方教学照",
               "en": "Topic illustration, not a personal course project or university teaching photo"
@@ -579,6 +579,35 @@
           }
         },
         {
+          "id": "fluid-mechanics",
+          "title": {
+            "zh": "流体力学",
+            "en": "Fluid Mechanics"
+          },
+          "summary": {
+            "zh": "分析流动与阻力，理解流体系统的工程行为。",
+            "en": "Analyze flow and resistance in engineering fluid systems."
+          },
+          "image": {
+            "id": "course-fluid-mechanics-image",
+            "src": "/media/edu-fluid-mechanics.jpg",
+            "alt": {
+              "zh": "课程示意：实验室中的水槽流动试验",
+              "en": "Course illustration: laboratory flume flow experiment"
+            },
+            "credit": {
+              "zh": "Simon Fraser University / CC BY 2.0",
+              "en": "Simon Fraser University / CC BY 2.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flume_channel.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
           "id": "dynamics",
           "title": {
             "zh": "动力学",
@@ -608,6 +637,92 @@
           }
         },
         {
+          "id": "cad",
+          "title": {
+            "zh": "计算机辅助设计（CAD）",
+            "en": "Computer-Aided Design (CAD)"
+          },
+          "summary": {
+            "zh": "建立零件与装配模型，辅助结构设计。",
+            "en": "Model parts and assemblies to support structural design."
+          },
+          "image": {
+            "id": "course-cad-image",
+            "src": "/media/edu-cad.jpg",
+            "alt": {
+              "zh": "课程示意：工程师使用 CAD 工作站",
+              "en": "Course illustration: an engineer using a CAD workstation"
+            },
+            "credit": {
+              "zh": "Hughes Aircraft Company / 公有领域",
+              "en": "Hughes Aircraft Company / Public domain"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineer_working_on_CAD_workstation_with_light_pen_Hughes_Aircraft_Company.jpg",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "electrical-automation",
+          "title": {
+            "zh": "电气自动化",
+            "en": "Electrical Automation"
+          },
+          "summary": {
+            "zh": "理解电机与自动化系统的基本构成。",
+            "en": "Understand the fundamentals of motors and automated systems."
+          },
+          "image": {
+            "id": "course-electrical-automation-image",
+            "src": "/media/edu-electrical-automation.jpg",
+            "alt": {
+              "zh": "课程示意：电机转子结构细节",
+              "en": "Course illustration: close-up of an electric motor rotor"
+            },
+            "credit": {
+              "zh": "© Raimond Spekking / CC BY-SA 4.0 (via Wikimedia Commons)",
+              "en": "© Raimond Spekking / CC BY-SA 4.0 (via Wikimedia Commons)"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Electric_motor_rotor_with_balance_drill-holes-8594.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "graphics",
+          "title": {
+            "zh": "工程图学基础",
+            "en": "Fundamentals of Engineering Graphics"
+          },
+          "summary": {
+            "zh": "工程制图与零件表达，是结构沟通的基础。",
+            "en": "Engineering drawings and part representation for clear structural communication."
+          },
+          "image": {
+            "id": "course-graphics-image",
+            "src": "/media/edu-engineering-graphics.jpg",
+            "alt": {
+              "zh": "课程示意：机械图纸与设计手册",
+              "en": "Course illustration: mechanical drawings and a design handbook"
+            },
+            "credit": {
+              "zh": "Benrobuck / CC BY-SA 3.0",
+              "en": "Benrobuck / CC BY-SA 3.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_drawings_with_Machinery%27s_Handbook.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
           "id": "material-properties",
           "title": {
             "zh": "材料性能",
@@ -630,34 +745,6 @@
             },
             "sourceUrl": "https://commons.wikimedia.org/wiki/File:Color_Metallography_of_Engineering_Alloys.jpg",
             "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
-            "usageNote": {
-              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
-              "en": "Topic illustration, not a personal course project or university teaching photo"
-            }
-          }
-        },
-        {
-          "id": "cad",
-          "title": {
-            "zh": "计算机辅助设计（CAD）",
-            "en": "Computer-Aided Design (CAD)"
-          },
-          "summary": {
-            "zh": "建立零件与装配模型，辅助结构设计。",
-            "en": "Model parts and assemblies to support structural design."
-          },
-          "image": {
-            "id": "course-cad-image",
-            "src": "/media/edu-cad.jpg",
-            "alt": {
-              "zh": "课程示意：工程师使用 CAD 工作站",
-              "en": "Course illustration: an engineer using a CAD workstation"
-            },
-            "credit": {
-              "zh": "Hughes Aircraft Company / 公有领域",
-              "en": "Hughes Aircraft Company / Public domain"
-            },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineer_working_on_CAD_workstation_with_light_pen_Hughes_Aircraft_Company.jpg",
             "usageNote": {
               "zh": "课程主题示意，非本人课程作品或学校官方教学照",
               "en": "Topic illustration, not a personal course project or university teaching photo"
@@ -700,28 +787,27 @@
       "curriculumUrl": "https://fsi.utoulouse.fr/licence-parcours-genie-mecanique-en-aeronautique-gma",
       "courses": [
         {
-          "id": "mechanics",
+          "id": "mechanical-design",
           "title": {
-            "zh": "机械学",
-            "en": "Mechanics"
+            "zh": "机械设计",
+            "en": "Mechanical Design"
           },
           "summary": {
-            "zh": "用力学模型理解机械系统的运动与受力。",
-            "en": "Use mechanics models to understand loads and motion in machinery."
+            "zh": "梳理机构方案、连接与装配设计。",
+            "en": "Develop mechanisms, joints and assembly choices."
           },
           "image": {
-            "id": "course-mechanics-image",
-            "src": "/media/edu-mechanics.jpg",
+            "id": "course-mechanical-design-image",
+            "src": "/media/edu-mechanical-design.jpg",
             "alt": {
-              "zh": "课程示意：贝内特四连杆机构实物",
-              "en": "Course illustration: a physical Bennett four-bar linkage"
+              "zh": "课程示意：机械零件原型",
+              "en": "Course illustration: a mechanical component prototype"
             },
             "credit": {
-              "zh": "Twdragon / CC BY-SA 3.0",
-              "en": "Twdragon / CC BY-SA 3.0"
+              "zh": "NASA / Ben Smegelsky / Public domain",
+              "en": "NASA / Ben Smegelsky / Public domain"
             },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bennett_four-bar_linkage.jpg",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_Labs-_Prototype_Development_Laboratory_(PDL)_(KSC-20201021-PH-JBS01_0020).jpg",
             "usageNote": {
               "zh": "课程主题示意，非本人课程作品或学校官方教学照",
               "en": "Topic illustration, not a personal course project or university teaching photo"
@@ -757,27 +843,28 @@
           }
         },
         {
-          "id": "mechanical-design",
+          "id": "mechanics",
           "title": {
-            "zh": "机械设计",
-            "en": "Mechanical Design"
+            "zh": "机械学",
+            "en": "Mechanics"
           },
           "summary": {
-            "zh": "梳理机构方案、连接与装配设计。",
-            "en": "Develop mechanisms, joints and assembly choices."
+            "zh": "用力学模型理解机械系统的运动与受力。",
+            "en": "Use mechanics models to understand loads and motion in machinery."
           },
           "image": {
-            "id": "course-mechanical-design-image",
-            "src": "/media/edu-mechanical-design.jpg",
+            "id": "course-mechanics-image",
+            "src": "/media/edu-mechanics.jpg",
             "alt": {
-              "zh": "课程示意：机械零件原型",
-              "en": "Course illustration: a mechanical component prototype"
+              "zh": "课程示意：贝内特四连杆机构实物",
+              "en": "Course illustration: a physical Bennett four-bar linkage"
             },
             "credit": {
-              "zh": "NASA / Ben Smegelsky / Public domain",
-              "en": "NASA / Ben Smegelsky / Public domain"
+              "zh": "Twdragon / CC BY-SA 3.0",
+              "en": "Twdragon / CC BY-SA 3.0"
             },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_Labs-_Prototype_Development_Laboratory_(PDL)_(KSC-20201021-PH-JBS01_0020).jpg",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bennett_four-bar_linkage.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
             "usageNote": {
               "zh": "课程主题示意，非本人课程作品或学校官方教学照",
               "en": "Topic illustration, not a personal course project or university teaching photo"
@@ -785,28 +872,85 @@
           }
         },
         {
-          "id": "materials",
+          "id": "structures",
           "title": {
-            "zh": "材料",
-            "en": "Materials"
+            "zh": "结构",
+            "en": "Structures"
           },
           "summary": {
-            "zh": "比较金属材料特性与工程选用。",
-            "en": "Compare metallic materials and their engineering uses."
+            "zh": "理解结构分析、试验与尺寸设计。",
+            "en": "Study structural analysis, testing and sizing."
           },
           "image": {
-            "id": "course-materials-image",
-            "src": "/media/edu-materials.jpg",
+            "id": "course-structures-image",
+            "src": "/media/edu-structures.jpg",
             "alt": {
-              "zh": "课程示意：不同金属材料样品",
-              "en": "Course illustration: samples of different metals"
+              "zh": "课程示意：机翼结构试验装置",
+              "en": "Course illustration: an aircraft-wing structural test rig"
             },
             "credit": {
-              "zh": "Bill Abbott / CC BY-SA 2.0",
-              "en": "Bill Abbott / CC BY-SA 2.0"
+              "zh": "NASA / Carla Escamilla / Public domain",
+              "en": "NASA / Carla Escamilla / Public domain"
             },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Alloy_and_metal_samples_-_Beryllium-Copper,_Inconel,_Steel,_Titanium,_Aluminum,_Magnesium.jpg",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:NASA_Pushes_Wing_Design_to_Find_Its_Structural_Limits_(AFRC2025-0136-2115).jpg",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "automatic-control",
+          "title": {
+            "zh": "自动控制",
+            "en": "Automatic Control"
+          },
+          "summary": {
+            "zh": "理解控制回路、执行元件与系统响应。",
+            "en": "Study control loops, actuators and system response."
+          },
+          "image": {
+            "id": "course-automatic-control-image",
+            "src": "/media/edu-automatic-control.jpg",
+            "alt": {
+              "zh": "课程示意：工业控制面板及电气元件",
+              "en": "Course illustration: industrial control panel and electrical components"
+            },
+            "credit": {
+              "zh": "Nenad Stojković / CC BY 2.0",
+              "en": "Nenad Stojković / CC BY 2.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Control_panel_with_electrical_components_and_buttons.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+            "usageNote": {
+              "zh": "课程主题示意，非本人课程作品或学校官方教学照",
+              "en": "Topic illustration, not a personal course project or university teaching photo"
+            }
+          }
+        },
+        {
+          "id": "scientific-computing",
+          "title": {
+            "zh": "科学计算",
+            "en": "Scientific Computing"
+          },
+          "summary": {
+            "zh": "用数值网格和计算方法分析工程问题。",
+            "en": "Apply numerical meshes and computation to engineering problems."
+          },
+          "image": {
+            "id": "course-scientific-computing-image",
+            "src": "/media/edu-scientific-computing.jpg",
+            "alt": {
+              "zh": "课程示意：有限元分析所用的数值网格",
+              "en": "Course illustration: numerical mesh used in finite element analysis"
+            },
+            "credit": {
+              "zh": "Abhiram vs 24 / CC BY-SA 4.0",
+              "en": "Abhiram vs 24 / CC BY-SA 4.0"
+            },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Meshing_in_Finite_Element_Analysis.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
             "usageNote": {
               "zh": "课程主题示意，非本人课程作品或学校官方教学照",
               "en": "Topic illustration, not a personal course project or university teaching photo"
@@ -843,27 +987,28 @@
           }
         },
         {
-          "id": "structures",
+          "id": "materials",
           "title": {
-            "zh": "结构",
-            "en": "Structures"
+            "zh": "材料",
+            "en": "Materials"
           },
           "summary": {
-            "zh": "理解结构分析、试验与尺寸设计。",
-            "en": "Study structural analysis, testing and sizing."
+            "zh": "比较金属材料特性与工程选用。",
+            "en": "Compare metallic materials and their engineering uses."
           },
           "image": {
-            "id": "course-structures-image",
-            "src": "/media/edu-structures.jpg",
+            "id": "course-materials-image",
+            "src": "/media/edu-materials.jpg",
             "alt": {
-              "zh": "课程示意：机翼结构试验装置",
-              "en": "Course illustration: an aircraft-wing structural test rig"
+              "zh": "课程示意：不同金属材料样品",
+              "en": "Course illustration: samples of different metals"
             },
             "credit": {
-              "zh": "NASA / Carla Escamilla / Public domain",
-              "en": "NASA / Carla Escamilla / Public domain"
+              "zh": "Bill Abbott / CC BY-SA 2.0",
+              "en": "Bill Abbott / CC BY-SA 2.0"
             },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:NASA_Pushes_Wing_Design_to_Find_Its_Structural_Limits_(AFRC2025-0136-2115).jpg",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Alloy_and_metal_samples_-_Beryllium-Copper,_Inconel,_Steel,_Titanium,_Aluminum,_Magnesium.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
             "usageNote": {
               "zh": "课程主题示意，非本人课程作品或学校官方教学照",
               "en": "Topic illustration, not a personal course project or university teaching photo"

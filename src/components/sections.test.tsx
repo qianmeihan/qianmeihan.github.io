@@ -101,7 +101,7 @@ describe('optional portfolio sections', () => {
     const { default: rawContent } = await import('../../public/content/site.json');
     const content = validateSiteContent(rawContent);
     const { rerender } = render(<EducationSection items={content.education} locale="zh" />);
-    expect(screen.getAllByRole('article')).toHaveLength(13);
+    expect(screen.getAllByRole('article')).toHaveLength(18);
     expect(screen.getByText('材料力学')).toBeInTheDocument();
     expect(screen.getByText('连续介质力学')).toBeInTheDocument();
     const schools = screen.getAllByRole('article').filter((article) => article.classList.contains('education-card'));
@@ -113,7 +113,7 @@ describe('optional portfolio sections', () => {
       expect(within(card as HTMLElement).queryByRole('link')).not.toBeInTheDocument();
     }
     expect(screen.queryByText(/不是本人上课现场或课程作品/)).not.toBeInTheDocument();
-    expect(screen.getAllByRole('img', { name: /课程示意/ })).toHaveLength(11);
+    expect(screen.getAllByRole('img', { name: /课程示意/ })).toHaveLength(16);
     rerender(<EducationSection items={content.education} locale="en" />);
     expect(screen.getByText('Mechanics of Materials')).toBeInTheDocument();
     expect(screen.getByText('Continuum Mechanics')).toBeInTheDocument();

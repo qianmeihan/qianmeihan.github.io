@@ -92,8 +92,8 @@ describe('App', () => {
   it('moves each course image attribution to a small footer list', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     const credits = await screen.findByRole('region', { name: '课程图片来源与许可' });
-    expect(within(credits).getAllByRole('listitem')).toHaveLength(11);
-    expect(within(credits).getAllByRole('link', { name: '许可协议' })).toHaveLength(7);
+    expect(within(credits).getAllByRole('listitem')).toHaveLength(16);
+    expect(within(credits).getAllByRole('link', { name: '许可协议' })).toHaveLength(12);
     expect(within(credits).getByText('材料力学')).toBeInTheDocument();
     expect(within(credits).getByRole('link', { name: 'Sigmund / CC BY-SA 3.0' })).toHaveAttribute(
       'href',
