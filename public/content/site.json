@@ -940,16 +940,16 @@
           },
           "image": {
             "id": "course-scientific-computing-image",
-            "src": "/media/edu-scientific-computing.jpg",
+            "src": "/media/edu-scientific-computing-cfd.jpg",
             "alt": {
-              "zh": "课程示意：有限元分析所用的数值网格",
-              "en": "Course illustration: numerical mesh used in finite element analysis"
+              "zh": "课程示意：催化转化器内部流速数值模拟",
+              "en": "Course illustration: simulated flow velocities inside a catalytic converter"
             },
             "credit": {
-              "zh": "Abhiram vs 24 / CC BY-SA 4.0",
-              "en": "Abhiram vs 24 / CC BY-SA 4.0"
+              "zh": "Atif Masood (FetchCFD) / CC BY-SA 4.0",
+              "en": "Atif Masood (FetchCFD) / CC BY-SA 4.0"
             },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Meshing_in_Finite_Element_Analysis.jpg",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Catalytic-converter-simulation-velocity-streamlines.jpg",
             "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
             "usageNote": {
               "zh": "课程主题示意，非本人课程作品或学校官方教学照",
