@@ -121,20 +121,19 @@ describe('optional portfolio sections', () => {
     expect(screen.queryByText(/Course images are openly licensed/)).not.toBeInTheDocument();
   });
 
-  it('separates the education introduction into two concise thoughts', async () => {
+  it('renders the education introduction as one naturally wrapping paragraph', async () => {
     const { validateSiteContent } = await import('../content/validateSiteContent');
     const { default: rawContent } = await import('../../public/content/site.json');
     const content = validateSiteContent(rawContent);
     const { container, rerender } = render(<EducationSection items={content.education} locale="zh" />);
 
-    const lines = container.querySelectorAll('.education-section__lead-line');
-    expect(lines).toHaveLength(2);
-    expect(lines[0]).toHaveTextContent('材料科学与机械学背景，课程涵盖结构设计、材料性能与制造工艺。');
-    expect(lines[1]).toHaveTextContent('这些课程为兼顾结构性能与制造可行性的产品设计奠定基础。');
-    expect(container.querySelector('.education-section__lead')).not.toHaveTextContent('我');
+    const lead = container.querySelector('.education-section__lead');
+    expect(lead).toHaveTextContent('材料科学与机械学背景，课程涵盖结构设计、材料性能与制造工艺。这些课程为兼顾结构性能与制造可行性的产品设计奠定基础。');
+    expect(lead).not.toHaveTextContent('我');
+    expect(lead?.children).toHaveLength(0);
 
     rerender(<EducationSection items={content.education} locale="en" />);
-    expect(container.querySelectorAll('.education-section__lead-line')).toHaveLength(2);
+    expect(container.querySelector('.education-section__lead')?.children).toHaveLength(0);
   });
 
   it('shows a licensed numerical simulation for scientific computing', async () => {

@@ -889,14 +889,9 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .education-section__lead {
   margin: 0 0 clamp(1.3rem, 3vw, 2rem);
-  max-width: 68ch;
   color: var(--color-ink-soft);
   font-size: clamp(0.9rem, 1.1vw, 1.05rem);
   line-height: 1.55;
-}
-
-.education-section__lead-line {
-  display: block;
 }
 
 .education-schools {

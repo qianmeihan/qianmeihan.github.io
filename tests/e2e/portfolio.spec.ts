@@ -342,24 +342,16 @@ test('groups each school with a quiet header instead of a heavy divider', async 
       } else {
         await expect(lead).toContainText('structural performance with manufacturability');
       }
-      const lines = lead.locator('.education-section__lead-line');
-      await expect(lines).toHaveCount(2);
-      if (locale === 'zh') {
-        const boxes = await lines.evaluateAll((items) => items.map((item) => {
-          const bounds = item.getBoundingClientRect();
-          const lineHeight = parseFloat(getComputedStyle(item).lineHeight);
-          return { top: bounds.top, height: bounds.height, lineHeight };
-        }));
-        expect(boxes[0].height).toBeLessThan(boxes[0].lineHeight * 1.2);
-        expect(boxes[1].height).toBeLessThan(boxes[1].lineHeight * 1.2);
-        expect(boxes[1].top).toBeGreaterThan(boxes[0].top);
-      }
+      await expect(lead.locator('.education-section__lead-line')).toHaveCount(0);
       const dimensions = await lead.evaluate((element) => ({
         height: element.getBoundingClientRect().height,
         lineHeight: parseFloat(getComputedStyle(element).lineHeight),
         scrollWidth: element.scrollWidth,
         clientWidth: element.clientWidth,
       }));
+      if (locale === 'zh' && width === 1440) {
+        expect(dimensions.height).toBeLessThan(dimensions.lineHeight * 1.2);
+      }
       expect(dimensions.height).toBeLessThan(dimensions.lineHeight * 3.4);
       expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
     }

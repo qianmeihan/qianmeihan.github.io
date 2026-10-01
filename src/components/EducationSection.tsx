@@ -12,21 +12,13 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
     return null;
   }
 
-  const leadLines = locale === 'zh'
-    ? [
-        '材料科学与机械学背景，课程涵盖结构设计、材料性能与制造工艺。',
-        '这些课程为兼顾结构性能与制造可行性的产品设计奠定基础。',
-      ]
-    : [
-        'Materials and mechanics: design, properties, manufacturing.',
-        'Together, these courses connect structural performance with manufacturability.',
-      ];
-
   return (
     <section className="content-section education-section" id="education">
       <SectionHeading title={locale === 'zh' ? '教育经历' : 'Education'} />
       <p className="education-section__lead">
-        {leadLines.map((line) => <span className="education-section__lead-line" key={line}>{line}</span>)}
+        {locale === 'zh'
+          ? '材料科学与机械学背景，课程涵盖结构设计、材料性能与制造工艺。这些课程为兼顾结构性能与制造可行性的产品设计奠定基础。'
+          : 'Materials and mechanics: design, properties, manufacturing. Together, these courses connect structural performance with manufacturability.'}
       </p>
       <div className="education-schools">
         {items.map((item) => (
