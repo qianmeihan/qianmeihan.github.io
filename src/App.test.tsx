@@ -152,8 +152,12 @@ describe('App', () => {
   it('shows only three selected engineering projects', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
-    await userEvent.setup().click(screen.getByRole('link', { name: '代表项目' }));
-    expect(container.querySelectorAll('.project-card')).toHaveLength(3);
+    const experience = container.querySelector<HTMLElement>('#experience');
+    const projects = container.querySelector<HTMLElement>('#work');
+    expect(experience).toContainElement(projects);
+    expect(within(projects as HTMLElement).getByRole('heading', { name: '代表项目', level: 3 })).toBeInTheDocument();
+    expect(within(projects as HTMLElement).getAllByRole('article')).toHaveLength(3);
+    expect(screen.getByRole('navigation', { name: '主导航' }).querySelector('a[href="#work"]')).not.toBeInTheDocument();
   });
 
   it('offers separate Chinese and English resume downloads in both languages', async () => {
@@ -213,7 +217,7 @@ describe('App', () => {
 
     expect(container.querySelector('.summary-section')).not.toBeInTheDocument();
     expect(container.querySelector('.section-heading__number')).not.toBeInTheDocument();
-    expect(container.querySelectorAll('.site-nav a svg')).toHaveLength(8);
+    expect(container.querySelectorAll('.site-nav a svg')).toHaveLength(7);
   });
 
   it('shows a bilingual error and retries without exposing the exception', async () => {
@@ -292,7 +296,6 @@ describe('App', () => {
       'profile',
       'education',
       'experience',
-      'work',
       'patent',
       'skills',
       'industry-context',
@@ -331,9 +334,6 @@ describe('App', () => {
       'href',
       '#education',
     );
-    expect(screen.getByRole('link', { name: '代表项目' })).toHaveAttribute(
-      'href',
-      '#work',
-    );
+    expect(within(navigation).queryByRole('link', { name: '代表项目' })).not.toBeInTheDocument();
   });
 });

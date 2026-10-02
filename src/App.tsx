@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ContactSection } from './components/ContactSection';
 import { CourseImageCredits } from './components/CourseImageCredits';
 import { EducationSection } from './components/EducationSection';
-import { EngineeringSection } from './components/EngineeringSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { HeroSection } from './components/HeroSection';
 import { IndustryContextSection } from './components/IndustryContextSection';
@@ -63,10 +62,11 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
     if (loadState.status !== 'ready') return;
 
     const initialTarget = sectionFromHash(window.location.hash);
+    const scrollTarget = window.location.hash === '#work' ? 'work' : initialTarget;
     let frame = 0;
     if (window.location.hash && initialTarget !== 'profile') {
       frame = window.requestAnimationFrame(() => {
-        document.getElementById(initialTarget)?.scrollIntoView({ block: 'start' });
+        document.getElementById(scrollTarget)?.scrollIntoView({ block: 'start' });
       });
     }
 
@@ -159,8 +159,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
           <main id="main-content" ref={mainRef} tabIndex={-1} aria-label={locale === 'zh' ? '主要内容' : 'Main content'}>
             <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
             <EducationSection items={content.education} locale={locale} />
-            <ExperienceSection items={content.experience} locale={locale} />
-            <EngineeringSection items={content.projects} locale={locale} />
+            <ExperienceSection items={content.experience} projects={content.projects} locale={locale} />
             <PatentSection items={content.patents} locale={locale} />
             <SkillsSection groups={content.skillGroups} locale={locale} />
             <IndustryContextSection items={content.industryContext} locale={locale} />

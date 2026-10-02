@@ -35,8 +35,7 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();
   await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
-  await page.getByRole('link', { name: '代表项目', exact: true }).click();
-  await expect(page.locator('.project-card')).toHaveCount(3);
+  await expect(page.locator('#experience .project-card')).toHaveCount(3);
   await page.getByRole('link', { name: '专利', exact: true }).click();
   await expect(page.getByText('CN223978857U', { exact: true })).toBeVisible();
 });
@@ -65,9 +64,8 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
 });
 
 test('prioritizes three selected projects and the complete patent drawing', async ({ page }) => {
-  await page.getByRole('link', { name: '代表项目', exact: true }).click();
-  await expect(page.locator('.project-card')).toHaveCount(3);
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
+  await expect(page.locator('#experience .project-card')).toHaveCount(3);
   await expect(page.locator('.timeline-item--featured')).toContainText('核心研发经历');
   await page.getByRole('link', { name: '专利', exact: true }).click();
   const drawing = page.getByRole('img', { name: 'CN223978857U 公开专利结构图' });
@@ -206,7 +204,6 @@ test('navigates within one continuous page and highlights the selected section',
   for (const [name, hash] of [
     ['教育经历', '#education'],
     ['工作经历', '#experience'],
-    ['代表项目', '#work'],
     ['专利', '#patent'],
     ['联系', '#contact'],
   ] as const) {
@@ -214,7 +211,7 @@ test('navigates within one continuous page and highlights the selected section',
     await expect(page).toHaveURL(new RegExp(`${hash}$`));
     await expect(page.locator(hash)).toBeInViewport();
     await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', hash);
-    await expect(page.locator('main > section')).toHaveCount(9);
+    await expect(page.locator('main > section')).toHaveCount(8);
   }
 });
 
@@ -379,7 +376,7 @@ test('groups each school with a quiet header instead of a heavy divider', async 
 test('short content sections end near their content rather than leaving a viewport-sized blank tail', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   for (const [sectionSelector, contentSelector] of [
-    ['#work', '.project-list'],
+    ['#experience', '.project-list'],
     ['#skills', '.skills-grid'],
   ] as const) {
     const trailingSpace = await page.locator(sectionSelector).evaluate((section, selector) => {
@@ -417,17 +414,22 @@ test('keeps course photos compact at desktop and phone widths', async ({ page })
 });
 
 test('opens a selected module directly and restores it through browser history', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/#work');
+  await expect(page.locator('#work')).toBeInViewport();
+  await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#experience');
   await page.goto('/#education');
   await expect(page.locator('#education')).toBeVisible();
   await expect(page.locator('#profile')).toHaveCount(1);
   await expect(page.locator('#education').getByRole('heading', { name: '材料力学' })).toBeVisible();
   await expect(page.locator('#education').getByRole('heading', { name: '连续介质力学' })).toBeVisible();
-  await page.getByRole('link', { name: '代表项目', exact: true }).click();
-  await expect(page.locator('#work')).toBeVisible();
+  await page.evaluate(() => { window.location.hash = '#work'; });
+  await expect(page.locator('#work')).toBeInViewport();
+  await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#experience');
   await page.goBack();
   await expect(page.locator('#education')).toBeVisible();
   await page.goForward();
-  await expect(page.locator('#work')).toBeVisible();
+  await expect(page.locator('#work')).toBeInViewport();
 });
 
 test('keeps education content bilingual in the same view', async ({ page }) => {
@@ -498,7 +500,7 @@ test('fits the complete overview in a compact desktop viewport in both languages
 });
 
 test('supports keyboard navigation through all header controls', async ({ page }) => {
-  const expected = ['钱美含', '概述', '教育经历', '工作经历', '代表项目', '专利', '专业能力', '产品领域', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
+  const expected = ['钱美含', '概述', '教育经历', '工作经历', '专利', '专业能力', '产品领域', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
   const visited: string[] = [];
 
   for (let index = 0; index < 16; index += 1) {

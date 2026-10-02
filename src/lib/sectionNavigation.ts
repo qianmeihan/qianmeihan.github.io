@@ -2,7 +2,6 @@ export const sectionIds = [
   'profile',
   'education',
   'experience',
-  'work',
   'patent',
   'skills',
   'industry-context',
@@ -13,5 +12,6 @@ export type SectionId = (typeof sectionIds)[number];
 
 export function sectionFromHash(hash: string): SectionId {
   const id = hash.replace(/^#/, '');
+  if (id === 'work') return 'experience';
   return sectionIds.includes(id as SectionId) ? (id as SectionId) : 'profile';
 }

@@ -1,4 +1,4 @@
-import { Award, BriefcaseBusiness, FolderKanban, GraduationCap, Mail, UserRound, Wrench, Factory } from 'lucide-react';
+import { Award, BriefcaseBusiness, GraduationCap, Mail, UserRound, Wrench, Factory } from 'lucide-react';
 import type { Locale } from '../content/types';
 import type { SectionId } from '../lib/sectionNavigation';
 
@@ -14,7 +14,6 @@ const groups = [
     { id: 'experience', zh: '工作经历', en: 'Experience', Icon: BriefcaseBusiness },
   ],
   [
-    { id: 'work', zh: '代表项目', en: 'Projects', Icon: FolderKanban },
     { id: 'patent', zh: '专利', en: 'Patent', Icon: Award },
     { id: 'skills', zh: '专业能力', en: 'Skills', Icon: Wrench },
     { id: 'industry-context', zh: '产品领域', en: 'Products', Icon: Factory },

@@ -7,7 +7,11 @@ describe('section navigation', () => {
     expect(sectionFromHash('#missing')).toBe('profile');
   });
 
-  it('recognizes all eight module hashes', () => {
+  it('recognizes every primary module hash', () => {
     for (const id of sectionIds) expect(sectionFromHash(`#${id}`)).toBe(id);
+  });
+
+  it('keeps old project links inside the work experience navigation state', () => {
+    expect(sectionFromHash('#work')).toBe('experience');
   });
 });
