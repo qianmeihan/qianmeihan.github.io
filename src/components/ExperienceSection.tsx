@@ -27,26 +27,21 @@ export function ExperienceSection({ items, projects = [], locale }: ExperienceSe
           {items.map((item) => (
             <li
               key={item.id}
-              className={`timeline-item${item.featured ? ' timeline-item--featured' : ' timeline-item--secondary'}`}
+              className="timeline-item"
             >
-              <div className="timeline-item__meta">
-                <img
-                  className="timeline-item__logo"
-                  src={item.logo.src}
-                  alt=""
-                />
-                <div className="timeline-item__meta-copy">
-                  <time>{localized(item.period, locale)}</time>
-                  <span>{localized(item.context, locale)}</span>
+              <header className="timeline-item__header">
+                <div className="timeline-item__identity">
+                  <div className="timeline-item__logo-frame">
+                    <img className="timeline-item__logo" src={item.logo.src} alt="" />
+                  </div>
+                  <div className="timeline-item__identity-copy">
+                    <p className="timeline-item__context">{localized(item.context, locale)}</p>
+                    <h3>{localized(item.role, locale)}</h3>
+                  </div>
                 </div>
-              </div>
+                <time>{localized(item.period, locale)}</time>
+              </header>
               <div className="timeline-item__body">
-                {item.featured ? (
-                  <p className="timeline-item__featured-label">
-                    {locale === 'zh' ? '核心研发经历' : 'Core R&D experience'}
-                  </p>
-                ) : null}
-                <h3>{localized(item.role, locale)}</h3>
                 <p>{localized(item.summary, locale)}</p>
                 <ul>
                   {item.highlights.map((highlight) => (

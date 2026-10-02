@@ -9,7 +9,7 @@ let draft = null;
 let dirty = false;
 
 const labels = {
-  meta: '基本设置', profile: '个人资料', hero: '首页首屏', metrics: '核心经验', value: '数值', featured: '重点经历',
+  meta: '基本设置', profile: '个人资料', hero: '首页首屏', metrics: '核心经验', value: '数值',
   experience: '工作经历', projects: '工程项目', patents: '公开专利',
   skillGroups: '专业能力', education: '教育经历', industryContext: '行业背景', contact: '联系区域',
   updatedAt: '最后更新日期', defaultLocale: '默认语言', name: '姓名', email: '邮箱',

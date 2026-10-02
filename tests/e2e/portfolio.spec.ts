@@ -66,13 +66,43 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
 test('shows five resume-backed projects and the complete patent drawing', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   await expect(page.locator('#experience .project-card')).toHaveCount(5);
-  await expect(page.locator('.timeline-item--featured')).toContainText('核心研发经历');
-  await expect(page.locator('.timeline-item--featured .project-card')).toHaveCount(5);
-  await expect(page.locator('.timeline-item--secondary .project-card')).toHaveCount(0);
+  await expect(page.locator('#experience .timeline-item').nth(0).locator('.project-card')).toHaveCount(0);
+  await expect(page.locator('#experience .timeline-item').nth(1).locator('.project-card')).toHaveCount(5);
   await page.getByRole('link', { name: '专利', exact: true }).click();
   const drawing = page.getByRole('img', { name: 'CN223978857U 公开专利结构图' });
   await expect(drawing).toHaveAttribute('width', '729');
   await expect(drawing).toHaveAttribute('height', '1000');
+});
+
+test('presents both employers with matching card colors and identity geometry', async ({ page }) => {
+  await page.getByRole('link', { name: '工作经历', exact: true }).click();
+  const cards = page.locator('#experience .timeline-item');
+  await expect(cards).toHaveCount(2);
+  await expect(cards.locator('.timeline-item__header')).toHaveCount(2);
+  const styles = await cards.evaluateAll((items) => items.map((item) => {
+    const card = item as HTMLElement;
+    const logo = card.querySelector('.timeline-item__logo-frame')!.getBoundingClientRect();
+    const header = card.querySelector('.timeline-item__header')!.getBoundingClientRect();
+    return {
+      background: getComputedStyle(card).backgroundColor,
+      borderColor: getComputedStyle(card).borderTopColor,
+      radius: getComputedStyle(card).borderTopLeftRadius,
+      logoWidth: Math.round(logo.width),
+      logoHeight: Math.round(logo.height),
+      headerLeft: Math.round(header.left),
+    };
+  }));
+  expect(styles[0]).toEqual(styles[1]);
+});
+
+test('keeps both brand marks inside their equal-size logo frames', async ({ page }) => {
+  await page.getByRole('link', { name: '工作经历', exact: true }).click();
+  const contained = await page.locator('#experience .timeline-item').evaluateAll((items) => items.map((item) => {
+    const frame = item.querySelector('.timeline-item__logo-frame')!.getBoundingClientRect();
+    const image = item.querySelector('.timeline-item__logo')!.getBoundingClientRect();
+    return image.top >= frame.top && image.bottom <= frame.bottom && image.left >= frame.left && image.right <= frame.right;
+  }));
+  expect(contained).toEqual([true, true]);
 });
 
 test('opens a project detail dialog and closes it with Escape and its close button', async ({ page }) => {

@@ -24,7 +24,6 @@ export interface MediaItem {
 
 export interface ExperienceItem {
   id: string;
-  featured: boolean;
   logo: MediaItem;
   period: LocalizedText;
   role: LocalizedText;

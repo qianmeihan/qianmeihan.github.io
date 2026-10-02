@@ -164,6 +164,24 @@ describe('App', () => {
     expect(screen.getByRole('navigation', { name: '主导航' }).querySelector('a[href="#work"]')).not.toBeInTheDocument();
   });
 
+  it('uses the same identity, date, and description structure for both work entries', async () => {
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+    const entries = [...container.querySelectorAll<HTMLElement>('#experience .timeline-item')];
+    expect(entries).toHaveLength(2);
+    for (const entry of entries) {
+      const header = entry.querySelector<HTMLElement>('.timeline-item__header');
+      expect(header).not.toBeNull();
+      expect(header?.querySelector('.timeline-item__logo-frame img')).toBeInTheDocument();
+      expect(header?.querySelector('time')).toBeInTheDocument();
+      expect(header?.querySelector('.timeline-item__context')).toBeInTheDocument();
+      expect(header?.querySelector('h3')).toBeInTheDocument();
+      expect(entry.querySelector('.timeline-item__body > p')).toBeInTheDocument();
+      expect(entry.querySelectorAll('.timeline-item__body li').length).toBeGreaterThanOrEqual(2);
+      expect(entry.querySelector('.timeline-item__featured-label')).toBeNull();
+    }
+  });
+
   it('offers separate Chinese and English resume downloads in both languages', async () => {
     const user = userEvent.setup();
     render(<App contentLoader={async () => siteContent} />);

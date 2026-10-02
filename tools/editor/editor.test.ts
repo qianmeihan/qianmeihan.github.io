@@ -7,7 +7,7 @@ afterEach(() => {
   document.body.replaceChildren();
 });
 
-it('renders boolean content fields as labeled checkboxes', async () => {
+it('renders bilingual work copy without an obsolete featured control', async () => {
   document.body.innerHTML = `
     <form id="editor-form"></form>
     <button id="save"></button>
@@ -22,20 +22,25 @@ it('renders boolean content fields as labeled checkboxes', async () => {
       ok: true,
       json: async () => ({
         meta: { updatedAt: '2026-09-22', defaultLocale: 'zh' },
-        experience: [{ id: 'schaeffler', featured: true }],
+        experience: [{
+          id: 'bmw',
+          context: { zh: '宝马华晨项目', en: 'BMW Brilliance Project' },
+          role: { zh: '产品工程师', en: 'Product Engineer' },
+          summary: { zh: '参与产品工程。', en: 'Supports product engineering.' },
+          highlights: [{ zh: '跟进工程信息', en: 'Follows engineering information' }],
+        }],
       }),
     }),
   );
 
   // @ts-expect-error The editor is a browser-delivered JavaScript module.
-  await import('./editor.js?checkbox-test');
+  await import('./editor.js?work-copy-test');
 
   await waitFor(() => {
-    const checkbox = document.querySelector<HTMLInputElement>(
-      'input[type="checkbox"]',
-    );
-    expect(checkbox).not.toBeNull();
-    expect(checkbox?.checked).toBe(true);
-    expect(checkbox?.closest('label')).toHaveTextContent('重点经历');
+    const controls = [...document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea')];
+    expect(controls.some((control) => control.value === '宝马华晨项目')).toBe(true);
+    expect(controls.some((control) => control.value === 'BMW Brilliance Project')).toBe(true);
+    expect(document.querySelector('#editor-form')).toHaveTextContent('工作要点');
+    expect(document.querySelector('input[type="checkbox"]')).toBeNull();
   });
 });

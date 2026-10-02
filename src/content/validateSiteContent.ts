@@ -29,13 +29,6 @@ function string(value: unknown, path: string): string {
   return value;
 }
 
-function boolean(value: unknown, path: string): boolean {
-  if (typeof value !== 'boolean') {
-    throw new Error(`${path} must be a boolean`);
-  }
-  return value;
-}
-
 function localized(value: unknown, path: string): LocalizedText {
   const item = record(value, path);
   return {
@@ -86,7 +79,6 @@ function experience(value: unknown, path: string): ExperienceItem {
   const item = record(value, path);
   return {
     id: string(item.id, `${path}.id`),
-    featured: boolean(item.featured, `${path}.featured`),
     logo: media(item.logo, `${path}.logo`),
     period: localized(item.period, `${path}.period`),
     role: localized(item.role, `${path}.role`),

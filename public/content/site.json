@@ -130,7 +130,6 @@
   "experience": [
     {
       "id": "bmw-brilliance-product-engineer",
-      "featured": false,
       "logo": {
         "id": "bmw-brilliance-logo",
         "src": "/media/logo-bmw-brilliance.png",
@@ -161,19 +160,26 @@
         "en": "BMW Brilliance Project"
       },
       "summary": {
-        "zh": "参与宝马华晨项目产品工程，协调工程变更与问题闭环。",
-        "en": "Supports product engineering for a BMW Brilliance project, coordinating engineering changes and issue closure."
+        "zh": "参与宝马华晨项目的产品工程工作，熟悉宝马产品研发流程及 iRAM、GAMS 等研发系统，配合工程信息、变更与问题的跨团队跟进。",
+        "en": "Supports product engineering on a BMW Brilliance project. Familiar with BMW development processes and iRAM and GAMS systems, with a focus on cross-team follow-up of engineering information, changes, and issues."
       },
       "highlights": [
         {
-          "zh": "跨团队跟踪工程信息、变更和交付",
-          "en": "Tracks engineering information, changes, and delivery across teams"
+          "zh": "熟悉宝马产品研发流程与项目协作方式",
+          "en": "Familiar with BMW product development processes and project coordination"
+        },
+        {
+          "zh": "了解 iRAM、GAMS 等研发系统的项目使用方式",
+          "en": "Familiar with how iRAM and GAMS systems are used in projects"
+        },
+        {
+          "zh": "跨团队跟进工程变更、交付与问题闭环",
+          "en": "Follows engineering changes, delivery, and issue closure across teams"
         }
       ]
     },
     {
       "id": "schaeffler-mechanical-rd",
-      "featured": true,
       "logo": {
         "id": "schaeffler-logo",
         "src": "/media/logo-schaeffler.png",
@@ -204,17 +210,21 @@
         "en": "Schaeffler"
       },
       "summary": {
-        "zh": "负责汽车电子控制器壳体、安装与绝缘结构开发，覆盖设计、验证和量产支持。",
-        "en": "Developed controller housings, mounting features, and insulation structures across design, validation, and production support."
+        "zh": "负责汽车电子控制器壳体、安装与绝缘结构开发，从结构方案、工程图纸到验证优化和量产支持。设计中兼顾装配、材料及制造可行性。",
+        "en": "Developed controller housings, mounting features, and insulation structures from concept and engineering drawings through validation and production support, balancing assembly, materials, and manufacturability."
       },
       "highlights": [
         {
-          "zh": "冲压、压铸与注塑结构设计",
-          "en": "Stamped, die-cast, and injection-molded structures"
+          "zh": "设计 ECU、TCU、BMS/CSC 等产品的冲压、压铸与注塑结构",
+          "en": "Designed stamped, die-cast, and injection-molded structures for ECU, TCU, and BMS/CSC programs"
         },
         {
-          "zh": "GD&T、尺寸链、热分析与模流协同",
-          "en": "GD&T, tolerance chains, thermal analysis, and mold-flow coordination"
+          "zh": "结合 GD&T、尺寸链、热分析与模流结果优化结构和装配",
+          "en": "Used GD&T, tolerance stacks, thermal analysis, and mold-flow findings to refine structures and assembly"
+        },
+        {
+          "zh": "参与供应商技术评审、接口协调及量产问题处理",
+          "en": "Joined supplier technical reviews, interface coordination, and production issue resolution"
         }
       ]
     }

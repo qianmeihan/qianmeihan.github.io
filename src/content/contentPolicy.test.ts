@@ -69,6 +69,18 @@ describe('public content policy', () => {
     ]);
   });
 
+  it('describes both positions with resume-supported scope in both languages', () => {
+    const bmw = siteContent.experience.find((item) => item.id === 'bmw-brilliance-product-engineer');
+    const schaeffler = siteContent.experience.find((item) => item.id === 'schaeffler-mechanical-rd');
+    expect(bmw?.summary.zh).toContain('iRAM');
+    expect(bmw?.summary.en).toContain('GAMS');
+    expect(bmw?.highlights.length).toBeGreaterThanOrEqual(2);
+    expect(schaeffler?.summary.zh).toContain('量产');
+    expect(schaeffler?.summary.en).toContain('production');
+    expect(schaeffler?.highlights.length).toBeGreaterThanOrEqual(3);
+    expect(siteContent.experience.every((item) => !('featured' in item))).toBe(true);
+  });
+
   it('excludes private and out-of-scope material', () => {
     expect(serialized).not.toMatch(/\b1[3-9]\d{9}\b/);
     expect(serialized).not.toMatch(

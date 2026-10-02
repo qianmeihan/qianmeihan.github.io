@@ -32,7 +32,6 @@ describe('optional portfolio sections', () => {
         items={[
           {
             id: 'schaeffler',
-            featured: true,
             period: { zh: '2022 至 2026', en: '2022 to 2026' },
             role: { zh: '研发机械工程师', en: 'R&D Mechanical Engineer' },
             context: { zh: '舍弗勒', en: 'Schaeffler' },
@@ -151,10 +150,9 @@ describe('optional portfolio sections', () => {
     expect(media?.credit.zh).toContain('Atif Masood');
   });
 
-  it('visually marks the core R&D experience', () => {
+  it('renders work history without a special visual label', () => {
     const item = {
       id: 'schaeffler',
-      featured: true,
       period: { zh: '2022 至 2026', en: '2022 to 2026' },
       role: { zh: '研发机械工程师', en: 'R&D Mechanical Engineer' },
       context: { zh: '舍弗勒', en: 'Schaeffler' },
@@ -174,8 +172,9 @@ describe('optional portfolio sections', () => {
       <ExperienceSection items={[item]} locale="zh" />,
     );
 
-    expect(container.querySelector('.timeline-item--featured')).toBeInTheDocument();
-    expect(screen.getByText('核心研发经历')).toBeInTheDocument();
+    expect(container.querySelector('.timeline-item')).toBeInTheDocument();
+    expect(container.querySelector('.timeline-item--featured')).not.toBeInTheDocument();
+    expect(screen.queryByText('核心研发经历')).not.toBeInTheDocument();
   });
 
   it('keeps the complete portrait patent drawing ratio', async () => {

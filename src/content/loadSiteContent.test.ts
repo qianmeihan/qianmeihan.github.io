@@ -108,7 +108,7 @@ describe('validateSiteContent', () => {
     );
   });
 
-  it('requires a boolean featured flag for experience entries', () => {
+  it('drops the legacy featured flag because both work cards use one treatment', () => {
     const input = structuredClone(validContent) as Record<string, any>;
     input.experience = [
       {
@@ -123,9 +123,7 @@ describe('validateSiteContent', () => {
       },
     ];
 
-    expect(() => validateSiteContent(input)).toThrow(
-      'experience[0].featured must be a boolean',
-    );
+    expect(validateSiteContent(input).experience[0]).not.toHaveProperty('featured');
   });
 
   it('rejects repeated items without stable ids', () => {
@@ -166,7 +164,6 @@ describe('validateSiteContent', () => {
       collection === 'experience'
           ? {
             id: 'example-experience',
-            featured: false,
             period: bilingual('2022 至今', '2022 to present'),
             role: bilingual('机械工程师', 'Mechanical Engineer'),
             context: bilingual('示例公司', 'Example company'),
