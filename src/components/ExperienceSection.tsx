@@ -1,6 +1,8 @@
+import { useRef, useState } from 'react';
 import type { ExperienceItem, Locale, ProjectItem } from '../content/types';
 import { localized } from '../lib/localized';
 import { EngineeringSection } from './EngineeringSection';
+import { ProjectDialog } from './ProjectDialog';
 import { SectionHeading } from './SectionHeading';
 
 interface ExperienceSectionProps {
@@ -10,6 +12,9 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ items, projects = [], locale }: ExperienceSectionProps) {
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
   if (items.length === 0 && projects.length === 0) {
     return null;
   }
@@ -49,11 +54,27 @@ export function ExperienceSection({ items, projects = [], locale }: ExperienceSe
                   ))}
                 </ul>
               </div>
+              <EngineeringSection
+                items={projects.filter((project) => project.experienceId === item.id)}
+                locale={locale}
+                id={projects[0]?.experienceId === item.id ? 'work' : undefined}
+                onOpen={(project, trigger) => {
+                  triggerRef.current = trigger;
+                  setSelectedProject(project);
+                }}
+              />
             </li>
           ))}
         </ol>
       ) : null}
-      <EngineeringSection items={projects} locale={locale} />
+      <ProjectDialog
+        project={selectedProject}
+        locale={locale}
+        onClose={() => {
+          setSelectedProject(null);
+          requestAnimationFrame(() => triggerRef.current?.focus());
+        }}
+      />
     </section>
   );
 }

@@ -35,9 +35,11 @@ export interface ExperienceItem {
 
 export interface ProjectItem {
   id: string;
+  experienceId: string;
   code: string;
   title: LocalizedText;
   summary: LocalizedText;
+  details: LocalizedText[];
   capabilities: LocalizedText[];
 }
 

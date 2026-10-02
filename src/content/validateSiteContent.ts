@@ -100,9 +100,11 @@ function project(value: unknown, path: string): ProjectItem {
   const item = record(value, path);
   return {
     id: string(item.id, `${path}.id`),
+    experienceId: string(item.experienceId, `${path}.experienceId`),
     code: string(item.code, `${path}.code`),
     title: localized(item.title, `${path}.title`),
     summary: localized(item.summary, `${path}.summary`),
+    details: localizedArray(item.details, `${path}.details`),
     capabilities: localizedArray(item.capabilities, `${path}.capabilities`),
   };
 }
@@ -195,6 +197,14 @@ export function validateSiteContent(value: unknown): SiteContent {
   if (metrics.length !== 4) {
     throw new Error('hero.metrics must contain exactly 4 items');
   }
+  const experiences = array(root.experience, 'experience', experience);
+  const projects = array(root.projects, 'projects', project);
+  const experienceIds = new Set(experiences.map((item) => item.id));
+  projects.forEach((item, index) => {
+    if (!experienceIds.has(item.experienceId)) {
+      throw new Error(`projects[${index}].experienceId must reference an experience id`);
+    }
+  });
 
   return {
     meta: {
@@ -212,8 +222,8 @@ export function validateSiteContent(value: unknown): SiteContent {
       intro: localized(hero.intro, 'hero.intro'),
       metrics,
     },
-    experience: array(root.experience, 'experience', experience),
-    projects: array(root.projects, 'projects', project),
+    experience: experiences,
+    projects,
     patents: array(root.patents, 'patents', patent),
     skillGroups: array(root.skillGroups, 'skillGroups', skillGroup),
     education: array(root.education, 'education', education),

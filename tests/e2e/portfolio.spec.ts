@@ -35,7 +35,7 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();
   await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
-  await expect(page.locator('#experience .project-card')).toHaveCount(3);
+  await expect(page.locator('#experience .project-card')).toHaveCount(5);
   await page.getByRole('link', { name: '专利', exact: true }).click();
   await expect(page.getByText('CN223978857U', { exact: true })).toBeVisible();
 });
@@ -63,14 +63,35 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
   }
 });
 
-test('prioritizes three selected projects and the complete patent drawing', async ({ page }) => {
+test('shows five resume-backed projects and the complete patent drawing', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
-  await expect(page.locator('#experience .project-card')).toHaveCount(3);
+  await expect(page.locator('#experience .project-card')).toHaveCount(5);
   await expect(page.locator('.timeline-item--featured')).toContainText('核心研发经历');
+  await expect(page.locator('.timeline-item--featured .project-card')).toHaveCount(5);
+  await expect(page.locator('.timeline-item--secondary .project-card')).toHaveCount(0);
   await page.getByRole('link', { name: '专利', exact: true }).click();
   const drawing = page.getByRole('img', { name: 'CN223978857U 公开专利结构图' });
   await expect(drawing).toHaveAttribute('width', '729');
   await expect(drawing).toHaveAttribute('height', '1000');
+});
+
+test('opens a project detail dialog and closes it with Escape and its close button', async ({ page }) => {
+  await page.getByRole('link', { name: '工作经历', exact: true }).click();
+  const project = page.getByRole('button', { name: /D3 TCU 压铸壳体开发/ });
+  await project.click();
+  const dialog = page.getByRole('dialog', { name: 'D3 TCU 压铸壳体开发' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText('PCB');
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect(project).toBeFocused();
+
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await page.getByRole('button', { name: /D3 TCU Die-Cast Housing Development/ }).click();
+  const englishDialog = page.getByRole('dialog', { name: 'D3 TCU Die-Cast Housing Development' });
+  await expect(englishDialog).toContainText('supplier technical reviews');
+  await englishDialog.getByRole('button', { name: 'Close project details' }).click();
+  await expect(englishDialog).not.toBeVisible();
 });
 
 test('shows four proof points and two verified patents in both languages', async ({ page }) => {

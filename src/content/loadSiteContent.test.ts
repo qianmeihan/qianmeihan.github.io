@@ -145,6 +145,18 @@ describe('validateSiteContent', () => {
     );
   });
 
+  it('rejects a project assigned to a missing work experience', () => {
+    const input = structuredClone(validContent) as Record<string, any>;
+    input.projects = [{
+      id: 'example-project', experienceId: 'missing', code: 'ECU',
+      title: bilingual('控制器壳体', 'Controller housing'),
+      summary: bilingual('结构开发。', 'Mechanical development.'),
+      details: [bilingual('设计壳体。', 'Designed the housing.')],
+      capabilities: [bilingual('冲压', 'Stamping')],
+    }];
+    expect(() => validateSiteContent(input)).toThrow('projects[0].experienceId must reference an experience id');
+  });
+
   it.each([
     ['experience', 'experience[0].logo'],
     ['education', 'education[0].logo'],

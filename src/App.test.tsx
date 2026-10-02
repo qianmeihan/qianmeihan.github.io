@@ -149,14 +149,18 @@ describe('App', () => {
     expect(evidence).toHaveTextContent('3种语言');
   });
 
-  it('shows only three selected engineering projects', async () => {
+  it('places five selected projects inside the Schaeffler experience', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
     const experience = container.querySelector<HTMLElement>('#experience');
     const projects = container.querySelector<HTMLElement>('#work');
+    const schaeffler = [...container.querySelectorAll<HTMLElement>('.timeline-item')].find((item) => item.textContent?.includes('舍弗勒'));
+    const bmw = [...container.querySelectorAll<HTMLElement>('.timeline-item')].find((item) => item.textContent?.includes('宝马华晨项目'));
     expect(experience).toContainElement(projects);
-    expect(within(projects as HTMLElement).getByRole('heading', { name: '代表项目', level: 3 })).toBeInTheDocument();
-    expect(within(projects as HTMLElement).getAllByRole('article')).toHaveLength(3);
+    expect(schaeffler).toContainElement(projects);
+    expect(bmw?.querySelector('.project-card')).toBeNull();
+    expect(within(projects as HTMLElement).getByRole('heading', { name: '代表项目', level: 4 })).toBeInTheDocument();
+    expect(within(projects as HTMLElement).getAllByRole('article')).toHaveLength(5);
     expect(screen.getByRole('navigation', { name: '主导航' }).querySelector('a[href="#work"]')).not.toBeInTheDocument();
   });
 

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-09-29",
+    "updatedAt": "2026-10-02",
     "defaultLocale": "zh"
   },
   "profile": {
@@ -222,6 +222,7 @@
   "projects": [
     {
       "id": "d5-pdcu-platform",
+      "experienceId": "schaeffler-mechanical-rd",
       "code": "PDCU",
       "title": {
         "zh": "D5 PDCU 平台应用与问题闭环",
@@ -231,6 +232,11 @@
         "zh": "支持华为、吉利和长安相关平台的结构适配与量产问题闭环。",
         "en": "Supported structural adaptation and production issue closure for platform programs associated with Huawei, Geely, and Changan."
       },
+      "details": [
+        { "zh": "分析客户规格与安装条件，提出结构接口及布置建议。", "en": "Reviewed customer specifications and installation constraints to advise on structural interfaces and placement." },
+        { "zh": "准备图纸与材料资料，配合客户及内部团队开展技术沟通。", "en": "Prepared drawings and material information for technical discussions with customers and internal teams." },
+        { "zh": "跟进量产中的气密、翘曲与尺寸偏差，推动问题分析与闭环。", "en": "Investigated production leakage, warpage, and dimensional deviations through issue closure." }
+      ],
       "capabilities": [
         {
           "zh": "平台适配",
@@ -248,6 +254,7 @@
     },
     {
       "id": "d3-ecu-housing",
+      "experienceId": "schaeffler-mechanical-rd",
       "code": "ECU",
       "title": {
         "zh": "D3 ECU 冲压壳体与热管理",
@@ -257,6 +264,11 @@
         "zh": "设计冲压壳体、连接器与绝缘导热结构，并用热分析支持散热优化。",
         "en": "Developed stamped housings, connector interfaces, and insulation structures, using thermal analysis to support heat-path optimization."
       },
+      "details": [
+        { "zh": "依据电流、散热与防护要求，参与连接器、材料及绝缘方案选择。", "en": "Contributed to connector, material, and insulation choices based on current, heat, and protection requirements." },
+        { "zh": "完成上下冲压壳体设计及二维、三维图纸，并参与供应商技术评审。", "en": "Designed upper and lower stamped housings, released 2D/3D drawings, and joined supplier technical reviews." },
+        { "zh": "结合热分析优化散热路径与导热材料使用。", "en": "Used thermal analysis to refine the heat path and thermal-interface material use." }
+      ],
       "capabilities": [
         {
           "zh": "冲压件设计",
@@ -273,7 +285,31 @@
       ]
     },
     {
+      "id": "d3-tcu-die-cast-housing",
+      "experienceId": "schaeffler-mechanical-rd",
+      "code": "TCU",
+      "title": {
+        "zh": "D3 TCU 压铸壳体开发",
+        "en": "D3 TCU Die-Cast Housing Development"
+      },
+      "summary": {
+        "zh": "设计压铸上壳体，协调供应商及 PCB 接口，支持图纸发布与量产。",
+        "en": "Developed a die-cast upper housing, coordinated supplier and PCB interfaces, and supported drawing release and production."
+      },
+      "details": [
+        { "zh": "设计压铸上壳体并完成相关工程图纸发布。", "en": "Designed the die-cast upper housing and released engineering drawings." },
+        { "zh": "与 PCB 团队协调元件避让区域及装配接口。", "en": "Coordinated component keep-out areas and assembly interfaces with the PCB team." },
+        { "zh": "参与供应商技术评审，跟进结构方案向量产转化。", "en": "Joined supplier technical reviews and followed the housing design into production." }
+      ],
+      "capabilities": [
+        { "zh": "压铸件设计", "en": "Die-cast design" },
+        { "zh": "图纸发布", "en": "Drawing release" },
+        { "zh": "接口协调", "en": "Interface coordination" }
+      ]
+    },
+    {
       "id": "bms-csc-plastic-housings",
+      "experienceId": "schaeffler-mechanical-rd",
       "code": "BMS + CSC",
       "title": {
         "zh": "BMS 与 CSC 注塑壳体开发",
@@ -283,6 +319,11 @@
         "zh": "设计注塑壳体、安装与卡扣结构，结合尺寸链和模流结果优化装配。",
         "en": "Developed molded housings, mounting features, and snap fits, using tolerance chains and mold-flow findings to improve assembly."
       },
+      "details": [
+        { "zh": "完成 CSC 上下壳体、安装结构及相关工程图纸设计。", "en": "Designed CSC upper and lower housings, mounting features, and associated engineering drawings." },
+        { "zh": "结合尺寸链与模流结果调整加强筋、翘曲控制及装配公差。", "en": "Used tolerance stacks and mold-flow findings to refine ribs, warpage control, and assembly tolerances." },
+        { "zh": "参与 BMS 双面卡扣与绝缘结构开发，相关成果形成公开专利。", "en": "Contributed to BMS double-sided snap-fit and insulation structures associated with published patents." }
+      ],
       "capabilities": [
         {
           "zh": "注塑件设计",
@@ -296,6 +337,29 @@
           "zh": "模流分析协同",
           "en": "Mold-flow coordination"
         }
+      ]
+    },
+    {
+      "id": "bms-oem-technical-support",
+      "experienceId": "schaeffler-mechanical-rd",
+      "code": "BMS",
+      "title": {
+        "zh": "BMS 代工项目技术支持",
+        "en": "BMS OEM Project Technical Support"
+      },
+      "summary": {
+        "zh": "提供材料、密封与绝缘方案建议，配合验证问题闭环及样件开发。",
+        "en": "Advised on materials, sealing, and insulation while supporting validation issue closure and prototypes."
+      },
+      "details": [
+        { "zh": "围绕材料、涂层、密封胶与绝缘需求提供结构技术建议。", "en": "Provided structural advice on materials, coatings, sealants, and insulation requirements." },
+        { "zh": "协同排查设计验证阶段的连接器脱落问题并推动改进。", "en": "Helped investigate a connector retention issue during design validation and supported improvements." },
+        { "zh": "支持多种电池管理相关模块的样件开发与技术对接。", "en": "Supported prototyping and technical coordination across battery-management modules." }
+      ],
+      "capabilities": [
+        { "zh": "材料选型", "en": "Material selection" },
+        { "zh": "验证支持", "en": "Validation support" },
+        { "zh": "样件开发", "en": "Prototyping" }
       ]
     }
   ],

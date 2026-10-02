@@ -111,13 +111,17 @@ describe('public content policy', () => {
     ]);
   });
 
-  it('keeps the public portfolio focused on three strongest projects', () => {
-    expect(siteContent.projects).toHaveLength(3);
+  it('keeps five resume-backed projects under the Schaeffler experience', () => {
+    expect(siteContent.projects).toHaveLength(5);
     expect(siteContent.projects.map((project) => project.id)).toEqual([
       'd5-pdcu-platform',
       'd3-ecu-housing',
+      'd3-tcu-die-cast-housing',
       'bms-csc-plastic-housings',
+      'bms-oem-technical-support',
     ]);
+    expect(siteContent.projects.every((project) => project.experienceId === 'schaeffler-mechanical-rd')).toBe(true);
+    expect(siteContent.projects.every((project) => project.details.length > 1 && project.details.every((detail) => detail.zh && detail.en))).toBe(true);
   });
 
   it('uses one official product-domain reference without overstating ownership', () => {
