@@ -106,6 +106,29 @@ test('presents both employers with matching card colors and identity geometry', 
   expect(styles[0]).toEqual(styles[1]);
 });
 
+test('gives both schools the same quiet outer frame as work experience', async ({ page }) => {
+  for (const theme of ['light', 'dark'] as const) {
+    await page.evaluate((nextTheme) => document.documentElement.setAttribute('data-theme', nextTheme), theme);
+    const frames = await page.locator('.timeline-item, .education-card').evaluateAll((items) => items.map((item) => {
+      const style = getComputedStyle(item);
+      const course = getComputedStyle(document.querySelector('.course-card')!);
+      return {
+        border: style.borderTopColor,
+        borderWidth: style.borderTopWidth,
+        radius: style.borderTopLeftRadius,
+        background: style.backgroundColor,
+        courseBorder: course.borderTopColor,
+      };
+    }));
+    expect(frames).toHaveLength(4);
+    expect(frames.every((frame) => frame.borderWidth === '1px')).toBe(true);
+    expect(frames.every((frame) => frame.border !== frame.courseBorder)).toBe(true);
+    expect(frames.map(({ border, radius, background }) => ({ border, radius, background }))).toEqual(
+      Array(4).fill({ border: frames[0].border, radius: frames[0].radius, background: frames[0].background }),
+    );
+  }
+});
+
 test('keeps both brand marks inside their equal-size logo frames', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   const contained = await page.locator('#experience .timeline-item').evaluateAll((items) => items.map((item) => {

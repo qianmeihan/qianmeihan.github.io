@@ -558,12 +558,13 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   gap: 1rem;
 }
 
-.timeline-item {
+.timeline-item,
+.education-card {
   min-width: 0;
   padding: clamp(1.25rem, 2.3vw, 1.8rem);
-  border: 1px solid var(--color-line);
+  border: 1px solid color-mix(in srgb, var(--color-line) 38%, var(--color-surface));
   border-radius: var(--radius-surface);
-  background: var(--color-surface);
+  background: color-mix(in srgb, var(--color-surface) 68%, var(--color-paper));
 }
 
 .timeline-item__header {
@@ -572,7 +573,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   align-items: start;
   gap: 1rem;
   padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--color-line);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-line) 38%, var(--color-surface));
 }
 
 .timeline-item__identity {
@@ -1040,15 +1041,11 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .education-schools {
   display: grid;
-  gap: clamp(1.8rem, 3vw, 2.5rem);
+  gap: clamp(1.1rem, 2vw, 1.5rem);
 }
 
 .industry-grid {
   grid-template-columns: 1fr;
-}
-
-.education-card {
-  min-width: 0;
 }
 
 .education-card__header {
@@ -1057,7 +1054,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   gap: 1.1rem;
   align-items: center;
   padding: 0.85rem 1rem;
-  background: color-mix(in srgb, var(--color-accent-soft) 32%, var(--color-surface));
+  background: color-mix(in srgb, var(--color-accent-soft) 18%, var(--color-surface));
 }
 
 .education-card__logo {
