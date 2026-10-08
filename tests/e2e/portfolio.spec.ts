@@ -105,6 +105,39 @@ test('keeps both brand marks inside their equal-size logo frames', async ({ page
   expect(contained).toEqual([true, true]);
 });
 
+test('lets work copy use the desktop width and keeps the project label subordinate', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/#work');
+
+  const experience = page.locator('#experience .timeline-item').nth(1);
+  const metrics = await experience.evaluate((card) => {
+    const body = card.querySelector('.timeline-item__body')!;
+    const summary = body.querySelector('p')!;
+    const role = card.querySelector('h3')!;
+    const projects = card.querySelector('.experience-projects')!;
+    const heading = projects.querySelector('h4')!;
+    return {
+      summaryWidth: summary.getBoundingClientRect().width,
+      bodyWidth: body.getBoundingClientRect().width,
+      roleSize: parseFloat(getComputedStyle(role).fontSize),
+      headingSize: parseFloat(getComputedStyle(heading).fontSize),
+      dividerWidth: parseFloat(getComputedStyle(projects).borderTopWidth),
+    };
+  });
+
+  expect(metrics.summaryWidth / metrics.bodyWidth).toBeGreaterThan(0.95);
+  expect(metrics.headingSize).toBeLessThan(metrics.roleSize * 0.7);
+  expect(metrics.dividerWidth).toBe(0);
+
+  await page.setViewportSize({ width: 1200, height: 900 });
+  const firstTitle = page.locator('#work .project-card h5').first();
+  const titleMetrics = await firstTitle.evaluate((title) => ({
+    height: title.getBoundingClientRect().height,
+    lineHeight: parseFloat(getComputedStyle(title).lineHeight),
+  }));
+  expect(titleMetrics.height).toBeLessThan(titleMetrics.lineHeight * 1.5);
+});
+
 test('opens a project detail dialog and closes it with Escape and its close button', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   const project = page.getByRole('button', { name: /D3 TCU 压铸壳体开发/ });

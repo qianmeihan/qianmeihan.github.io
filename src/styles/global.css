@@ -682,9 +682,9 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .timeline-item__body > p {
   margin: 0;
-  max-width: 76ch;
   color: var(--color-ink-soft);
   line-height: 1.72;
+  text-wrap: pretty;
 }
 
 .timeline-item__body ul,
@@ -718,17 +718,16 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 .experience-projects {
   grid-column: 1 / -1;
   min-width: 0;
-  margin-top: clamp(1.2rem, 2vw, 1.6rem);
-  padding-top: clamp(1.15rem, 2vw, 1.5rem);
-  border-top: 1px solid var(--color-line);
+  margin-top: clamp(1rem, 1.6vw, 1.25rem);
 }
 
 .experience-projects__heading {
-  margin: 0 0 1rem;
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-  font-weight: 560;
-  letter-spacing: -0.035em;
-  line-height: 1.2;
+  margin: 0 0 0.65rem;
+  color: var(--color-ink-soft);
+  font-size: 0.84rem;
+  font-weight: 520;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
 }
 
 .project-list {
@@ -781,6 +780,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 .project-card h5 {
   font-size: clamp(1.05rem, 1.5vw, 1.3rem);
   line-height: 1.35;
+  text-wrap: pretty;
 }
 
 .project-card h5 button {
@@ -809,6 +809,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   margin-top: 0.55rem;
   font-size: 0.82rem;
   line-height: 1.55;
+  text-wrap: pretty;
 }
 
 .project-card .tag-list {

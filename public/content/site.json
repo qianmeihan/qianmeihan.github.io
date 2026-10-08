@@ -235,8 +235,8 @@
       "experienceId": "schaeffler-mechanical-rd",
       "code": "PDCU",
       "title": {
-        "zh": "D5 PDCU 平台应用与问题闭环",
-        "en": "D5 PDCU Platform Applications and Issue Closure"
+        "zh": "D5 PDCU 平台适配",
+        "en": "D5 PDCU Platform Adaptation"
       },
       "summary": {
         "zh": "支持华为、吉利和长安相关平台的结构适配与量产问题闭环。",
