@@ -33,11 +33,6 @@ export function EngineeringSection({ items, locale, id, onOpen }: EngineeringSec
                 </button>
               </h5>
               <p>{localized(item.summary, locale)}</p>
-              <ul className="tag-list" aria-label={locale === 'zh' ? '相关能力' : 'Related capabilities'}>
-                {item.capabilities.map((capability) => (
-                  <li key={capability.zh}>{localized(capability, locale)}</li>
-                ))}
-              </ul>
             </div>
           </article>
         ))}

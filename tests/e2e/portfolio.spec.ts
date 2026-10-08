@@ -74,6 +74,17 @@ test('shows five resume-backed projects and the complete patent drawing', async 
   await expect(drawing).toHaveAttribute('height', '1000');
 });
 
+test('keeps selected project cards compact after removing capability chips', async ({ page }) => {
+  await page.setViewportSize({ width: 1200, height: 900 });
+  await page.goto('/#work');
+  const cards = page.locator('#work .project-card');
+  await expect(cards).toHaveCount(5);
+  const heights = await cards.evaluateAll((items) => items.map((item) => item.getBoundingClientRect().height));
+  for (const height of heights) {
+    expect(height).toBeLessThan(200);
+  }
+});
+
 test('presents both employers with matching card colors and identity geometry', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   const cards = page.locator('#experience .timeline-item');
@@ -145,6 +156,7 @@ test('opens a project detail dialog and closes it with Escape and its close butt
   const dialog = page.getByRole('dialog', { name: 'D3 TCU 压铸壳体开发' });
   await expect(dialog).toBeVisible();
   await expect(dialog).toContainText('PCB');
+  await expect(dialog.getByRole('list', { name: '相关能力' })).toContainText('压铸件设计');
   await page.keyboard.press('Escape');
   await expect(dialog).not.toBeVisible();
   await expect(project).toBeFocused();
@@ -153,6 +165,7 @@ test('opens a project detail dialog and closes it with Escape and its close butt
   await page.getByRole('button', { name: /D3 TCU Die-Cast Housing Development/ }).click();
   const englishDialog = page.getByRole('dialog', { name: 'D3 TCU Die-Cast Housing Development' });
   await expect(englishDialog).toContainText('supplier technical reviews');
+  await expect(englishDialog.getByRole('list', { name: 'Related capabilities' })).toContainText('Die-cast design');
   await englishDialog.getByRole('button', { name: 'Close project details' }).click();
   await expect(englishDialog).not.toBeVisible();
 });

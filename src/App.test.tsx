@@ -164,6 +164,26 @@ describe('App', () => {
     expect(screen.getByRole('navigation', { name: '主导航' }).querySelector('a[href="#work"]')).not.toBeInTheDocument();
   });
 
+  it('shows project cards without capability chips in either language', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+
+    for (const title of ['D5 PDCU 平台适配', 'D5 PDCU Platform Adaptation']) {
+      const cards = [...container.querySelectorAll<HTMLElement>('#work .project-card')];
+      expect(cards).toHaveLength(5);
+      for (const card of cards) {
+        expect(within(card).getByRole('button')).toBeInTheDocument();
+        expect(card.querySelector('.project-card__body > p')).toBeInTheDocument();
+        expect(card.querySelector('.tag-list')).not.toBeInTheDocument();
+      }
+      expect(within(cards[0]).getByRole('button')).toHaveTextContent(title);
+      if (title.startsWith('D5 PDCU 平台')) {
+        await user.click(screen.getByRole('button', { name: 'EN' }));
+      }
+    }
+  });
+
   it('uses the same identity, date, and description structure for both work entries', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
