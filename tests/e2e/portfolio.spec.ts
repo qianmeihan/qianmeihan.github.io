@@ -322,7 +322,10 @@ test('enlarges patent drawings in a dismissible in-page dialog without an origin
   await expect(dialog.getByRole('img')).toHaveAttribute('src', thumbnailSource!);
   const fitsWithoutScrolling = await dialog.evaluate((element) => element.scrollHeight <= element.clientHeight + 1);
   expect(fitsWithoutScrolling).toBe(true);
-  await expect(dialog.getByRole('link')).toHaveCount(0);
+  await expect(dialog.getByRole('link', { name: '查看公开专利记录' })).toHaveAttribute(
+    'href',
+    'https://patents.google.com/patent/CN223978857U/zh',
+  );
   await expect(dialog).not.toContainText('打开原图');
   await page.keyboard.press('Escape');
   await expect(dialog).not.toBeVisible();
@@ -341,8 +344,31 @@ test('enlarges patent drawings in a dismissible in-page dialog without an origin
   await page.getByRole('button', { name: 'Enlarge drawing for CN223978857U' }).click();
   const englishDialog = page.getByRole('dialog', { name: 'Drawing for CN223978857U' });
   await expect(englishDialog).toBeVisible();
+  await expect(englishDialog.getByRole('link', { name: 'View public patent record' })).toHaveAttribute(
+    'href',
+    'https://patents.google.com/patent/CN223978857U/zh',
+  );
   await englishDialog.getByRole('button', { name: 'Close drawing' }).click();
   await expect(englishDialog).not.toBeVisible();
+});
+
+test('places each public patent link below its enlarged drawing', async ({ page }) => {
+  await page.getByRole('link', { name: '专利', exact: true }).click();
+  for (const number of ['CN222839946U', 'CN223978857U']) {
+    await page.getByRole('button', { name: `放大查看 ${number} 附图` }).click();
+    const dialog = page.getByRole('dialog', { name: `${number} 附图` });
+    const link = dialog.getByRole('link', { name: '查看公开专利记录' });
+    await expect(link).toHaveAttribute('href', `https://patents.google.com/patent/${number}/zh`);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    const positions = await dialog.evaluate((element) => {
+      const image = element.querySelector('img')!.getBoundingClientRect();
+      const record = element.querySelector('a')!.getBoundingClientRect();
+      return { imageBottom: image.bottom, linkTop: record.top };
+    });
+    expect(positions.linkTop).toBeGreaterThan(positions.imageBottom);
+    await dialog.getByRole('button', { name: '关闭附图' }).click();
+  }
 });
 
 test('keeps each patent summary compact and places one ownership note below both cards', async ({ page }) => {
@@ -404,9 +430,10 @@ test('stacks two matching patent rows with complete drawings beside concise deta
       expect(measurements[0].imageRight).toBeLessThan(measurements[0].bodyLeft);
       expect(measurements[1].imageRight).toBeLessThan(measurements[1].bodyLeft);
       if (width === 1440) {
-        expect(measurements[0].cardWidth).toBeGreaterThan(750);
-        expect(measurements[0].width).toBeGreaterThan(230);
-        expect(measurements[0].width).toBeLessThan(280);
+        expect(measurements[0].cardWidth).toBeLessThanOrEqual(760);
+        expect(measurements[0].width).toBeGreaterThan(190);
+        expect(measurements[0].width).toBeLessThanOrEqual(225);
+        expect(measurements[0].bodyWidth).toBeLessThanOrEqual(470);
       } else {
         expect(measurements[0].width).toBeLessThan(220);
         expect(measurements[0].bodyWidth).toBeGreaterThan(240);

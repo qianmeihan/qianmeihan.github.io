@@ -914,15 +914,15 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(1.25rem, 2.5vw, 2rem);
-  width: min(100%, 900px);
+  width: min(100%, 740px);
   margin-inline: auto;
 }
 
 .patent-card {
   display: grid;
-  grid-template-columns: clamp(180px, 24vw, 260px) minmax(0, 1fr);
+  grid-template-columns: clamp(180px, 20vw, 215px) minmax(0, 1fr);
   width: 100%;
-  gap: clamp(1.5rem, 4vw, 3rem);
+  gap: clamp(1.5rem, 3vw, 2.25rem);
   align-items: center;
   border-top: 1px solid var(--color-line-strong);
   padding-top: 1rem;
@@ -974,7 +974,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   display: grid;
   align-content: center;
   gap: 0.55rem;
-  max-width: 35rem;
+  max-width: 28rem;
 }
 
 .patent-card__body > p {
@@ -1004,7 +1004,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .patent-section__ownership {
-  width: min(100%, 900px);
+  width: min(100%, 740px);
   margin: 1rem auto 0;
   color: var(--color-ink-soft);
   font-size: 0.74rem;
@@ -1086,10 +1086,26 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   width: auto;
   max-width: 100%;
   height: auto;
-  max-height: calc(100dvh - 7.5rem);
+  max-height: calc(100dvh - 10rem);
   margin-inline: auto;
   object-fit: contain;
   background: #fff;
+}
+
+.patent-image-dialog__record {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  gap: 0.4rem;
+  color: var(--color-accent-strong);
+  font-size: 0.9rem;
+  font-weight: 620;
+  text-underline-offset: 0.3em;
+}
+
+.patent-image-dialog__record:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 4px;
 }
 
 @media (max-width: 680px) {

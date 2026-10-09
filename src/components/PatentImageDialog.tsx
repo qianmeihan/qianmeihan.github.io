@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
+import { ArrowUpRight, X } from 'lucide-react';
 import type { Locale, PatentItem } from '../content/types';
 import { localized } from '../lib/localized';
 
@@ -45,6 +45,15 @@ export function PatentImageDialog({ item, locale, onClose }: PatentImageDialogPr
             </button>
           </div>
           <img src={item.image.src} alt={localized(item.image.alt, locale)} width="729" height="1000" />
+          <a
+            className="patent-image-dialog__record"
+            href={item.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {localized(item.sourceLabel, locale)}
+            <ArrowUpRight aria-hidden="true" size={16} />
+          </a>
         </div>
       )}
     </dialog>
