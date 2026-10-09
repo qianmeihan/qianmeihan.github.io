@@ -967,7 +967,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .patent-card h3 {
-  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  font-size: clamp(1.45rem, 2.15vw, 1.95rem);
 }
 
 .patent-card__body {
@@ -982,12 +982,12 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .patent-card__summary {
-  font-size: clamp(0.95rem, 1.25vw, 1.1rem);
+  font-size: clamp(1rem, 1.3vw, 1.17rem);
   line-height: 1.6;
 }
 
 .patent-card__inventors {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
 }
 
@@ -1027,7 +1027,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .patent-card__body a {
   margin-top: 0.15rem;
-  font-size: 0.86rem;
+  font-size: 0.91rem;
 }
 
 .patent-image-dialog {

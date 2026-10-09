@@ -390,6 +390,28 @@ test('keeps each patent summary compact and places one ownership note below both
   }
 });
 
+test('slightly enlarges patent detail text while keeping its compact two-column layout', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.getByRole('link', { name: '专利', exact: true }).click();
+  const sizes = await page.locator('.patent-card').evaluateAll((cards) => cards.map((card) => {
+    const fontSize = (selector: string) => Number.parseFloat(getComputedStyle(card.querySelector(selector)!).fontSize);
+    return {
+      cardWidth: card.getBoundingClientRect().width,
+      title: fontSize('h3'),
+      summary: fontSize('.patent-card__summary'),
+      inventors: fontSize('.patent-card__inventors'),
+      record: fontSize('.patent-card__body a'),
+    };
+  }));
+  for (const item of sizes) {
+    expect(item.cardWidth).toBeLessThanOrEqual(760);
+    expect(item.title).toBeGreaterThanOrEqual(30);
+    expect(item.summary).toBeGreaterThanOrEqual(18.5);
+    expect(item.inventors).toBeGreaterThanOrEqual(15);
+    expect(item.record).toBeGreaterThanOrEqual(14.5);
+  }
+});
+
 test('stacks two matching patent rows with complete drawings beside concise details', async ({ page }) => {
   for (const width of [1440, 821, 390]) {
     await page.setViewportSize({ width, height: 900 });
