@@ -330,7 +330,7 @@ test('keeps each patent summary compact and places one ownership note below both
   }
 });
 
-test('shows both patent drawings in equally sized portrait frames without cropping', async ({ page }) => {
+test('shows smaller, symmetrical patent drawings at their full portrait ratio', async ({ page }) => {
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.getByRole('link', { name: '专利', exact: true }).click();
@@ -340,20 +340,36 @@ test('shows both patent drawings in equally sized portrait frames without croppi
       const drawing = image as HTMLImageElement;
       const bounds = drawing.getBoundingClientRect();
       const card = drawing.closest('.patent-card')!.getBoundingClientRect();
+      const list = drawing.closest('.patent-list')!.getBoundingClientRect();
       return {
         width: bounds.width,
         height: bounds.height,
         objectFit: getComputedStyle(drawing).objectFit,
         cardWidth: card.width,
+        cardHeight: card.height,
+        cardLeft: card.left,
+        cardRight: card.right,
+        listLeft: list.left,
+        listRight: list.right,
       };
     }));
     expect(Math.abs(measurements[0].width - measurements[1].width)).toBeLessThan(1);
     expect(Math.abs(measurements[0].height - measurements[1].height)).toBeLessThan(1);
     for (const drawing of measurements) {
-      expect(drawing.width).toBeGreaterThan(width === 1440 ? 400 : 270);
-      expect(drawing.height).toBeGreaterThan(width === 1440 ? 500 : 350);
+      expect(drawing.width).toBeGreaterThan(width === 1440 ? 330 : 270);
+      expect(drawing.width).toBeLessThan(365);
+      expect(drawing.height).toBeGreaterThan(width === 1440 ? 445 : 350);
+      expect(drawing.height / drawing.width).toBeCloseTo(1000 / 729, 2);
       expect(drawing.objectFit).toBe('contain');
       expect(drawing.width).toBeLessThanOrEqual(drawing.cardWidth);
+    }
+    if (width === 1440) {
+      expect(Math.abs(measurements[0].cardWidth - measurements[1].cardWidth)).toBeLessThan(1);
+      expect(Math.abs(measurements[0].cardHeight - measurements[1].cardHeight)).toBeLessThan(1);
+      const leftInset = measurements[0].cardLeft - measurements[0].listLeft;
+      const rightInset = measurements[1].listRight - measurements[1].cardRight;
+      expect(Math.abs(leftInset - rightInset)).toBeLessThan(1);
+      expect(measurements[1].cardLeft - measurements[0].cardRight).toBeLessThan(120);
     }
   }
 });
