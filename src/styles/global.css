@@ -931,6 +931,10 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   margin: 0;
 }
 
+.patent-card__figure a {
+  display: block;
+}
+
 .patent-card__figure img,
 .industry-card img {
   width: 100%;
@@ -942,10 +946,10 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .patent-card__figure img {
-  max-height: 15rem;
-  aspect-ratio: 729 / 1000;
+  height: auto;
   object-fit: contain;
   background: #fff;
+  cursor: zoom-in;
 }
 
 .patent-card h3 {

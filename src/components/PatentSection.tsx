@@ -25,14 +25,21 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
         {items.map((item) => (
           <article key={item.id} className="patent-card">
             <figure className="patent-card__figure">
-              <img
-                src={item.image.src}
-                alt={localized(item.image.alt, locale)}
-                width="729"
-                height="1000"
-                loading="lazy"
-                decoding="async"
-              />
+              <a
+                href={item.image.src}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={locale === 'zh' ? `查看 ${item.number} 附图原图` : `View full-size drawing for ${item.number}`}
+              >
+                <img
+                  src={item.image.src}
+                  alt={localized(item.image.alt, locale)}
+                  width="729"
+                  height="1000"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
             </figure>
             <div className="patent-card__body">
               <p className="patent-card__number">{item.number}</p>

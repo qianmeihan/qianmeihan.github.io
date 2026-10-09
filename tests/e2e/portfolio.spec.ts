@@ -330,6 +330,33 @@ test('keeps each patent summary compact and places one ownership note below both
   }
 });
 
+test('shows patent drawings at readable portrait scale on desktop and mobile', async ({ page }) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.getByRole('link', { name: '专利', exact: true }).click();
+    const drawings = page.locator('.patent-card__figure img');
+    await expect(drawings).toHaveCount(2);
+    const measurements = await drawings.evaluateAll((images) => images.map((image) => {
+      const drawing = image as HTMLImageElement;
+      const bounds = drawing.getBoundingClientRect();
+      const card = drawing.closest('.patent-card')!.getBoundingClientRect();
+      return {
+        width: bounds.width,
+        height: bounds.height,
+        naturalRatio: drawing.naturalHeight / drawing.naturalWidth,
+        renderedRatio: bounds.height / bounds.width,
+        cardWidth: card.width,
+      };
+    }));
+    for (const drawing of measurements) {
+      expect(drawing.width).toBeGreaterThan(width === 1440 ? 400 : 270);
+      expect(drawing.height).toBeGreaterThan(width === 1440 ? 500 : 350);
+      expect(Math.abs(drawing.renderedRatio - drawing.naturalRatio)).toBeLessThan(0.04);
+      expect(drawing.width).toBeLessThanOrEqual(drawing.cardWidth);
+    }
+  }
+});
+
 test('centers each proof point within its overview cell', async ({ page }) => {
   for (const width of [1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
