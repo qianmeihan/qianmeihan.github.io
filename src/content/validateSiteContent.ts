@@ -140,21 +140,17 @@ function skillGroup(value: unknown, path: string): SkillGroup {
   };
 }
 
-const skillVisuals = new Set([
-  'stamping', 'casting', 'molding', 'mounting', 'tolerances', 'thermal',
-  'software', 'review', 'collaboration', 'analysis', 'languages',
-]);
-
 function skillItem(value: unknown, path: string): SkillItem {
   const item = record(value, path);
-  const visual = string(item.visual, `${path}.visual`);
-  if (!skillVisuals.has(visual)) {
-    throw new Error(`${path}.visual must be a supported capability visual`);
+  const imageStyle = string(item.imageStyle, `${path}.imageStyle`);
+  if (imageStyle !== 'cover' && imageStyle !== 'contain') {
+    throw new Error(`${path}.imageStyle must be "cover" or "contain"`);
   }
   return {
     id: string(item.id, `${path}.id`),
     label: localized(item.label, `${path}.label`),
-    visual: visual as SkillItem['visual'],
+    image: media(item.image, `${path}.image`),
+    imageStyle,
   };
 }
 

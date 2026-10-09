@@ -772,12 +772,33 @@ test('short content sections end near their content rather than leaving a viewpo
 test('keeps course image attribution visually quiet in the footer', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   const credits = page.getByRole('region', { name: '图片与图标来源与许可' });
-  await expect(credits.getByRole('listitem')).toHaveCount(16);
+  await expect(credits.getByRole('listitem')).toHaveCount(24);
   const desktopFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
   expect(desktopFontSize).toBeLessThan(10.5);
   await page.setViewportSize({ width: 390, height: 844 });
   const phoneFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
   expect(phoneFontSize).toBeGreaterThanOrEqual(10);
+});
+
+test('aligns capability image tiles across desktop and phone layouts', async ({ page }) => {
+  for (const viewport of [
+    { width: 1440, height: 900 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/#skills');
+    const skillImages = page.locator('.skill-item__visual img');
+    await expect(skillImages).toHaveCount(13);
+    const frames = await page.locator('.skill-item__visual').evaluateAll((elements) =>
+      elements.map((element) => {
+        const rect = element.getBoundingClientRect();
+        return { width: Math.round(rect.width), height: Math.round(rect.height) };
+      }),
+    );
+    expect(new Set(frames.map((frame) => frame.height)).size).toBe(1);
+    expect(new Set(frames.map((frame) => frame.width)).size).toBe(1);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(viewport.width);
+  }
 });
 
 test('keeps course photos compact at desktop and phone widths', async ({ page }) => {

@@ -1120,54 +1120,63 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--color-line);
-  border-left: 1px solid var(--color-line);
+  gap: 0.8rem;
 }
 
 .skill-group {
-  padding: 1.15rem 1.25rem 1rem;
-  border-right: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
+  padding: 1rem 1.15rem 1.15rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-surface);
+  background: color-mix(in srgb, var(--color-surface) 86%, transparent);
 }
 
 .skill-group h3 {
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.8rem;
   color: var(--color-accent-strong);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 650;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.025em;
 }
 
 .skill-group ul {
   margin: 0;
   padding: 0;
   list-style: none;
-  display: grid;
-  gap: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: start;
+  gap: 0.8rem 0.6rem;
 }
 
 .skill-item {
   display: grid;
-  grid-template-columns: 2.7rem minmax(0, 1fr);
-  gap: 0.7rem;
-  align-items: center;
-  min-height: 3.6rem;
-  padding: 0.4rem 0;
-  border-top: 1px solid color-mix(in srgb, var(--color-line) 65%, transparent);
+  grid-template-rows: 5.25rem minmax(2.35rem, auto);
+  gap: 0.5rem;
+  flex: 0 0 7rem;
+  width: 7rem;
+  min-width: 0;
   color: var(--color-ink-soft);
-  font-size: 0.84rem;
-  line-height: 1.35;
+  font-size: 0.76rem;
+  line-height: 1.25;
+  text-align: center;
 }
 
-.skill-item__visual--icon {
-  display: grid;
-  place-items: center;
-  width: 2.7rem;
-  height: 2.7rem;
+.skill-item__visual {
+  display: block;
+  width: 100%;
+  height: 5.25rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-line) 78%, transparent);
   border-radius: 0.55rem;
-  background: color-mix(in srgb, var(--color-accent-soft) 60%, var(--color-surface));
-  color: var(--color-accent-strong);
+  background: var(--color-surface-raised);
+}
+
+.skill-item__visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .skill-item__label {
@@ -1175,38 +1184,12 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   text-wrap: pretty;
 }
 
-.skill-item--software {
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.35rem;
-  padding: 0.55rem 0 0.7rem;
-}
-
-.skill-item--software .skill-item__label {
-  grid-row: 1;
-}
-
-.skill-item__visual--software {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-width: 0;
-}
-
-.skill-item__logo {
-  display: grid;
-  place-items: center;
-  width: 4.2rem;
-  height: 2.35rem;
-  padding: 0.35rem;
-  border: 1px solid color-mix(in srgb, var(--color-line) 70%, transparent);
-  border-radius: 0.4rem;
+.skill-item--logo .skill-item__visual {
+  padding: 0.8rem 0.55rem;
   background: #fff;
 }
 
-.skill-item__logo img {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
+.skill-item--logo .skill-item__visual img {
   object-fit: contain;
 }
 
@@ -1693,10 +1676,6 @@ html[data-theme='dark'] .contact-section {
     min-height: auto;
   }
 
-  .skills-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .education-course-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1886,9 +1865,22 @@ html[data-theme='dark'] .contact-section {
     height: 3.8rem;
   }
 
-  .skills-grid,
   .education-course-grid {
     grid-template-columns: 1fr;
+  }
+
+  .skill-group {
+    padding: 0.9rem;
+  }
+
+  .skill-group ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .skill-item {
+    width: 100%;
   }
 
   .site-footer__top {

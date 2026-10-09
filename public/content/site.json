@@ -502,22 +502,54 @@
         {
           "id": "stamped-housings",
           "label": { "zh": "冲压壳体", "en": "Stamped housings" },
-          "visual": "stamping"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-stamping-image", "src": "/media/skill-stamping.jpg",
+            "alt": { "zh": "冲压模具与冲孔金属板", "en": "Punch, die and stamped metal sheet" },
+            "credit": { "zh": "Douglas W. Jones / CC0", "en": "Douglas W. Jones / CC0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Extruded_Holes.JPG",
+            "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         },
         {
           "id": "die-cast-housings",
           "label": { "zh": "压铸壳体", "en": "Die-cast housings" },
-          "visual": "casting"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-die-casting-image", "src": "/media/skill-die-casting.jpg",
+            "alt": { "zh": "铝压铸零件", "en": "Aluminium die-cast part" },
+            "credit": { "zh": "Ulfbastel / CC BY-SA 3.0", "en": "Ulfbastel / CC BY-SA 3.0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aldruckguss.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         },
         {
           "id": "molded-housings",
           "label": { "zh": "注塑壳体与卡扣", "en": "Injection-molded housings and snap fits" },
-          "visual": "molding"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-injection-mold-image", "src": "/media/skill-injection-mold.jpg",
+            "alt": { "zh": "注塑模具局部", "en": "Detail of an injection mold" },
+            "credit": { "zh": "Bricetofly / CC0", "en": "Bricetofly / CC0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Injection_mold_-_(7).jpg",
+            "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         },
         {
           "id": "mounting-insulation",
           "label": { "zh": "安装与绝缘结构", "en": "Mounting and insulation structures" },
-          "visual": "mounting"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-mounting-image", "src": "/media/skill-mounting.jpg",
+            "alt": { "zh": "安装在壳体内的电子组件", "en": "Electronic components mounted in an enclosure" },
+            "credit": { "zh": "tony_duell / CC BY 2.0", "en": "tony_duell / CC BY 2.0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Case_fitted.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         }
       ]
     },
@@ -531,22 +563,76 @@
         {
           "id": "gdt-tolerances",
           "label": { "zh": "GD&T 与尺寸链", "en": "GD&T and tolerance chains" },
-          "visual": "tolerances"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-gdt-image", "src": "/media/edu-engineering-graphics.jpg",
+            "alt": { "zh": "机械工程图纸", "en": "Mechanical engineering drawings" },
+            "credit": { "zh": "Benrobuck / CC BY-SA 3.0", "en": "Benrobuck / CC BY-SA 3.0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_drawings_with_Machinery%27s_Handbook.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         },
         {
           "id": "thermal-moldflow",
           "label": { "zh": "热分析与模流协同", "en": "Thermal and mold-flow coordination" },
-          "visual": "thermal"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-simulation-image", "src": "/media/edu-scientific-computing-cfd.jpg",
+            "alt": { "zh": "流体仿真流线图", "en": "Fluid simulation streamlines" },
+            "credit": { "zh": "Atif Masood (FetchCFD) / CC BY-SA 4.0", "en": "Atif Masood (FetchCFD) / CC BY-SA 4.0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Catalytic-converter-simulation-velocity-streamlines.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "usageNote": { "zh": "仿真主题示意，非实际模流结果或本人项目", "en": "Simulation topic illustration, not an actual mold-flow result or personal project" }
+          }
         },
         {
-          "id": "cad-software",
-          "label": { "zh": "CATIA / Creo / AutoCAD", "en": "CATIA / Creo / AutoCAD" },
-          "visual": "software"
+          "id": "catia-software",
+          "label": { "zh": "CATIA", "en": "CATIA" },
+          "imageStyle": "contain",
+          "image": {
+            "id": "skill-catia-image", "src": "/media/skill-catia-logo.png",
+            "alt": { "zh": "CATIA 软件标识", "en": "CATIA software mark" },
+            "credit": { "zh": "Dassault Systèmes / 软件标识", "en": "Dassault Systèmes / software mark" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:CATIA_Logotype_RGB_Blue.png",
+            "usageNote": { "zh": "仅用于识别软件，不代表厂商背书", "en": "Software identification only; no vendor endorsement implied" }
+          }
+        },
+        {
+          "id": "creo-software",
+          "label": { "zh": "Creo", "en": "Creo" },
+          "imageStyle": "contain",
+          "image": {
+            "id": "skill-creo-image", "src": "/media/skill-creo-logo.svg",
+            "alt": { "zh": "Creo 软件标识", "en": "Creo software mark" },
+            "credit": { "zh": "PTC Inc. / 软件标识", "en": "PTC Inc. / software mark" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:PTC_Creo_logo.svg",
+            "usageNote": { "zh": "仅用于识别软件，不代表厂商背书", "en": "Software identification only; no vendor endorsement implied" }
+          }
+        },
+        {
+          "id": "autocad-software",
+          "label": { "zh": "AutoCAD", "en": "AutoCAD" },
+          "imageStyle": "contain",
+          "image": {
+            "id": "skill-autocad-image", "src": "/media/skill-autocad-logo.svg",
+            "alt": { "zh": "AutoCAD 软件标识", "en": "AutoCAD software mark" },
+            "credit": { "zh": "Autodesk Inc. / 软件标识", "en": "Autodesk Inc. / software mark" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Autodesk_AutoCAD_Logo.svg",
+            "usageNote": { "zh": "仅用于识别软件，不代表厂商背书", "en": "Software identification only; no vendor endorsement implied" }
+          }
         },
         {
           "id": "technical-review",
           "label": { "zh": "技术评审与问题闭环", "en": "Technical reviews and issue closure" },
-          "visual": "review"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-technical-review-image", "src": "/media/edu-cad.jpg",
+            "alt": { "zh": "工程师在 CAD 工作站进行设计工作", "en": "Engineer working at a CAD workstation" },
+            "credit": { "zh": "Hughes Aircraft Company / 公有领域", "en": "Hughes Aircraft Company / public domain" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineer_working_on_CAD_workstation_with_light_pen_Hughes_Aircraft_Company.jpg",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         }
       ]
     },
@@ -560,17 +646,40 @@
         {
           "id": "cross-functional",
           "label": { "zh": "跨职能评审与供应商协同", "en": "Cross-functional reviews and supplier collaboration" },
-          "visual": "collaboration"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-collaboration-image", "src": "/media/edu-mechanical-design.jpg",
+            "alt": { "zh": "工程原型开发工作现场", "en": "Engineering prototype development setting" },
+            "credit": { "zh": "NASA / Ben Smegelsky / 公有领域", "en": "NASA / Ben Smegelsky / public domain" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_Labs-_Prototype_Development_Laboratory_(PDL)_(KSC-20201021-PH-JBS01_0020).jpg",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         },
         {
           "id": "production-analysis",
           "label": { "zh": "量产问题分析与闭环", "en": "Production issue analysis and closure" },
-          "visual": "analysis"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-production-image", "src": "/media/edu-manufacturing.jpg",
+            "alt": { "zh": "机械零件制造设备", "en": "Mechanical part manufacturing equipment" },
+            "credit": { "zh": "Impressionmanufacturer / CC BY-SA 4.0", "en": "Impressionmanufacturer / CC BY-SA 4.0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:CNC_milling_machine.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         },
         {
           "id": "working-languages",
           "label": { "zh": "中文 / 英语 / 法语 B2", "en": "Chinese / English / French B2" },
-          "visual": "languages"
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-languages-image", "src": "/media/skill-languages.jpg",
+            "alt": { "zh": "语言主题书籍", "en": "Language books" },
+            "credit": { "zh": "University of Illinois Library / A.M. Stangl / CC BY 2.0", "en": "University of Illinois Library / A.M. Stangl / CC BY 2.0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Language_books_(8711661459).jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
         }
       ]
     }

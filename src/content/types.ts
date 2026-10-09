@@ -72,8 +72,8 @@ export interface SkillGroup {
 export interface SkillItem {
   id: string;
   label: LocalizedText;
-  visual: 'stamping' | 'casting' | 'molding' | 'mounting' | 'tolerances' |
-    'thermal' | 'software' | 'review' | 'collaboration' | 'analysis' | 'languages';
+  image: MediaItem;
+  imageStyle: 'cover' | 'contain';
 }
 
 export interface EducationItem {

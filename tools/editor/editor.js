@@ -19,7 +19,7 @@ const labels = {
   number: '专利号', status: '状态', inventors: '发明人', ownership: '权利归属', engineeringValue: '工程价值', sourceLabel: '来源名称', sourceUrl: '来源网址', curriculumUrl: '学校课程网址', licenseUrl: '图片许可协议',
   image: '图片', logo: '学校 / 公司标志', id: '内部标识', items: '能力条目', institution: '学校', degree: '学位',
   courses: '精选课程', description: '说明', invitation: '联系文案', src: '图片路径', alt: '图片替代文本', credit: '图片署名',
-  usageNote: '使用说明', label: '名称 / 文案', visual: '能力图示类型', href: '链接地址', zh: '中文', en: 'English',
+  usageNote: '使用说明', label: '名称 / 文案', imageStyle: '图片显示方式（cover / contain）', href: '链接地址', zh: '中文', en: 'English',
 };
 
 function labelFor(key) {
@@ -46,7 +46,11 @@ function inputFor(value, key, update) {
   field.append(caption);
 
   let control;
-  if (key === 'defaultLocale') {
+  if (key === 'imageStyle') {
+    control = document.createElement('select');
+    control.innerHTML = '<option value="cover">裁切铺满（照片）</option><option value="contain">完整显示（标识）</option>';
+    control.value = value;
+  } else if (key === 'defaultLocale') {
     control = document.createElement('select');
     control.innerHTML = '<option value="zh">中文</option><option value="en">English</option>';
     control.value = value;

@@ -89,20 +89,20 @@ describe('App', () => {
     expect(window.scrollTo).not.toHaveBeenCalled();
   });
 
-  it('moves each course image attribution to a small footer list', async () => {
+  it('moves course and capability image attribution to a small footer list', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     const credits = await screen.findByRole('region', { name: '图片与图标来源与许可' });
-    expect(within(credits).getAllByRole('listitem')).toHaveLength(16);
-    expect(within(credits).getAllByRole('link', { name: '许可协议' })).toHaveLength(12);
+    expect(within(credits).getAllByRole('listitem')).toHaveLength(24);
+    expect(within(credits).getAllByRole('link', { name: '许可协议' })).toHaveLength(17);
     expect(within(credits).getByText('材料力学')).toBeInTheDocument();
     expect(within(credits).getByRole('link', { name: 'Sigmund / CC BY-SA 3.0' })).toHaveAttribute(
       'href',
       'https://commons.wikimedia.org/wiki/File:Cast_iron_tensile_test.JPG',
     );
     expect(credits).toHaveTextContent('缩放');
-    expect(within(credits).getByRole('link', { name: 'CATIA' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:CATIA_Logotype_RGB_Blue.png');
-    expect(within(credits).getByRole('link', { name: 'Creo' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:PTC_Creo_logo.svg');
-    expect(within(credits).getByRole('link', { name: 'AutoCAD' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:Autodesk_AutoCAD_Logo.svg');
+    expect(within(credits).getByRole('link', { name: 'Dassault Systèmes / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:CATIA_Logotype_RGB_Blue.png');
+    expect(within(credits).getByRole('link', { name: 'PTC Inc. / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:PTC_Creo_logo.svg');
+    expect(within(credits).getByRole('link', { name: 'Autodesk Inc. / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:Autodesk_AutoCAD_Logo.svg');
     expect(within(credits).getByRole('link', { name: 'Lucide' })).toHaveAttribute('href', 'https://lucide.dev/license');
     expect(within(container.querySelector('#education') as HTMLElement).queryByRole('link', { name: '许可协议' })).not.toBeInTheDocument();
   });

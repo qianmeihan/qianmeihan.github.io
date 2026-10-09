@@ -14,6 +14,7 @@ const mediaItems: MediaItem[] = [
   siteContent.profile.portrait,
   ...siteContent.experience.map((item) => item.logo),
   ...siteContent.patents.map((patent) => patent.image),
+  ...siteContent.skillGroups.flatMap((group) => group.items.map((item) => item.image)),
   ...siteContent.education.map((item) => item.logo),
   ...siteContent.education.flatMap((item) => item.courses.map((course) => course.image)),
 ];
@@ -21,7 +22,7 @@ const mediaItems: MediaItem[] = [
 describe('portfolio media policy', () => {
   it('requires traceable bilingual metadata for every image', () => {
     for (const media of mediaItems) {
-      expect(media.src).toMatch(/^\/media\/[a-z0-9-]+\.(?:jpe?g|png|webp)$/i);
+      expect(media.src).toMatch(/^\/media\/[a-z0-9-]+\.(?:jpe?g|png|webp|svg)$/i);
       expect(media.alt.zh.trim()).not.toBe('');
       expect(media.alt.en.trim()).not.toBe('');
       expect(media.credit.zh.trim()).not.toBe('');

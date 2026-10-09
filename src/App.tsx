@@ -168,7 +168,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
               <span>© 2026 {localized(content.profile.name, locale)}</span>
               <a href="#profile">{locale === 'zh' ? '返回概述' : 'Back to overview'}</a>
             </div>
-            <CourseImageCredits items={content.education} locale={locale} />
+            <CourseImageCredits items={content.education} skillGroups={content.skillGroups} locale={locale} />
           </footer>
         </div>
       </div>
