@@ -386,8 +386,8 @@
         "en": "Published utility model patent"
       },
       "summary": {
-        "zh": "双面卡扣限制壳体连接处双向位移，降低振动或外力下的脱开风险。",
-        "en": "A double-sided snap-fit limits movement at the housing joint and reduces disengagement risk under vibration or external force."
+        "zh": "双面卡扣限制壳体连接位移，提升装配可靠性。",
+        "en": "A double-sided snap-fit limits housing joint movement for reliable assembly."
       },
       "inventors": {
         "zh": "发明人：钱美含",
@@ -442,8 +442,8 @@
         "en": "Published utility model patent"
       },
       "summary": {
-        "zh": "壳体结构固定 PCB，并通过条形槽与压接柱改善导体之间的爬电距离。",
-        "en": "Housing features retain the PCB while a strip groove and pressure posts improve creepage distance between conductors."
+        "zh": "壳体固定 PCB，槽与压接柱改善爬电距离。",
+        "en": "Housing features secure the PCB and improve creepage distance."
       },
       "inventors": {
         "zh": "共同发明人：李雪、钱美含",

@@ -191,7 +191,7 @@ describe('optional portfolio sections', () => {
     expect(drawing).toHaveAttribute('height', '1000');
   });
 
-  it('shows both employer-owned published patents with inventor credit', async () => {
+  it('shows two concise patent cards with one shared ownership note', async () => {
     const { validateSiteContent } = await import('../content/validateSiteContent');
     const { default: rawContent } = await import('../../public/content/site.json');
     const content = validateSiteContent(rawContent);
@@ -200,7 +200,28 @@ describe('optional portfolio sections', () => {
     expect(container.querySelectorAll('.patent-card')).toHaveLength(2);
     expect(screen.getByText('发明人：钱美含')).toBeInTheDocument();
     expect(screen.getByText('共同发明人：李雪、钱美含')).toBeInTheDocument();
-    expect(screen.getAllByText('职务发明，专利权归原单位')).toHaveLength(2);
+    expect(screen.getAllByText('职务发明，专利权归原单位')).toHaveLength(1);
+    expect(container.querySelector('.patent-section__ownership')).toHaveTextContent('职务发明，专利权归原单位');
+    for (const card of container.querySelectorAll('.patent-card')) {
+      expect(card.querySelector('.patent-card__status')).not.toBeInTheDocument();
+      expect(card.querySelector('ul')).not.toBeInTheDocument();
+      expect(card.querySelector('figcaption')).not.toBeInTheDocument();
+      expect(card.querySelector('.patent-card__ownership')).not.toBeInTheDocument();
+    }
     expect(screen.getAllByRole('link', { name: '查看公开专利记录' })).toHaveLength(2);
+  });
+
+  it('keeps ownership attributed to each patent when the notes differ', async () => {
+    const { validateSiteContent } = await import('../content/validateSiteContent');
+    const { default: rawContent } = await import('../../public/content/site.json');
+    const content = validateSiteContent(rawContent);
+    const items = structuredClone(content.patents);
+    items[1].ownership = { zh: '另一权属说明', en: 'Different ownership note' };
+    const { container } = render(<PatentSection items={items} locale="zh" />);
+
+    expect(container.querySelector('.patent-section__ownership')).not.toBeInTheDocument();
+    const cards = container.querySelectorAll('.patent-card');
+    expect(within(cards[0] as HTMLElement).getByText('职务发明，专利权归原单位')).toBeInTheDocument();
+    expect(within(cards[1] as HTMLElement).getByText('另一权属说明')).toBeInTheDocument();
   });
 });

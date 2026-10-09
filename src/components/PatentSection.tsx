@@ -1,4 +1,4 @@
-import { ArrowUpRight, BadgeCheck } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import type { Locale, PatentItem } from '../content/types';
 import { localized } from '../lib/localized';
 import { SectionHeading } from './SectionHeading';
@@ -12,6 +12,11 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
   if (items.length === 0) {
     return null;
   }
+
+  const ownership = localized(items[0].ownership, locale);
+  const sharedOwnership = items.every((item) => localized(item.ownership, locale) === ownership)
+    ? ownership
+    : null;
 
   return (
     <section className="content-section patent-section" id="patent">
@@ -28,23 +33,13 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
                 loading="lazy"
                 decoding="async"
               />
-              <figcaption>{localized(item.image.credit, locale)}</figcaption>
             </figure>
             <div className="patent-card__body">
-              <p className="patent-card__status">
-                <BadgeCheck aria-hidden="true" size={17} />
-                {localized(item.status, locale)}
-              </p>
               <p className="patent-card__number">{item.number}</p>
               <h3>{localized(item.title, locale)}</h3>
-              <p>{localized(item.summary, locale)}</p>
+              <p className="patent-card__summary">{localized(item.summary, locale)}</p>
               <p className="patent-card__inventors">{localized(item.inventors, locale)}</p>
-              <p className="patent-card__ownership">{localized(item.ownership, locale)}</p>
-              <ul>
-                {item.engineeringValue.map((value) => (
-                  <li key={value.zh}>{localized(value, locale)}</li>
-                ))}
-              </ul>
+              {!sharedOwnership && <p className="patent-card__ownership">{localized(item.ownership, locale)}</p>}
               <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
                 {localized(item.sourceLabel, locale)}
                 <ArrowUpRight aria-hidden="true" size={15} />
@@ -53,6 +48,7 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
           </article>
         ))}
       </div>
+      {sharedOwnership && <p className="patent-section__ownership">{sharedOwnership}</p>}
     </section>
   );
 }

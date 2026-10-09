@@ -311,6 +311,25 @@ test('shows four proof points and two verified patents in both languages', async
   await expect(page.locator('.patent-card')).toHaveCount(2);
 });
 
+test('keeps each patent summary compact and places one ownership note below both cards', async ({ page }) => {
+  await page.setViewportSize({ width: 1200, height: 900 });
+  await page.getByRole('link', { name: '专利', exact: true }).click();
+  await expect(page.locator('.patent-card')).toHaveCount(2);
+  await expect(page.locator('.patent-section__ownership')).toHaveCount(1);
+  const spacing = await page.locator('.patent-card__body').evaluateAll((bodies) => bodies.map((body) => {
+    const selectors = ['.patent-card__number', 'h3', '.patent-card__summary', '.patent-card__inventors', 'a'];
+    const bounds = selectors.map((selector) => body.querySelector(selector)!.getBoundingClientRect());
+    return {
+      topInset: bounds[0].top - body.getBoundingClientRect().top,
+      gaps: bounds.slice(1).map((next, index) => next.top - bounds[index].bottom),
+    };
+  }));
+  for (const card of spacing) {
+    expect(card.topInset).toBeLessThan(6);
+    expect(Math.max(...card.gaps)).toBeLessThan(18);
+  }
+});
+
 test('centers each proof point within its overview cell', async ({ page }) => {
   for (const width of [1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });

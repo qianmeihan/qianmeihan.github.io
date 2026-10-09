@@ -55,6 +55,10 @@ describe('public content policy', () => {
     expect(siteContent.patents[0].inventors.zh).toBe('发明人：钱美含');
     expect(siteContent.patents[1].inventors.zh).toBe('共同发明人：李雪、钱美含');
     expect(siteContent.patents.every((patent) => patent.ownership.zh.includes('原单位'))).toBe(true);
+    expect(siteContent.patents.every((patent) => patent.summary.zh.length <= 28)).toBe(true);
+    expect(siteContent.patents.every((patent) => patent.summary.en.length <= 90)).toBe(true);
+    expect(siteContent.patents[0].summary.zh).toContain('卡扣');
+    expect(siteContent.patents[1].summary.zh).toContain('爬电距离');
     expect(siteContent.hero.metrics.map((metric) => metric.id)).toEqual([
       'experience',
       'structures',

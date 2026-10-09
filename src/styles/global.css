@@ -495,7 +495,6 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .hero-portrait figcaption,
-.patent-card figcaption,
 .industry-card figcaption {
   margin-top: 0.55rem;
   color: var(--color-ink-soft);
@@ -690,8 +689,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   text-wrap: pretty;
 }
 
-.timeline-item__body ul,
-.patent-card__body ul {
+.timeline-item__body ul {
   margin: 1rem 0 0;
   padding: 0;
   list-style: none;
@@ -699,16 +697,14 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   gap: 0.45rem;
 }
 
-.timeline-item__body li,
-.patent-card__body li {
+.timeline-item__body li {
   position: relative;
   padding-inline-start: 1.15rem;
   color: var(--color-ink-soft);
   font-size: 0.88rem;
 }
 
-.timeline-item__body li::before,
-.patent-card__body li::before {
+.timeline-item__body li::before {
   content: '';
   position: absolute;
   top: 0.7em;
@@ -956,29 +952,43 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   font-size: clamp(1.25rem, 2vw, 1.65rem);
 }
 
+.patent-card__body {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+}
+
+.patent-card__body > p {
+  margin: 0;
+}
+
+.patent-card__summary {
+  line-height: 1.6;
+}
+
 .patent-card__inventors {
-  color: var(--color-ink) !important;
-  font-weight: 620;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
 .patent-card__ownership {
   font-size: 0.78rem;
 }
 
-.patent-card__status {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
+.patent-card__number {
   color: var(--color-accent-strong) !important;
-  font-size: 0.75rem;
-  font-weight: 620;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
 }
 
-.patent-card__number {
-  margin-top: 1.3rem !important;
-  color: var(--color-line-strong) !important;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+.patent-section__ownership {
+  margin: 1rem 0 0;
+  color: var(--color-ink-soft);
+  font-size: 0.74rem;
+  line-height: 1.45;
+  text-align: right;
 }
 
 .patent-card__body a,
@@ -992,6 +1002,10 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   font-size: 0.78rem;
   font-weight: 620;
   text-underline-offset: 0.3em;
+}
+
+.patent-card__body a {
+  margin-top: 0.15rem;
 }
 
 .skills-grid {
