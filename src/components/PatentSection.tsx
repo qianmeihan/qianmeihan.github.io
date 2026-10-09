@@ -9,7 +9,7 @@ interface PatentSectionProps {
 }
 
 function displayPatentTitle(item: PatentItem, locale: Locale) {
-  const title = localized(item.title, locale);
+  const title = localized(item.displayTitle ?? item.title, locale);
   return locale === 'zh' && !(title.startsWith('《') && title.endsWith('》')) ? `《${title}》` : title;
 }
 
@@ -48,7 +48,9 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
             </figure>
             <div className="patent-card__body">
               <p className="patent-card__number">{item.number}</p>
-              <h3>{displayPatentTitle(item, locale)}</h3>
+              <h3 title={item.displayTitle ? localized(item.title, locale) : undefined}>
+                {displayPatentTitle(item, locale)}
+              </h3>
               <p className="patent-card__summary">{localized(item.summary, locale)}</p>
               <p className="patent-card__inventors">{localized(item.inventors, locale)}</p>
               {!sharedOwnership && <p className="patent-card__ownership">{localized(item.ownership, locale)}</p>}

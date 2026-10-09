@@ -381,6 +381,10 @@
         "zh": "用于BMS控制器壳体的卡扣结构和BMS控制器壳体",
         "en": "Buckle Structure for a BMS Controller Housing and BMS Controller Housing"
       },
+      "displayTitle": {
+        "zh": "BMS控制器壳体卡扣结构",
+        "en": "BMS Controller Housing Snap-Fit"
+      },
       "status": {
         "zh": "公开实用新型专利",
         "en": "Published utility model patent"

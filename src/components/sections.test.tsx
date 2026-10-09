@@ -212,10 +212,15 @@ describe('optional portfolio sections', () => {
     const content = validateSiteContent(rawContent);
 
     const { rerender } = render(<PatentSection items={content.patents} locale="zh" />);
-    expect(screen.getByRole('heading', { name: '《用于BMS控制器壳体的卡扣结构和BMS控制器壳体》' })).toBeInTheDocument();
+    const bmsTitle = screen.getByRole('heading', { name: '《BMS控制器壳体卡扣结构》' });
+    expect(bmsTitle).toHaveAttribute('title', '用于BMS控制器壳体的卡扣结构和BMS控制器壳体');
     expect(screen.getByRole('heading', { name: '《电子装置》' })).toBeInTheDocument();
 
     rerender(<PatentSection items={content.patents} locale="en" />);
+    expect(screen.getByRole('heading', { name: 'BMS Controller Housing Snap-Fit' })).toHaveAttribute(
+      'title',
+      'Buckle Structure for a BMS Controller Housing and BMS Controller Housing',
+    );
     expect(screen.getByRole('heading', { name: 'Electronic Device' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: '《电子装置》' })).not.toBeInTheDocument();
   });
@@ -225,7 +230,7 @@ describe('optional portfolio sections', () => {
     const { default: rawContent } = await import('../../public/content/site.json');
     const content = validateSiteContent(rawContent);
     const items = structuredClone(content.patents);
-    items[0].title.zh = '《已编辑的专利名称》';
+    items[0].displayTitle!.zh = '《已编辑的专利名称》';
 
     render(<PatentSection items={items} locale="zh" />);
 

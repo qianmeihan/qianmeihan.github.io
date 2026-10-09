@@ -116,6 +116,7 @@ function patent(value: unknown, path: string): PatentItem {
     id: string(item.id, `${path}.id`),
     number: string(item.number, `${path}.number`),
     title: localized(item.title, `${path}.title`),
+    ...(item.displayTitle === undefined ? {} : { displayTitle: localized(item.displayTitle, `${path}.displayTitle`) }),
     status: localized(item.status, `${path}.status`),
     summary: localized(item.summary, `${path}.summary`),
     inventors: localized(item.inventors, `${path}.inventors`),

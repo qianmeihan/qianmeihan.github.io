@@ -14,7 +14,7 @@ const labels = {
   skillGroups: '专业能力', education: '教育经历', industryContext: '行业背景', contact: '联系区域',
   updatedAt: '最后更新日期', defaultLocale: '默认语言', name: '姓名', email: '邮箱',
   role: '职位方向', intro: '个人介绍', portrait: '职业照片', links: '外部链接', eyebrow: '眉题',
-  title: '标题', heading: '区块标题', paragraphs: '段落', period: '时间', context: '项目 / 公司背景',
+  title: '标题', displayTitle: '页面显示短标题', heading: '区块标题', paragraphs: '段落', period: '时间', context: '项目 / 公司背景',
   highlights: '工作要点', code: '项目编号', experienceId: '所属经历 ID', details: '项目工作', capabilities: '相关能力',
   number: '专利号', status: '状态', inventors: '发明人', ownership: '权利归属', engineeringValue: '工程价值', sourceLabel: '来源名称', sourceUrl: '来源网址', curriculumUrl: '学校课程网址', licenseUrl: '图片许可协议',
   image: '图片', logo: '学校 / 公司标志', id: '内部标识', items: '能力条目', institution: '学校', degree: '学位',

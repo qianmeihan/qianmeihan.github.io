@@ -52,6 +52,7 @@ export interface PatentItem {
   id: string;
   number: string;
   title: LocalizedText;
+  displayTitle?: LocalizedText;
   status: LocalizedText;
   summary: LocalizedText;
   inventors: LocalizedText;
