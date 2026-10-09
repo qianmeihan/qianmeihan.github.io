@@ -933,8 +933,19 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   margin: 0;
 }
 
-.patent-card__figure a {
+.patent-card__image-button {
   display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.patent-card__image-button:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 4px;
+  border-radius: var(--radius-surface);
 }
 
 .patent-card__figure img,
@@ -956,7 +967,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .patent-card h3 {
-  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
 }
 
 .patent-card__body {
@@ -971,11 +982,12 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .patent-card__summary {
+  font-size: clamp(0.95rem, 1.25vw, 1.1rem);
   line-height: 1.6;
 }
 
 .patent-card__inventors {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
@@ -986,7 +998,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 .patent-card__number {
   color: var(--color-accent-strong) !important;
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   font-weight: 650;
   letter-spacing: 0.01em;
 }
@@ -1015,6 +1027,69 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .patent-card__body a {
   margin-top: 0.15rem;
+  font-size: 0.86rem;
+}
+
+.patent-image-dialog {
+  width: min(45rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-surface);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 0.2);
+}
+
+.patent-image-dialog::backdrop {
+  background: rgb(13 30 26 / 0.63);
+  backdrop-filter: blur(4px);
+}
+
+.patent-image-dialog__inner {
+  display: grid;
+  gap: 0.75rem;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.patent-image-dialog__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--color-accent-strong);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.patent-image-dialog__close {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.patent-image-dialog__close:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 3px;
+}
+
+.patent-image-dialog img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100dvh - 7.5rem);
+  margin-inline: auto;
+  object-fit: contain;
+  background: #fff;
 }
 
 @media (max-width: 680px) {

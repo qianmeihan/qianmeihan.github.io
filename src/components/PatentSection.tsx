@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import type { Locale, PatentItem } from '../content/types';
 import { localized } from '../lib/localized';
 import { SectionHeading } from './SectionHeading';
+import { PatentImageDialog } from './PatentImageDialog';
 
 interface PatentSectionProps {
   items: PatentItem[];
@@ -14,6 +16,8 @@ function displayPatentTitle(item: PatentItem, locale: Locale) {
 }
 
 export function PatentSection({ items, locale }: PatentSectionProps) {
+  const [enlargedItem, setEnlargedItem] = useState<PatentItem | null>(null);
+
   if (items.length === 0) {
     return null;
   }
@@ -30,11 +34,11 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
         {items.map((item) => (
           <article key={item.id} className="patent-card">
             <figure className="patent-card__figure">
-              <a
-                href={item.image.src}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={locale === 'zh' ? `查看 ${item.number} 附图原图` : `View full-size drawing for ${item.number}`}
+              <button
+                type="button"
+                className="patent-card__image-button"
+                aria-label={locale === 'zh' ? `放大查看 ${item.number} 附图` : `Enlarge drawing for ${item.number}`}
+                onClick={() => setEnlargedItem(item)}
               >
                 <img
                   src={item.image.src}
@@ -44,7 +48,7 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
                   loading="lazy"
                   decoding="async"
                 />
-              </a>
+              </button>
             </figure>
             <div className="patent-card__body">
               <p className="patent-card__number">{item.number}</p>
@@ -63,6 +67,7 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
         ))}
       </div>
       {sharedOwnership && <p className="patent-section__ownership">{sharedOwnership}</p>}
+      <PatentImageDialog item={enlargedItem} locale={locale} onClose={() => setEnlargedItem(null)} />
     </section>
   );
 }

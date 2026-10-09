@@ -191,7 +191,7 @@ describe('optional portfolio sections', () => {
     expect(drawing).toHaveAttribute('height', '1000');
   });
 
-  it('links each patent drawing to its full-size local image', async () => {
+  it('offers each patent drawing as an in-page enlargement control', async () => {
     const { validateSiteContent } = await import('../content/validateSiteContent');
     const { default: rawContent } = await import('../../public/content/site.json');
     const content = validateSiteContent(rawContent);
@@ -199,10 +199,9 @@ describe('optional portfolio sections', () => {
     render(<PatentSection items={content.patents} locale="zh" />);
 
     for (const patent of content.patents) {
-      const drawingLink = screen.getByRole('link', { name: `查看 ${patent.number} 附图原图` });
-      expect(drawingLink).toHaveAttribute('href', patent.image.src);
-      expect(drawingLink).toHaveAttribute('target', '_blank');
-      expect(drawingLink).toContainElement(screen.getByRole('img', { name: patent.image.alt.zh }));
+      const drawingButton = screen.getByRole('button', { name: `放大查看 ${patent.number} 附图` });
+      expect(drawingButton).toContainElement(screen.getByRole('img', { name: patent.image.alt.zh }));
+      expect(screen.queryByRole('link', { name: `查看 ${patent.number} 附图原图` })).not.toBeInTheDocument();
     }
   });
 

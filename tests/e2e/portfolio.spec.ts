@@ -311,6 +311,40 @@ test('shows four proof points and two verified patents in both languages', async
   await expect(page.locator('.patent-card')).toHaveCount(2);
 });
 
+test('enlarges patent drawings in a dismissible in-page dialog without an original-image action', async ({ page }) => {
+  await page.getByRole('link', { name: '专利', exact: true }).click();
+  const button = page.getByRole('button', { name: '放大查看 CN223978857U 附图' });
+  const thumbnailSource = await button.getByRole('img').getAttribute('src');
+  await button.click();
+
+  const dialog = page.getByRole('dialog', { name: 'CN223978857U 附图' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('img')).toHaveAttribute('src', thumbnailSource!);
+  const fitsWithoutScrolling = await dialog.evaluate((element) => element.scrollHeight <= element.clientHeight + 1);
+  expect(fitsWithoutScrolling).toBe(true);
+  await expect(dialog.getByRole('link')).toHaveCount(0);
+  await expect(dialog).not.toContainText('打开原图');
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect(button).toBeFocused();
+
+  await button.click();
+  await dialog.getByRole('button', { name: '关闭附图' }).click();
+  await expect(dialog).not.toBeVisible();
+
+  await button.click();
+  await page.mouse.click(5, 5);
+  await expect(dialog).not.toBeVisible();
+  await expect(button).toBeFocused();
+
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await page.getByRole('button', { name: 'Enlarge drawing for CN223978857U' }).click();
+  const englishDialog = page.getByRole('dialog', { name: 'Drawing for CN223978857U' });
+  await expect(englishDialog).toBeVisible();
+  await englishDialog.getByRole('button', { name: 'Close drawing' }).click();
+  await expect(englishDialog).not.toBeVisible();
+});
+
 test('keeps each patent summary compact and places one ownership note below both cards', async ({ page }) => {
   await page.setViewportSize({ width: 1200, height: 900 });
   await page.getByRole('link', { name: '专利', exact: true }).click();
