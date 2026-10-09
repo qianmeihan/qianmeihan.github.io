@@ -500,20 +500,24 @@
       },
       "items": [
         {
-          "zh": "冲压壳体",
-          "en": "Stamped housings"
+          "id": "stamped-housings",
+          "label": { "zh": "冲压壳体", "en": "Stamped housings" },
+          "visual": "stamping"
         },
         {
-          "zh": "压铸壳体",
-          "en": "Die-cast housings"
+          "id": "die-cast-housings",
+          "label": { "zh": "压铸壳体", "en": "Die-cast housings" },
+          "visual": "casting"
         },
         {
-          "zh": "注塑壳体与卡扣",
-          "en": "Injection-molded housings and snap fits"
+          "id": "molded-housings",
+          "label": { "zh": "注塑壳体与卡扣", "en": "Injection-molded housings and snap fits" },
+          "visual": "molding"
         },
         {
-          "zh": "安装与绝缘结构",
-          "en": "Mounting and insulation structures"
+          "id": "mounting-insulation",
+          "label": { "zh": "安装与绝缘结构", "en": "Mounting and insulation structures" },
+          "visual": "mounting"
         }
       ]
     },
@@ -525,20 +529,24 @@
       },
       "items": [
         {
-          "zh": "GD&T 与尺寸链",
-          "en": "GD&T and tolerance chains"
+          "id": "gdt-tolerances",
+          "label": { "zh": "GD&T 与尺寸链", "en": "GD&T and tolerance chains" },
+          "visual": "tolerances"
         },
         {
-          "zh": "热分析与模流协同",
-          "en": "Thermal and mold-flow coordination"
+          "id": "thermal-moldflow",
+          "label": { "zh": "热分析与模流协同", "en": "Thermal and mold-flow coordination" },
+          "visual": "thermal"
         },
         {
-          "zh": "CATIA / Creo / AutoCAD",
-          "en": "CATIA / Creo / AutoCAD"
+          "id": "cad-software",
+          "label": { "zh": "CATIA / Creo / AutoCAD", "en": "CATIA / Creo / AutoCAD" },
+          "visual": "software"
         },
         {
-          "zh": "技术评审与问题闭环",
-          "en": "Technical reviews and issue closure"
+          "id": "technical-review",
+          "label": { "zh": "技术评审与问题闭环", "en": "Technical reviews and issue closure" },
+          "visual": "review"
         }
       ]
     },
@@ -550,16 +558,19 @@
       },
       "items": [
         {
-          "zh": "跨职能评审与供应商协同",
-          "en": "Cross-functional reviews and supplier collaboration"
+          "id": "cross-functional",
+          "label": { "zh": "跨职能评审与供应商协同", "en": "Cross-functional reviews and supplier collaboration" },
+          "visual": "collaboration"
         },
         {
-          "zh": "量产问题分析与闭环",
-          "en": "Production issue analysis and closure"
+          "id": "production-analysis",
+          "label": { "zh": "量产问题分析与闭环", "en": "Production issue analysis and closure" },
+          "visual": "analysis"
         },
         {
-          "zh": "中文 / 英语 / 法语 B2",
-          "en": "Chinese / English / French B2"
+          "id": "working-languages",
+          "label": { "zh": "中文 / 英语 / 法语 B2", "en": "Chinese / English / French B2" },
+          "visual": "languages"
         }
       ]
     }

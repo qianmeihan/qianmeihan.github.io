@@ -115,6 +115,27 @@ describe('optional portfolio sections', () => {
     expect(screen.queryByText(/Course images are openly licensed/)).not.toBeInTheDocument();
   });
 
+  it('gives every capability a distinct visual and shows all three CAD software marks', async () => {
+    const { validateSiteContent } = await import('../content/validateSiteContent');
+    const { default: rawContent } = await import('../../public/content/site.json');
+    const content = validateSiteContent(rawContent);
+    const { container, rerender } = render(<SkillsSection groups={content.skillGroups} locale="zh" />);
+
+    expect(container.querySelectorAll('.skill-item')).toHaveLength(11);
+    expect(container.querySelectorAll('.skill-item__visual')).toHaveLength(11);
+    expect(container.querySelectorAll('.skill-item__visual svg')).toHaveLength(10);
+    const software = screen.getByText('CATIA / Creo / AutoCAD').closest('li');
+    expect(software).not.toBeNull();
+    expect(within(software as HTMLElement).getAllByRole('img')).toHaveLength(3);
+    expect(within(software as HTMLElement).getByRole('img', { name: 'CATIA' })).toHaveAttribute('src', '/media/skill-catia-logo.png');
+    expect(within(software as HTMLElement).getByRole('img', { name: 'Creo' })).toHaveAttribute('src', '/media/skill-creo-logo.svg');
+    expect(within(software as HTMLElement).getByRole('img', { name: 'AutoCAD' })).toHaveAttribute('src', '/media/skill-autocad-logo.svg');
+
+    rerender(<SkillsSection groups={content.skillGroups} locale="en" />);
+    expect(screen.getByText('Injection-molded housings and snap fits')).toBeInTheDocument();
+    expect(container.querySelectorAll('.skill-item__visual')).toHaveLength(11);
+  });
+
   it('renders the education introduction as one naturally wrapping paragraph', async () => {
     const { validateSiteContent } = await import('../content/validateSiteContent');
     const { default: rawContent } = await import('../../public/content/site.json');

@@ -771,7 +771,7 @@ test('short content sections end near their content rather than leaving a viewpo
 
 test('keeps course image attribution visually quiet in the footer', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  const credits = page.getByRole('region', { name: '课程图片来源与许可' });
+  const credits = page.getByRole('region', { name: '图片与图标来源与许可' });
   await expect(credits.getByRole('listitem')).toHaveCount(16);
   const desktopFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
   expect(desktopFontSize).toBeLessThan(10.5);

@@ -66,7 +66,14 @@ export interface PatentItem {
 export interface SkillGroup {
   id: string;
   title: LocalizedText;
-  items: LocalizedText[];
+  items: SkillItem[];
+}
+
+export interface SkillItem {
+  id: string;
+  label: LocalizedText;
+  visual: 'stamping' | 'casting' | 'molding' | 'mounting' | 'tolerances' |
+    'thermal' | 'software' | 'review' | 'collaboration' | 'analysis' | 'languages';
 }
 
 export interface EducationItem {

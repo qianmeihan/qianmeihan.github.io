@@ -10,6 +10,7 @@ import type {
   ProjectItem,
   SiteContent,
   SkillGroup,
+  SkillItem,
 } from './types.ts';
 
 type UnknownRecord = Record<string, unknown>;
@@ -135,7 +136,25 @@ function skillGroup(value: unknown, path: string): SkillGroup {
   return {
     id: string(item.id, `${path}.id`),
     title: localized(item.title, `${path}.title`),
-    items: localizedArray(item.items, `${path}.items`),
+    items: array(item.items, `${path}.items`, skillItem),
+  };
+}
+
+const skillVisuals = new Set([
+  'stamping', 'casting', 'molding', 'mounting', 'tolerances', 'thermal',
+  'software', 'review', 'collaboration', 'analysis', 'languages',
+]);
+
+function skillItem(value: unknown, path: string): SkillItem {
+  const item = record(value, path);
+  const visual = string(item.visual, `${path}.visual`);
+  if (!skillVisuals.has(visual)) {
+    throw new Error(`${path}.visual must be a supported capability visual`);
+  }
+  return {
+    id: string(item.id, `${path}.id`),
+    label: localized(item.label, `${path}.label`),
+    visual: visual as SkillItem['visual'],
   };
 }
 
