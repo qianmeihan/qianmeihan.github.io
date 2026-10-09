@@ -330,46 +330,58 @@ test('keeps each patent summary compact and places one ownership note below both
   }
 });
 
-test('shows smaller, symmetrical patent drawings at their full portrait ratio', async ({ page }) => {
-  for (const width of [1440, 390]) {
+test('stacks two matching patent rows with complete drawings beside concise details', async ({ page }) => {
+  for (const width of [1440, 821, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.getByRole('link', { name: '专利', exact: true }).click();
-    const drawings = page.locator('.patent-card__figure img');
-    await expect(drawings).toHaveCount(2);
-    const measurements = await drawings.evaluateAll((images) => images.map((image) => {
-      const drawing = image as HTMLImageElement;
+    const cards = page.locator('.patent-card');
+    await expect(cards).toHaveCount(2);
+    const measurements = await cards.evaluateAll((elements) => elements.map((element) => {
+      const drawing = element.querySelector('.patent-card__figure img') as HTMLImageElement;
       const bounds = drawing.getBoundingClientRect();
-      const card = drawing.closest('.patent-card')!.getBoundingClientRect();
-      const list = drawing.closest('.patent-list')!.getBoundingClientRect();
+      const body = element.querySelector('.patent-card__body')!.getBoundingClientRect();
+      const card = element.getBoundingClientRect();
       return {
         width: bounds.width,
         height: bounds.height,
+        imageRight: bounds.right,
+        imageBottom: bounds.bottom,
+        bodyLeft: body.left,
+        bodyTop: body.top,
+        bodyWidth: body.width,
         objectFit: getComputedStyle(drawing).objectFit,
         cardWidth: card.width,
         cardHeight: card.height,
-        cardLeft: card.left,
-        cardRight: card.right,
-        listLeft: list.left,
-        listRight: list.right,
+        cardTop: card.top,
+        cardBottom: card.bottom,
       };
     }));
     expect(Math.abs(measurements[0].width - measurements[1].width)).toBeLessThan(1);
     expect(Math.abs(measurements[0].height - measurements[1].height)).toBeLessThan(1);
+    expect(measurements[1].cardTop).toBeGreaterThan(measurements[0].cardBottom);
     for (const drawing of measurements) {
-      expect(drawing.width).toBeGreaterThan(width === 1440 ? 330 : 270);
-      expect(drawing.width).toBeLessThan(365);
-      expect(drawing.height).toBeGreaterThan(width === 1440 ? 445 : 350);
       expect(drawing.height / drawing.width).toBeCloseTo(1000 / 729, 2);
       expect(drawing.objectFit).toBe('contain');
       expect(drawing.width).toBeLessThanOrEqual(drawing.cardWidth);
     }
-    if (width === 1440) {
+    if (width >= 821) {
       expect(Math.abs(measurements[0].cardWidth - measurements[1].cardWidth)).toBeLessThan(1);
       expect(Math.abs(measurements[0].cardHeight - measurements[1].cardHeight)).toBeLessThan(1);
-      const leftInset = measurements[0].cardLeft - measurements[0].listLeft;
-      const rightInset = measurements[1].listRight - measurements[1].cardRight;
-      expect(Math.abs(leftInset - rightInset)).toBeLessThan(1);
-      expect(measurements[1].cardLeft - measurements[0].cardRight).toBeLessThan(120);
+      expect(measurements[0].imageRight).toBeLessThan(measurements[0].bodyLeft);
+      expect(measurements[1].imageRight).toBeLessThan(measurements[1].bodyLeft);
+      if (width === 1440) {
+        expect(measurements[0].cardWidth).toBeGreaterThan(750);
+        expect(measurements[0].width).toBeGreaterThan(230);
+        expect(measurements[0].width).toBeLessThan(280);
+      } else {
+        expect(measurements[0].width).toBeLessThan(220);
+        expect(measurements[0].bodyWidth).toBeGreaterThan(240);
+        expect(measurements[1].bodyWidth).toBeGreaterThan(240);
+      }
+    } else {
+      expect(measurements[0].width).toBeLessThanOrEqual(300);
+      expect(measurements[0].bodyTop).toBeGreaterThan(measurements[0].imageBottom);
+      expect(measurements[1].bodyTop).toBeGreaterThan(measurements[1].imageBottom);
     }
   }
 });
