@@ -494,8 +494,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   filter: saturate(0.78) contrast(1.03);
 }
 
-.hero-portrait figcaption,
-.industry-card figcaption {
+.hero-portrait figcaption {
   margin-top: 0.55rem;
   color: var(--color-ink-soft);
   font-family: var(--font-mono);
@@ -644,7 +643,6 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 .timeline-item h3,
 .project-card h5,
 .patent-card h3,
-.industry-card h3,
 .education-card h3 {
   margin: 0;
   font-size: clamp(1.25rem, 2.4vw, 2rem);
@@ -670,7 +668,6 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .project-card__body > p,
 .patent-card__body > p,
-.industry-card > div > p,
 .education-card > p {
   margin: 0.8rem 0 0;
   color: var(--color-ink-soft);
@@ -928,8 +925,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   padding-top: 1rem;
 }
 
-.patent-card__figure,
-.industry-card figure {
+.patent-card__figure {
   margin: 0;
 }
 
@@ -948,8 +944,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   border-radius: var(--radius-surface);
 }
 
-.patent-card__figure img,
-.industry-card img {
+.patent-card__figure img {
   width: 100%;
   display: block;
   border: 1px solid var(--color-line);
@@ -1012,8 +1007,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   text-align: right;
 }
 
-.patent-card__body a,
-.industry-card a {
+.patent-card__body a {
   width: fit-content;
   margin-top: 1.35rem;
   display: inline-flex;
@@ -1158,12 +1152,6 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
   font-size: 0.84rem;
 }
 
-.industry-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
 .education-section__lead {
   margin: 0 0 clamp(1.3rem, 3vw, 2rem);
   color: var(--color-ink-soft);
@@ -1174,10 +1162,6 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 .education-schools {
   display: grid;
   gap: clamp(1.1rem, 2vw, 1.5rem);
-}
-
-.industry-grid {
-  grid-template-columns: 1fr;
 }
 
 .education-card__header {
@@ -1314,46 +1298,6 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 html[lang='en'] .education-card h3 {
   font-size: clamp(1.08rem, 1.7vw, 1.4rem);
   letter-spacing: -0.02em;
-}
-
-.industry-section {
-  background: var(--color-surface);
-}
-
-.industry-card {
-  background: var(--color-paper);
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(270px, 1.15fr);
-  align-items: center;
-}
-
-.industry-card figure {
-  padding: clamp(1rem, 2vw, 1.5rem);
-  background: #fff;
-}
-
-.industry-card img {
-  aspect-ratio: 2500 / 1473;
-  border: 0;
-  background: #fff;
-  object-fit: contain;
-}
-
-.industry-card figcaption {
-  padding-inline: 0.2rem;
-  color: #556066;
-}
-
-.industry-card > div {
-  padding: clamp(1.25rem, 2vw, 2rem);
-}
-
-.industry-card h3 {
-  font-size: 1.15rem;
-}
-
-.industry-card > div > p {
-  font-size: 0.86rem;
 }
 
 .contact-section {
@@ -1680,10 +1624,6 @@ html[data-theme='dark'] .contact-section {
     margin-top: 0.5rem;
   }
 
-  .industry-card {
-    grid-template-columns: 1fr;
-  }
-
   .project-list {
     grid-template-columns: 1fr;
   }
@@ -1889,8 +1829,7 @@ html[data-theme='dark'] .contact-section {
   }
 
   .skills-grid,
-  .education-course-grid,
-  .industry-grid {
+  .education-course-grid {
     grid-template-columns: 1fr;
   }
 

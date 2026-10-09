@@ -1096,41 +1096,6 @@
       ]
     }
   ],
-  "industryContext": [
-    {
-      "id": "schaeffler-pcb-power-module-context",
-      "title": {
-        "zh": "PCB 嵌入式功率模块",
-        "en": "PCB-Embedded Power Module"
-      },
-      "description": {
-        "zh": "舍弗勒官方图片，用于说明相关汽车电子产品领域，不代表钱美含直接负责该产品。",
-        "en": "Official Schaeffler imagery illustrating the relevant automotive electronics domain. It does not imply that Meihan Qian directly developed this product."
-      },
-      "image": {
-        "id": "schaeffler-pcb-embedded-power-module",
-        "src": "/media/schaeffler-pcb-embedded-power-module.jpg",
-        "alt": {
-          "zh": "舍弗勒 PCB 嵌入式功率模块完整产品图",
-          "en": "Complete Schaeffler PCB-embedded power module product image"
-        },
-        "credit": {
-          "zh": "舍弗勒集团",
-          "en": "Schaeffler Group"
-        },
-        "sourceUrl": "https://media.schaeffler-cdn.com/_storage/asset/1243408/storage/large/download/schaeffler-pcb-embedded-power-module.jpg",
-        "usageNote": {
-          "zh": "仅作相关产品领域识别与说明，不代表品牌背书",
-          "en": "Used only to identify and explain the relevant product domain; no endorsement is implied"
-        }
-      },
-      "sourceLabel": {
-        "zh": "查看舍弗勒官方资料",
-        "en": "View official Schaeffler release"
-      },
-      "sourceUrl": "https://www.schaeffler.com/en/media/press-releases/press-releases-detail.jsp?id=88093185"
-    }
-  ],
   "contact": {
     "heading": {
       "zh": "联系钱美含",

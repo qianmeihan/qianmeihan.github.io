@@ -40,7 +40,6 @@ const validContent = {
   patents: [],
   skillGroups: [],
   education: [],
-  industryContext: [],
   contact: {
     heading: bilingual('联系', 'Contact'),
     invitation: bilingual('欢迎联系。', 'Get in touch.'),

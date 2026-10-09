@@ -4,7 +4,6 @@ export const sectionIds = [
   'experience',
   'patent',
   'skills',
-  'industry-context',
   'contact',
 ] as const;
 

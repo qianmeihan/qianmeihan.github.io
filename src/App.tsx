@@ -4,7 +4,6 @@ import { CourseImageCredits } from './components/CourseImageCredits';
 import { EducationSection } from './components/EducationSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { HeroSection } from './components/HeroSection';
-import { IndustryContextSection } from './components/IndustryContextSection';
 import { LanguageSwitch } from './components/LanguageSwitch';
 import { PatentSection } from './components/PatentSection';
 import { SiteNav } from './components/SiteNav';
@@ -162,7 +161,6 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
             <ExperienceSection items={content.experience} projects={content.projects} locale={locale} />
             <PatentSection items={content.patents} locale={locale} />
             <SkillsSection groups={content.skillGroups} locale={locale} />
-            <IndustryContextSection items={content.industryContext} locale={locale} />
             <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />
           </main>
           <footer className="site-footer">

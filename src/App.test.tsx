@@ -259,7 +259,7 @@ describe('App', () => {
 
     expect(container.querySelector('.summary-section')).not.toBeInTheDocument();
     expect(container.querySelector('.section-heading__number')).not.toBeInTheDocument();
-    expect(container.querySelectorAll('.site-nav a svg')).toHaveLength(7);
+    expect(container.querySelectorAll('.site-nav a svg')).toHaveLength(6);
   });
 
   it('shows a bilingual error and retries without exposing the exception', async () => {
@@ -340,7 +340,6 @@ describe('App', () => {
       'experience',
       'patent',
       'skills',
-      'industry-context',
       'contact',
     ]) {
       expect(navigation.querySelector(`a[href="#${target}"]`)).not.toBeNull();

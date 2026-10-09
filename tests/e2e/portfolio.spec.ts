@@ -592,7 +592,7 @@ test('navigates within one continuous page and highlights the selected section',
     await expect(page).toHaveURL(new RegExp(`${hash}$`));
     await expect(page.locator(hash)).toBeInViewport();
     await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', hash);
-    await expect(page.locator('main > section')).toHaveCount(8);
+    await expect(page.locator('main > section')).toHaveCount(7);
   }
 });
 
@@ -881,7 +881,7 @@ test('fits the complete overview in a compact desktop viewport in both languages
 });
 
 test('supports keyboard navigation through all header controls', async ({ page }) => {
-  const expected = ['钱美含', '概述', '教育经历', '工作经历', '专利', '专业能力', '产品领域', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
+  const expected = ['钱美含', '概述', '教育经历', '工作经历', '专利', '专业能力', '联系', '中文', 'EN', '亮色', '暗色', '跟随系统'];
   const visited: string[] = [];
 
   for (let index = 0; index < 16; index += 1) {
@@ -896,4 +896,12 @@ test('supports keyboard navigation through all header controls', async ({ page }
   for (const label of expected) {
     expect(visited.some((value) => value.includes(label)), `keyboard focus reaches ${label}`).toBe(true);
   }
+});
+
+test('removes the standalone product-domain module and its navigation entry', async ({ page }) => {
+  await expect(page.locator('#industry-context')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: '产品领域', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: '产品领域参考' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: '专业能力', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: '联系', exact: true })).toBeVisible();
 });

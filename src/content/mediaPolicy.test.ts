@@ -16,7 +16,6 @@ const mediaItems: MediaItem[] = [
   ...siteContent.patents.map((patent) => patent.image),
   ...siteContent.education.map((item) => item.logo),
   ...siteContent.education.flatMap((item) => item.courses.map((course) => course.image)),
-  ...siteContent.industryContext.map((item) => item.image),
 ];
 
 describe('portfolio media policy', () => {

@@ -3,7 +3,6 @@ import type {
   EducationCourse,
   ExperienceItem,
   HeroMetric,
-  IndustryContextItem,
   LinkItem,
   LocalizedText,
   MediaItem,
@@ -163,18 +162,6 @@ function educationCourse(value: unknown, path: string): EducationCourse {
   };
 }
 
-function industryContext(value: unknown, path: string): IndustryContextItem {
-  const item = record(value, path);
-  return {
-    id: string(item.id, `${path}.id`),
-    title: localized(item.title, `${path}.title`),
-    description: localized(item.description, `${path}.description`),
-    image: media(item.image, `${path}.image`),
-    sourceLabel: localized(item.sourceLabel, `${path}.sourceLabel`),
-    sourceUrl: string(item.sourceUrl, `${path}.sourceUrl`),
-  };
-}
-
 export function validateSiteContent(value: unknown): SiteContent {
   const root = record(value, 'content');
   const meta = record(root.meta, 'meta');
@@ -220,11 +207,6 @@ export function validateSiteContent(value: unknown): SiteContent {
     patents: array(root.patents, 'patents', patent),
     skillGroups: array(root.skillGroups, 'skillGroups', skillGroup),
     education: array(root.education, 'education', education),
-    industryContext: array(
-      root.industryContext,
-      'industryContext',
-      industryContext,
-    ),
     contact: {
       heading: localized(contact.heading, 'contact.heading'),
       invitation: localized(contact.invitation, 'contact.invitation'),

@@ -109,7 +109,6 @@ describe('public content policy', () => {
       siteContent.patents,
       siteContent.skillGroups,
       siteContent.education,
-      siteContent.industryContext,
     ];
 
     for (const collection of collections) {
@@ -140,12 +139,8 @@ describe('public content policy', () => {
     expect(siteContent.projects.every((project) => project.details.length > 1 && project.details.every((detail) => detail.zh && detail.en))).toBe(true);
   });
 
-  it('uses one official product-domain reference without overstating ownership', () => {
-    expect(siteContent.industryContext).toHaveLength(1);
-    expect(siteContent.industryContext[0].image.src).toBe(
-      '/media/schaeffler-pcb-embedded-power-module.jpg',
-    );
-    expect(siteContent.industryContext[0].description.zh).toContain('不代表');
-    expect(siteContent.industryContext[0].description.en).toContain('does not imply');
+  it('omits unrelated product-domain material from the published portfolio', () => {
+    expect(siteContent).not.toHaveProperty('industryContext');
+    expect(serialized).not.toContain('PCB 嵌入式功率模块');
   });
 });

@@ -86,15 +86,6 @@ export interface EducationCourse {
   image: MediaItem;
 }
 
-export interface IndustryContextItem {
-  id: string;
-  title: LocalizedText;
-  description: LocalizedText;
-  image: MediaItem;
-  sourceLabel: LocalizedText;
-  sourceUrl: string;
-}
-
 export interface SiteContent {
   meta: {
     updatedAt: string;
@@ -116,7 +107,6 @@ export interface SiteContent {
   patents: PatentItem[];
   skillGroups: SkillGroup[];
   education: EducationItem[];
-  industryContext: IndustryContextItem[];
   contact: {
     heading: LocalizedText;
     invitation: LocalizedText;

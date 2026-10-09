@@ -1,4 +1,4 @@
-import { Award, BriefcaseBusiness, GraduationCap, Mail, UserRound, Wrench, Factory } from 'lucide-react';
+import { Award, BriefcaseBusiness, GraduationCap, Mail, UserRound, Wrench } from 'lucide-react';
 import type { Locale } from '../content/types';
 import type { SectionId } from '../lib/sectionNavigation';
 
@@ -16,7 +16,6 @@ const groups = [
   [
     { id: 'patent', zh: '专利', en: 'Patent', Icon: Award },
     { id: 'skills', zh: '专业能力', en: 'Skills', Icon: Wrench },
-    { id: 'industry-context', zh: '产品领域', en: 'Products', Icon: Factory },
   ],
   [{ id: 'contact', zh: '联系', en: 'Contact', Icon: Mail }],
 ] as const;
