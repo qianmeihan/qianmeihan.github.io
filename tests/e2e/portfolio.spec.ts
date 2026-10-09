@@ -129,6 +129,109 @@ test('gives both schools the same quiet outer frame as work experience', async (
   }
 });
 
+test('aligns school name and degree in two rows with the date and curriculum link', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  for (const locale of ['zh', 'en'] as const) {
+    await page.getByRole('button', { name: locale === 'zh' ? '中文' : 'EN', exact: true }).click();
+    const rows = await page.locator('.education-card__header').evaluateAll((headers) => headers.map((header) => {
+      const name = header.querySelector('h3')!;
+      const degree = header.querySelector('.education-card__degree')!;
+      const date = header.querySelector('time')!;
+      const curriculum = header.querySelector('.education-card__curriculum')!;
+      const centerY = (element: Element) => {
+        const bounds = element.getBoundingClientRect();
+        return (bounds.top + bounds.bottom) / 2;
+      };
+      return {
+        nameDateOffset: Math.abs(centerY(name) - centerY(date)),
+        degreeLinkOffset: Math.abs(centerY(degree) - centerY(curriculum)),
+        nameLines: name.getBoundingClientRect().height / parseFloat(getComputedStyle(name).lineHeight),
+        degreeLines: degree.getBoundingClientRect().height / parseFloat(getComputedStyle(degree).lineHeight),
+        dateColor: getComputedStyle(date).color,
+        degreeColor: getComputedStyle(degree).color,
+      };
+    }));
+    expect(rows).toHaveLength(2);
+    for (const row of rows) {
+      expect(row.nameDateOffset).toBeLessThan(10);
+      expect(row.degreeLinkOffset).toBeLessThan(10);
+      expect(row.nameLines).toBeLessThan(1.4);
+      expect(row.degreeLines).toBeLessThan(1.4);
+      expect(row.dateColor).not.toBe(row.degreeColor);
+    }
+  }
+  const workDate = await page.locator('.timeline-item time').first().evaluate((date) => ({
+    color: getComputedStyle(date).color,
+    fontSize: parseFloat(getComputedStyle(date).fontSize),
+  }));
+  const workCopy = await page.locator('.timeline-item__body p').first().evaluate((copy) => getComputedStyle(copy).color);
+  expect(workDate.color).not.toBe(workCopy);
+  expect(workDate.fontSize).toBeGreaterThanOrEqual(12.5);
+});
+
+test('keeps long English degree names on one line in a compact desktop header', async ({ page }) => {
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  for (const width of [1024, 1101, 1199]) {
+    await page.setViewportSize({ width, height: 900 });
+    const headers = await page.locator('.education-card__header').evaluateAll((items) => items.map((header) => {
+      const name = header.querySelector('h3')!;
+      const date = header.querySelector('time')!;
+      const degree = header.querySelector('.education-card__degree')!;
+      const curriculum = header.querySelector('.education-card__curriculum')!;
+      const bounds = (element: Element) => element.getBoundingClientRect();
+      return {
+        degreeLines: bounds(degree).height / parseFloat(getComputedStyle(degree).lineHeight),
+        dateTop: bounds(date).top,
+        linkTop: bounds(curriculum).top,
+        titleTop: bounds(name).top,
+        degreeTop: bounds(degree).top,
+        titleBottom: bounds(name).bottom,
+        dateRight: bounds(date).right,
+        linkLeft: bounds(curriculum).left,
+      };
+    }));
+    expect(headers).toHaveLength(2);
+    for (const header of headers) {
+      expect(header.degreeLines).toBeLessThan(1.4);
+      expect(Math.abs(header.dateTop - header.linkTop)).toBeLessThan(8);
+      expect(Math.abs(header.dateTop - header.titleTop)).toBeLessThan(10);
+      expect(header.degreeTop).toBeGreaterThan(header.titleBottom);
+      expect(header.dateRight).toBeLessThan(header.linkLeft);
+    }
+  }
+});
+
+test('stacks school metadata below the degree before the phone breakpoint', async ({ page }) => {
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  for (const width of [821, 960]) {
+    await page.setViewportSize({ width, height: 900 });
+    const headers = await page.locator('.education-card__header').evaluateAll((items) => items.map((header) => {
+      const name = header.querySelector('h3')!;
+      const degree = header.querySelector('.education-card__degree')!;
+      const date = header.querySelector('time')!;
+      const curriculum = header.querySelector('.education-card__curriculum')!;
+      const bounds = (element: Element) => element.getBoundingClientRect();
+      return {
+        nameLines: bounds(name).height / parseFloat(getComputedStyle(name).lineHeight),
+        degreeLines: bounds(degree).height / parseFloat(getComputedStyle(degree).lineHeight),
+        degreeBottom: bounds(degree).bottom,
+        dateTop: bounds(date).top,
+        linkTop: bounds(curriculum).top,
+        dateRight: bounds(date).right,
+        linkLeft: bounds(curriculum).left,
+      };
+    }));
+    expect(headers).toHaveLength(2);
+    for (const header of headers) {
+      expect(header.nameLines).toBeLessThan(1.4);
+      expect(header.degreeLines).toBeLessThan(2.4);
+      expect(header.dateTop).toBeGreaterThan(header.degreeBottom);
+      expect(Math.abs(header.dateTop - header.linkTop)).toBeLessThan(8);
+      expect(header.dateRight).toBeLessThan(header.linkLeft);
+    }
+  }
+});
+
 test('keeps both brand marks inside their equal-size logo frames', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   const contained = await page.locator('#experience .timeline-item').evaluateAll((items) => items.map((item) => {

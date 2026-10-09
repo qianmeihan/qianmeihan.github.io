@@ -29,11 +29,9 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
                 src={item.logo.src}
                 alt=""
               />
-              <div>
-                <time>{localized(item.period, locale)}</time>
-                <h3>{localized(item.institution, locale)}</h3>
-                <p className="education-card__degree">{localized(item.degree, locale)}</p>
-              </div>
+              <h3>{localized(item.institution, locale)}</h3>
+              <time>{localized(item.period, locale)}</time>
+              <p className="education-card__degree">{localized(item.degree, locale)}</p>
               <a className="education-card__curriculum" href={item.curriculumUrl} target="_blank" rel="noopener noreferrer">
                 {locale === 'zh' ? '学校课程设置 ↗' : 'University curriculum ↗'}
               </a>
