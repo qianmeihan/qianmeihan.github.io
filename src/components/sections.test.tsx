@@ -206,6 +206,33 @@ describe('optional portfolio sections', () => {
     }
   });
 
+  it('frames Chinese patent names with book-title marks but leaves English names unquoted', async () => {
+    const { validateSiteContent } = await import('../content/validateSiteContent');
+    const { default: rawContent } = await import('../../public/content/site.json');
+    const content = validateSiteContent(rawContent);
+
+    const { rerender } = render(<PatentSection items={content.patents} locale="zh" />);
+    expect(screen.getByRole('heading', { name: '《用于BMS控制器壳体的卡扣结构和BMS控制器壳体》' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '《电子装置》' })).toBeInTheDocument();
+
+    rerender(<PatentSection items={content.patents} locale="en" />);
+    expect(screen.getByRole('heading', { name: 'Electronic Device' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: '《电子装置》' })).not.toBeInTheDocument();
+  });
+
+  it('does not duplicate book-title marks entered through the editor', async () => {
+    const { validateSiteContent } = await import('../content/validateSiteContent');
+    const { default: rawContent } = await import('../../public/content/site.json');
+    const content = validateSiteContent(rawContent);
+    const items = structuredClone(content.patents);
+    items[0].title.zh = '《已编辑的专利名称》';
+
+    render(<PatentSection items={items} locale="zh" />);
+
+    expect(screen.getByRole('heading', { name: '《已编辑的专利名称》' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: '《《已编辑的专利名称》》' })).not.toBeInTheDocument();
+  });
+
   it('shows two concise patent cards with one shared ownership note', async () => {
     const { validateSiteContent } = await import('../content/validateSiteContent');
     const { default: rawContent } = await import('../../public/content/site.json');

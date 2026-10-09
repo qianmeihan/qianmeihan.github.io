@@ -946,6 +946,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 }
 
 .patent-card__figure img {
+  aspect-ratio: 729 / 1000;
   height: auto;
   object-fit: contain;
   background: #fff;

@@ -330,7 +330,7 @@ test('keeps each patent summary compact and places one ownership note below both
   }
 });
 
-test('shows patent drawings at readable portrait scale on desktop and mobile', async ({ page }) => {
+test('shows both patent drawings in equally sized portrait frames without cropping', async ({ page }) => {
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.getByRole('link', { name: '专利', exact: true }).click();
@@ -343,15 +343,16 @@ test('shows patent drawings at readable portrait scale on desktop and mobile', a
       return {
         width: bounds.width,
         height: bounds.height,
-        naturalRatio: drawing.naturalHeight / drawing.naturalWidth,
-        renderedRatio: bounds.height / bounds.width,
+        objectFit: getComputedStyle(drawing).objectFit,
         cardWidth: card.width,
       };
     }));
+    expect(Math.abs(measurements[0].width - measurements[1].width)).toBeLessThan(1);
+    expect(Math.abs(measurements[0].height - measurements[1].height)).toBeLessThan(1);
     for (const drawing of measurements) {
       expect(drawing.width).toBeGreaterThan(width === 1440 ? 400 : 270);
       expect(drawing.height).toBeGreaterThan(width === 1440 ? 500 : 350);
-      expect(Math.abs(drawing.renderedRatio - drawing.naturalRatio)).toBeLessThan(0.04);
+      expect(drawing.objectFit).toBe('contain');
       expect(drawing.width).toBeLessThanOrEqual(drawing.cardWidth);
     }
   }
