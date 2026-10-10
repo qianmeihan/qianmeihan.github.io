@@ -17,6 +17,43 @@ async function selectPhoneSetting(page: Page, name: string) {
   await page.locator('.mobile-menu').getByRole('button', { name, exact: true }).click();
 }
 
+async function dragPhoneSectionUp(page: Page, distance: number, retreatTo = distance) {
+  await page.evaluate(({ dragDistance, endDistance }) => {
+    const target = document.querySelector<HTMLElement>('#main-content')!;
+    const touch = (y: number) => new Touch({ identifier: 1, target, clientX: 190, clientY: y });
+    target.dispatchEvent(new TouchEvent('touchstart', {
+      bubbles: true,
+      cancelable: true,
+      touches: [touch(650)],
+      targetTouches: [touch(650)],
+      changedTouches: [touch(650)],
+    }));
+    target.dispatchEvent(new TouchEvent('touchmove', {
+      bubbles: true,
+      cancelable: true,
+      touches: [touch(650 - dragDistance)],
+      targetTouches: [touch(650 - dragDistance)],
+      changedTouches: [touch(650 - dragDistance)],
+    }));
+    if (endDistance !== dragDistance) {
+      target.dispatchEvent(new TouchEvent('touchmove', {
+        bubbles: true,
+        cancelable: true,
+        touches: [touch(650 - endDistance)],
+        targetTouches: [touch(650 - endDistance)],
+        changedTouches: [touch(650 - endDistance)],
+      }));
+    }
+    target.dispatchEvent(new TouchEvent('touchend', {
+      bubbles: true,
+      cancelable: true,
+      touches: [],
+      targetTouches: [],
+      changedTouches: [touch(650 - endDistance)],
+    }));
+  }, { dragDistance: distance, endDistance: retreatTo });
+}
+
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
@@ -1428,6 +1465,55 @@ test('shows one selected section at a time on phones, including hash navigation 
   await expect(page.locator('#patent')).toBeVisible();
   await expect(page.locator('#profile')).toBeHidden();
   await expect(page.locator('#education')).toBeHidden();
+});
+
+test('advances phone sections only after a deliberate pull past the section end', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await selectSection(page, '教育经历');
+  await expect(page.locator('#education')).toBeVisible();
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await dragPhoneSectionUp(page, 140);
+  await expect(page.locator('#education')).toBeVisible();
+  await expect(page.locator('#experience')).toBeHidden();
+
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(() => page.evaluate(() =>
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4,
+  )).toBe(true);
+  await dragPhoneSectionUp(page, 35);
+  await expect(page.locator('#education')).toBeVisible();
+
+  await dragPhoneSectionUp(page, 140, 0);
+  await expect(page.locator('#education')).toBeVisible();
+
+  await dragPhoneSectionUp(page, 140);
+  await expect(page.locator('#experience')).toBeVisible();
+  await expect(page.locator('#education')).toBeHidden();
+  await expect(page.locator('.mobile-dock__current')).toContainText('工作经历');
+});
+
+test('recognizes a real emulated touch pull at the phone section boundary', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await selectSection(page, '教育经历');
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(() => page.evaluate(() =>
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4,
+  )).toBe(true);
+
+  const client = await page.context().newCDPSession(page);
+  await client.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
+  await client.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 190, y: 650 }] });
+  for (const y of [620, 585, 550, 510]) {
+    await client.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: 190, y }] });
+  }
+  await client.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+
+  await expect(page.locator('#experience')).toBeVisible();
+  await expect(page.locator('#education')).toBeHidden();
+  await client.detach();
 });
 
 test('separates desktop sections with an asymmetric rule and generous title spacing', async ({ page }) => {

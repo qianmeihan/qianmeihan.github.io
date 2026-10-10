@@ -122,6 +122,88 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
     return () => window.cancelAnimationFrame(frame);
   }, [activeSection, isPhone, loadState.status]);
 
+  useEffect(() => {
+    if (loadState.status !== 'ready' || !isPhone) return;
+    const main = mainRef.current;
+    const nextSection = sectionIds[sectionIds.indexOf(activeSection) + 1];
+    if (!main || !nextSection) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let startX = 0;
+    let startY = 0;
+    let pullDistance = 0;
+    let canPull = false;
+    let isPulling = false;
+    let resetTimer = 0;
+
+    const resetPull = () => {
+      if (!reducedMotion && isPulling) {
+        main.style.transition = 'transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1)';
+        main.style.transform = '';
+        window.clearTimeout(resetTimer);
+        resetTimer = window.setTimeout(() => { main.style.transition = ''; }, 180);
+      }
+      canPull = false;
+      isPulling = false;
+      pullDistance = 0;
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      canPull = false;
+      if (event.touches.length !== 1 || document.querySelector('dialog[open]')) return;
+      const target = event.target;
+      if (target instanceof Element && target.closest('a, button, input, select, textarea, [role="button"]')) return;
+      const atEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+      if (!atEnd) return;
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+      pullDistance = 0;
+      canPull = true;
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      if (!canPull) return;
+      if (event.touches.length !== 1) {
+        resetPull();
+        return;
+      }
+      const deltaX = event.touches[0].clientX - startX;
+      const deltaY = startY - event.touches[0].clientY;
+      if (deltaY <= 4 || Math.abs(deltaX) > deltaY) {
+        if (isPulling) resetPull();
+        return;
+      }
+      event.preventDefault();
+      isPulling = true;
+      pullDistance = deltaY;
+      if (!reducedMotion) {
+        window.clearTimeout(resetTimer);
+        main.style.transition = 'none';
+        main.style.transform = `translate3d(0, -${Math.min(deltaY * 0.17, 22)}px, 0)`;
+      }
+    };
+
+    const onTouchEnd = () => {
+      const shouldAdvance = isPulling && pullDistance >= 88;
+      resetPull();
+      if (shouldAdvance) window.location.hash = `#${nextSection}`;
+    };
+
+    main.addEventListener('touchstart', onTouchStart, { passive: true });
+    main.addEventListener('touchmove', onTouchMove, { passive: false });
+    main.addEventListener('touchend', onTouchEnd);
+    main.addEventListener('touchcancel', resetPull);
+    return () => {
+      main.removeEventListener('touchstart', onTouchStart);
+      main.removeEventListener('touchmove', onTouchMove);
+      main.removeEventListener('touchend', onTouchEnd);
+      main.removeEventListener('touchcancel', resetPull);
+      window.clearTimeout(resetTimer);
+      main.style.transition = '';
+      main.style.transform = '';
+    };
+  }, [activeSection, isPhone, loadState.status]);
+
   if (loadState.status === 'loading') {
     return <main role="status">Loading portfolio</main>;
   }
