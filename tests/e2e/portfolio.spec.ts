@@ -644,10 +644,53 @@ test('finishes with a deep-green contact area and three equal rows in both theme
   }
 });
 
+test('copies the contact email with a quiet bilingual confirmation and keeps its mail icon', async ({ page }) => {
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.setViewportSize({ width: 320, height: 780 });
+  await page.goto('/#contact');
+  const chinese = page.locator('#contact').getByRole('button', { name: '复制邮箱地址 1287187051@qq.com' });
+  await expect(chinese.locator('.lucide-mail')).toBeVisible();
+  const rowHeight = await chinese.evaluate((button) => button.getBoundingClientRect().height);
+  await chinese.click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('1287187051@qq.com');
+  const chineseStatus = chinese.getByRole('status');
+  await expect(chineseStatus).toHaveText('已复制');
+  expect(await chineseStatus.evaluate((status) => parseFloat(getComputedStyle(status).fontSize))).toBeLessThan(
+    await chinese.evaluate((button) => parseFloat(getComputedStyle(button).fontSize)),
+  );
+  expect(await chinese.evaluate((button) => button.getBoundingClientRect().height)).toBeCloseTo(rowHeight, 1);
+  await expect(chinese.locator('.lucide-mail')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  await expect(chinese.locator('.contact-channel__copy-status')).toBeEmpty({ timeout: 3500 });
+
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  const english = page.locator('#contact').getByRole('button', { name: 'Copy email address 1287187051@qq.com' });
+  await english.focus();
+  await page.keyboard.press('Enter');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('1287187051@qq.com');
+  await expect(english.getByRole('status')).toHaveText('Copied');
+  await expect(page).toHaveURL(/#contact$/);
+});
+
+test('keeps clipboard errors inside the email row instead of opening a mail app', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: () => Promise.reject(new Error('clipboard denied')) },
+    });
+  });
+  await page.goto('/#contact');
+  const email = page.locator('#contact').getByRole('button', { name: '复制邮箱地址 1287187051@qq.com' });
+  await email.click();
+  await expect(email.getByRole('status')).toHaveText('复制失败');
+  await expect(email.locator('.lucide-mail')).toBeVisible();
+  await expect(page).toHaveURL(/#contact$/);
+});
+
 test('keeps the contact endcap compact without shrinking its touch targets', async ({ page }) => {
   for (const [width, height, limits] of [
-    [1440, 900, { top: [48, 60], heading: [28, 38], footer: [32, 50], bottom: [16, 25] }],
-    [390, 844, { top: [40, 48], heading: [24, 29], footer: [28, 38], bottom: [16, 20] }],
+    [1440, 900, { top: [48, 54], heading: [30, 34], footer: [36, 42], bottom: [18, 22] }],
+    [390, 844, { top: [38, 42], heading: [22, 26], footer: [30, 34], bottom: [16, 18] }],
   ] as const) {
     await page.setViewportSize({ width, height });
     await page.goto('/#contact');

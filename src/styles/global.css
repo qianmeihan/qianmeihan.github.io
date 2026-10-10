@@ -1341,14 +1341,14 @@ html[lang='en'] .education-card h3 {
   --contact-text: #f7fbf9;
   --contact-muted: #d8e5df;
   --contact-line: rgb(247 251 249 / 0.28);
-  padding-top: clamp(2.75rem, 4vw, 3.5rem);
-  padding-bottom: clamp(1.1rem, 1.5vw, 1.5rem);
+  padding-top: clamp(3rem, 3.7vw, 3.25rem);
+  padding-bottom: clamp(1rem, 1.4vw, 1.25rem);
   background: #31594c;
   color: var(--contact-text);
 }
 
 .contact-section .section-heading {
-  margin-bottom: clamp(1.75rem, 2.5vw, 2.25rem);
+  margin-bottom: clamp(1.5rem, 2.25vw, 2rem);
 }
 
 .contact-section .section-heading::before,
@@ -1394,6 +1394,45 @@ html[lang='en'] .education-card h3 {
   transition: color 160ms ease, background-color 160ms ease, transform 160ms ease;
 }
 
+.contact-channel--copy {
+  width: 100%;
+  appearance: none;
+  grid-template-columns: 1.4rem minmax(0, 1fr) auto;
+  border: 0;
+  border-bottom: 1px solid var(--contact-line);
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.contact-channel__email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-channel__copy-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  min-width: 1rem;
+  color: var(--contact-muted);
+  white-space: nowrap;
+}
+
+.contact-channel__copy-status {
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.contact-channel__copy-status:empty {
+  display: none;
+}
+
 .contact-channel > svg:first-child {
   color: var(--contact-muted);
 }
@@ -1435,7 +1474,7 @@ html[lang='en'] .education-card h3 {
 }
 
 .site-footer {
-  margin-top: clamp(2.25rem, 3.25vw, 3rem);
+  margin-top: clamp(2rem, 2.75vw, 2.5rem);
   padding-top: 1.2rem;
   border-top: 1px solid var(--contact-line);
   display: flex;
@@ -2051,7 +2090,7 @@ html[lang='en'] .education-card h3 {
   }
 
   .contact-section {
-    padding-top: 2.75rem;
+    padding-top: 2.5rem;
   }
 
   .contact-section__body {
@@ -2061,7 +2100,7 @@ html[lang='en'] .education-card h3 {
   .site-footer {
     align-items: flex-start;
     flex-direction: column;
-    margin-top: 2.25rem;
+    margin-top: 2rem;
   }
 
   .site-footer__credits ul {

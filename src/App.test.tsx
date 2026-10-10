@@ -164,7 +164,7 @@ describe('App', () => {
     await userEvent.setup().click(screen.getByRole('button', { name: 'EN' }));
     expect(within(actions as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual(expectedOrder);
     await userEvent.setup().click(screen.getByRole('link', { name: 'Contact' }));
-    expect(within(container.querySelector('#contact') as HTMLElement).getByRole('link', { name: '1287187051@qq.com' })).toHaveAttribute('href', 'mailto:1287187051@qq.com');
+    expect(within(container.querySelector('#contact') as HTMLElement).getByRole('button', { name: 'Copy email address 1287187051@qq.com' })).not.toHaveAttribute('href');
   });
 
   it('ends with three equal contact rows instead of repeating the résumés', async () => {
@@ -173,12 +173,11 @@ describe('App', () => {
     const contact = container.querySelector('#contact') as HTMLElement;
 
     expect(within(contact.querySelector('.contact-section__channels') as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
-      'mailto:1287187051@qq.com',
       'https://www.linkedin.com/in/qianmeihan/',
       'https://github.com/qianmeihan',
     ]);
     expect(contact.querySelectorAll('.contact-channel')).toHaveLength(3);
-    expect(within(contact).getByRole('link', { name: '1287187051@qq.com' })).toHaveClass('contact-channel');
+    expect(within(contact).getByRole('button', { name: '复制邮箱地址 1287187051@qq.com' })).toHaveClass('contact-channel');
     expect(within(contact).queryByRole('link', { name: /简历|résumé/i })).not.toBeInTheDocument();
     expect(within(contact).getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('target', '_blank');
     expect(within(contact).getByRole('link', { name: 'GitHub' })).toHaveAttribute('rel', 'noopener noreferrer');
