@@ -955,6 +955,64 @@ test('keeps the section rule and breathing room proportionate on phones', async 
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 });
 
+test('keeps the short section rule inside narrow tablet viewports', async ({ page }) => {
+  for (const width of [601, 680, 720, 768]) {
+    await page.setViewportSize({ width, height: 900 });
+    const ruleLeft = await page.locator('#education .section-heading').evaluate((heading) => {
+      const rule = getComputedStyle(heading, '::before');
+      const probe = document.createElement('span');
+      probe.style.position = 'absolute';
+      probe.style.right = rule.right;
+      probe.style.width = rule.width;
+      probe.style.height = '1px';
+      heading.append(probe);
+      const left = probe.getBoundingClientRect().left;
+      probe.remove();
+      return left;
+    });
+    expect(ruleLeft, `short rule at ${width}px`).toBeGreaterThanOrEqual(0);
+  }
+});
+
+test('keeps all English section dividers balanced at 320px', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 780 });
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  for (const sectionId of ['education', 'experience', 'patent', 'skills']) {
+    await page.goto(`/#${sectionId}`);
+    const geometry = await page.locator(`#${sectionId} .section-heading`).evaluate((heading) => {
+      const title = heading.querySelector('h2')!;
+      const titleStyle = getComputedStyle(title);
+      const headingBounds = heading.getBoundingClientRect();
+      const titleBounds = title.getBoundingClientRect();
+      const shortRule = getComputedStyle(heading, '::before');
+      const longRule = getComputedStyle(heading, '::after');
+      const probe = document.createElement('span');
+      probe.style.position = 'absolute';
+      probe.style.right = shortRule.right;
+      probe.style.width = shortRule.width;
+      probe.style.height = '1px';
+      heading.append(probe);
+      const shortRuleLeft = probe.getBoundingClientRect().left;
+      probe.remove();
+      return {
+        titleLines: Math.round(titleBounds.height / parseFloat(titleStyle.lineHeight)),
+        headingRight: headingBounds.right,
+        longRuleWidth: parseFloat(longRule.width),
+        shortRuleWidth: parseFloat(shortRule.width),
+        shortRuleLeft,
+        headingLeft: headingBounds.left,
+      };
+    });
+    expect(geometry.titleLines, `${sectionId} heading lines`).toBe(1);
+    expect(geometry.headingLeft, `${sectionId} left inset`).toBeGreaterThan(20);
+    expect(geometry.headingRight, `${sectionId} right edge`).toBeLessThanOrEqual(320);
+    expect(geometry.longRuleWidth, `${sectionId} long rule`).toBeGreaterThanOrEqual(16);
+    expect(geometry.shortRuleWidth, `${sectionId} short rule`).toBeGreaterThan(8);
+    expect(geometry.shortRuleLeft, `${sectionId} short rule left edge`).toBeGreaterThanOrEqual(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth), `${sectionId} page width`).toBeLessThanOrEqual(320);
+  }
+});
+
 test('keeps the selected hash section when the viewport changes from desktop to phone', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/#skills');
