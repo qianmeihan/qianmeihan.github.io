@@ -1920,6 +1920,61 @@ html[data-theme='dark'] .credits-dialog::backdrop {
     display: none;
   }
 
+  .hero-section {
+    grid-template-columns: minmax(0, 1fr) clamp(5.75rem, 26vw, 7rem);
+    column-gap: clamp(0.65rem, 3vw, 1.25rem);
+    row-gap: 0;
+    align-items: start;
+  }
+
+  .hero-copy {
+    display: contents;
+  }
+
+  .hero-section h1 {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .hero-role {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    line-height: 1.35;
+  }
+
+  .hero-portrait {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    width: 100%;
+    max-width: 7rem;
+    margin: 0;
+    justify-self: end;
+  }
+
+  .hero-portrait__frame {
+    border: 1px solid var(--color-line);
+  }
+
+  .hero-portrait__frame::before,
+  .hero-portrait__frame::after {
+    display: none;
+  }
+
+  .hero-intro {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin: 1.25rem 0 0;
+  }
+
+  .hero-actions {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    margin-top: 1.5rem;
+  }
+
   .site-content main {
     padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
   }
@@ -2177,19 +2232,21 @@ html[data-theme='dark'] .credits-dialog::backdrop {
 
   .hero-section {
     padding-top: 2.5rem;
-    row-gap: 1.25rem;
+    row-gap: 0;
   }
 
   .hero-role,
-  .hero-intro,
-  .hero-portrait,
-  .hero-actions {
+  .hero-portrait {
     margin-top: 0;
     margin-bottom: 0;
   }
 
+  .hero-intro {
+    margin-top: 1.25rem;
+  }
+
   .hero-actions {
-    margin-top: 0.6rem;
+    margin-top: 1.25rem;
   }
 
   .shell-profile h1 {
@@ -2197,11 +2254,11 @@ html[data-theme='dark'] .credits-dialog::backdrop {
   }
 
   .hero-section h1 {
-    font-size: clamp(3.35rem, 20vw, 5.2rem);
+    font-size: clamp(3rem, 15vw, 4rem);
   }
 
   html[lang='en'] .hero-section h1 {
-    font-size: clamp(2.8rem, 15vw, 4.6rem);
+    font-size: clamp(2.35rem, 11.5vw, 3rem);
   }
 
   .hero-intro {
@@ -2218,10 +2275,6 @@ html[data-theme='dark'] .credits-dialog::backdrop {
 
   .hero-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .hero-portrait {
-    width: min(52vw, 220px);
   }
 
   .evidence-strip {

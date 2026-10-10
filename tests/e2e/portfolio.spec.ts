@@ -1077,6 +1077,40 @@ test('keeps the phone dock on one row, above the safe area, without changing tab
   await expect(page.getByRole('navigation', { name: '主导航' })).toBeVisible();
 });
 
+test('places the phone portrait beside the name instead of below the action buttons', async ({ page }) => {
+  for (const width of [320, 390, 600]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/');
+    for (const locale of ['zh', 'en'] as const) {
+      if (locale === 'zh' && await page.locator('html').getAttribute('lang') === 'en') {
+        await selectPhoneSetting(page, '中文');
+      }
+      if (locale === 'en') await selectPhoneSetting(page, 'EN');
+
+      const layout = await page.locator('#profile').evaluate((section) => {
+        const bounds = (selector: string) => {
+          const box = section.querySelector(selector)!.getBoundingClientRect();
+          return { top: box.top, right: box.right, bottom: box.bottom, left: box.left, width: box.width };
+        };
+        const name = bounds('h1');
+        const role = bounds('.hero-role');
+        const portrait = bounds('.hero-portrait');
+        const intro = bounds('.hero-intro');
+        const actions = bounds('.hero-actions');
+        return { name, role, portrait, intro, actions, viewport: document.documentElement.clientWidth };
+      });
+      expect(layout.portrait.width, `${locale} at ${width}px`).toBeLessThanOrEqual(120);
+      expect(layout.portrait.width, `${locale} at ${width}px`).toBeGreaterThanOrEqual(88);
+      expect(layout.portrait.left, `${locale} at ${width}px`).toBeGreaterThanOrEqual(layout.name.right + 8);
+      expect(layout.portrait.top, `${locale} at ${width}px`).toBeLessThanOrEqual(layout.name.top + 10);
+      expect(layout.portrait.bottom, `${locale} at ${width}px`).toBeLessThan(layout.intro.top);
+      expect(layout.intro.bottom, `${locale} at ${width}px`).toBeLessThan(layout.actions.top);
+      expect(layout.portrait.right, `${locale} at ${width}px`).toBeLessThanOrEqual(layout.viewport);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    }
+  }
+});
+
 test('keeps the phone contact footer above the fixed dock and the menu keyboard-accessible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#contact');
