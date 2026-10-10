@@ -931,6 +931,20 @@ test('keeps the selected hash section when the viewport changes from desktop to 
   await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#skills');
 });
 
+test('preserves the legacy project anchor within the phone experience module', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/#work');
+  await expect(page.locator('#experience')).toBeVisible();
+  await expect(page.locator('#education')).toBeHidden();
+  await expect(page.locator('#work')).toBeInViewport();
+  await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#experience');
+
+  await page.getByRole('link', { name: '教育经历', exact: true }).click();
+  await page.goBack();
+  await expect(page.locator('#work')).toBeInViewport();
+});
+
 test('preserves the desktop sidebar and two-column hero composition', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
 

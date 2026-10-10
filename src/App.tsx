@@ -115,7 +115,8 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
   useEffect(() => {
     if (loadState.status !== 'ready' || !isPhone) return;
     const frame = window.requestAnimationFrame(() => {
-      document.getElementById(activeSection)?.scrollIntoView({ block: 'start' });
+      const target = window.location.hash === '#work' ? 'work' : activeSection;
+      document.getElementById(target)?.scrollIntoView({ block: 'start' });
     });
     return () => window.cancelAnimationFrame(frame);
   }, [activeSection, isPhone, loadState.status]);
