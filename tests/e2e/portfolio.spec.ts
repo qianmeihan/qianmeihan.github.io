@@ -568,10 +568,10 @@ test('applies dark and system themes', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect.poll(() => page.locator('html').evaluate((element) =>
     getComputedStyle(element).getPropertyValue('--color-paper').trim(),
-  )).toBe('#202628');
+  )).toBe('#1d2226');
   await expect.poll(() => page.locator('html').evaluate((element) =>
     getComputedStyle(element).getPropertyValue('--color-accent').trim(),
-  )).toBe('#2f7042');
+  )).toBe('#5b6971');
 
   await page.emulateMedia({ colorScheme: 'light' });
   await page.getByRole('button', { name: '跟随系统' }).click();
@@ -616,6 +616,38 @@ test('keeps dark experience and education cards distinct from the page', async (
   }
 });
 
+test('uses neutral graphite rather than green for dark interface chrome', async ({ page }) => {
+  await page.getByRole('button', { name: '暗色' }).click();
+  const palette = await page.evaluate(() => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d')!;
+    const color = (value: string) => {
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = value;
+      context.fillRect(0, 0, 1, 1);
+      return [...context.getImageData(0, 0, 1, 1).data].slice(0, 3);
+    };
+    const style = (selector: string) => getComputedStyle(document.querySelector(selector)!);
+    return {
+      surfaces: [
+        color(getComputedStyle(document.documentElement).backgroundColor),
+        color(style('.site-sidebar').backgroundColor),
+        color(style('.timeline-item').backgroundColor),
+        color(style('.contact-section').backgroundColor),
+        color(style('.theme-switch button[aria-pressed="true"]').backgroundColor),
+        color(style('.timeline-item__logo-frame').backgroundColor),
+      ],
+      pagePattern: getComputedStyle(document.body).backgroundImage,
+      backdrop: color(getComputedStyle(document.querySelector('.project-dialog')!, '::backdrop').backgroundColor),
+    };
+  });
+  for (const [index, channels] of palette.surfaces.entries()) {
+    expect(Math.max(...channels) - Math.min(...channels), `dark surface ${index} stays neutral`).toBeLessThanOrEqual(24);
+  }
+  expect(Math.max(...palette.backdrop) - Math.min(...palette.backdrop)).toBeLessThanOrEqual(8);
+  expect(palette.pagePattern).toBe('none');
+});
+
 test('navigates within one continuous page and highlights the selected section', async ({ page }) => {
   for (const [name, hash] of [
     ['教育经历', '#education'],
@@ -646,7 +678,7 @@ test('highlights contact after the hero contact button changes the active module
   await expect(page.locator('.site-nav a[href="#contact"]')).toHaveAttribute('aria-current', 'location');
 });
 
-test('finishes with a deep-green contact area and three equal rows in both themes', async ({ page }) => {
+test('keeps the green light endcap and gives the dark endcap graphite with three equal rows', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/#contact');
   for (const theme of ['light', 'dark'] as const) {
@@ -668,7 +700,7 @@ test('finishes with a deep-green contact area and three equal rows in both theme
       };
     });
     expect(styles.sectionBackground).not.toBe(styles.pageBackground);
-    expect(styles.sectionBackground).toMatch(/^rgb\(4\d, 8\d, 7\d\)$/);
+    expect(styles.sectionBackground).toBe(theme === 'light' ? 'rgb(49, 89, 76)' : 'rgb(48, 56, 61)');
     expect(styles.headingCount).toBe(1);
     expect(styles.rows.map(({ fontSize }) => fontSize)).toEqual(Array(3).fill(styles.rows[0].fontSize));
     expect(styles.rows.map(({ left, width, height }) => ({ left, width, height }))).toEqual(
@@ -677,6 +709,15 @@ test('finishes with a deep-green contact area and three equal rows in both theme
     expect(styles.rows[0].top).toBeLessThan(styles.rows[1].top);
     expect(styles.rows[1].top).toBeLessThan(styles.rows[2].top);
   }
+});
+
+test('brightens dark footer link underlines on hover', async ({ page }) => {
+  await page.getByRole('button', { name: '暗色' }).click();
+  await page.goto('/#contact');
+  const link = page.locator('.site-footer__links a').first();
+  await link.hover();
+  await expect(link).toHaveCSS('color', 'rgb(241, 244, 245)');
+  await expect(link).toHaveCSS('text-decoration-color', 'rgb(241, 244, 245)');
 });
 
 test('copies the contact email with a quiet bilingual confirmation and keeps its mail icon', async ({ page }) => {
@@ -813,7 +854,7 @@ test('has no automatically detectable WCAG A or AA violations', async ({ page })
     for (const hash of ['#profile', '#education']) {
       await page.goto(`/${hash}`);
       await expect(page.locator('.project-card').first()).toHaveCSS(
-        'background-color', theme === 'light' ? 'rgb(244, 243, 239)' : 'rgb(32, 38, 40)',
+        'background-color', theme === 'light' ? 'rgb(244, 243, 239)' : 'rgb(29, 34, 38)',
       );
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
