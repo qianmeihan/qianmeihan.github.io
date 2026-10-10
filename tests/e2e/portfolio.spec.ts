@@ -1111,6 +1111,62 @@ test('places the phone portrait beside the name instead of below the action butt
   }
 });
 
+test('keeps the phone proof points compact directly below the overview actions', async ({ page }) => {
+  for (const width of [320, 390, 600]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/');
+    for (const locale of ['zh', 'en'] as const) {
+      if (locale === 'zh' && await page.locator('html').getAttribute('lang') === 'en') {
+        await selectPhoneSetting(page, '中文');
+      }
+      if (locale === 'en') await selectPhoneSetting(page, 'EN');
+
+      const layout = await page.locator('.evidence-strip').evaluate((strip) => {
+        const stripBox = strip.getBoundingClientRect();
+        const actionsBox = document.querySelector('.hero-actions')!.getBoundingClientRect();
+        const items = [...strip.querySelectorAll('.evidence-strip__item')].map((item) => {
+          const box = item.getBoundingClientRect();
+          const value = item.querySelector('strong')!;
+          const label = item.querySelector('span')!;
+          const labelBox = label.getBoundingClientRect();
+          return {
+            top: box.top,
+            bottom: box.bottom,
+            height: box.height,
+            valueSize: parseFloat(getComputedStyle(value).fontSize),
+            labelSize: parseFloat(getComputedStyle(label).fontSize),
+            labelRight: labelBox.right,
+            labelBottom: labelBox.bottom,
+            right: box.right,
+          };
+        });
+        return {
+          columns: getComputedStyle(strip).gridTemplateColumns.split(' ').length,
+          gapAfterActions: stripBox.top - actionsBox.bottom,
+          height: stripBox.height,
+          items,
+          pageWidth: document.documentElement.scrollWidth,
+        };
+      });
+
+      expect(layout.columns, `${locale} at ${width}px`).toBe(2);
+      expect(layout.gapAfterActions, `${locale} at ${width}px`).toBeGreaterThanOrEqual(8);
+      expect(layout.gapAfterActions, `${locale} at ${width}px`).toBeLessThanOrEqual(32);
+      expect(layout.height, `${locale} at ${width}px`).toBeLessThanOrEqual(220);
+      expect(Math.abs(layout.items[0].top - layout.items[1].top)).toBeLessThan(2);
+      expect(Math.abs(layout.items[2].top - layout.items[3].top)).toBeLessThan(2);
+      expect(layout.items[2].top).toBeGreaterThanOrEqual(layout.items[0].bottom);
+      for (const item of layout.items) {
+        expect(item.valueSize).toBeLessThanOrEqual(24);
+        expect(item.labelSize).toBeGreaterThanOrEqual(12);
+        expect(item.labelRight).toBeLessThanOrEqual(item.right + 1);
+        expect(item.labelBottom).toBeLessThanOrEqual(item.bottom + 1);
+      }
+      expect(layout.pageWidth).toBeLessThanOrEqual(width);
+    }
+  }
+});
+
 test('keeps the phone contact footer above the fixed dock and the menu keyboard-accessible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#contact');

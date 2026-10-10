@@ -1925,6 +1925,7 @@ html[data-theme='dark'] .credits-dialog::backdrop {
     column-gap: clamp(0.65rem, 3vw, 1.25rem);
     row-gap: 0;
     align-items: start;
+    padding-bottom: 1rem;
   }
 
   .hero-copy {
@@ -1973,6 +1974,36 @@ html[data-theme='dark'] .credits-dialog::backdrop {
     grid-column: 1 / -1;
     grid-row: 4;
     margin-top: 1.5rem;
+  }
+
+  .evidence-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .evidence-strip__item {
+    padding: 0.85rem 0.45rem;
+    border-top: 0;
+    border-right: 0;
+    gap: 0.35rem;
+  }
+
+  .evidence-strip__item:nth-child(odd) {
+    border-right: 1px solid var(--color-line);
+  }
+
+  .evidence-strip__item:nth-child(n + 3) {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .evidence-strip__item strong {
+    font-size: clamp(1.18rem, 4.5vw, 1.4rem);
+  }
+
+  .evidence-strip__item span {
+    min-height: 0;
+    display: block;
+    line-height: 1.4;
   }
 
   .site-content main {
@@ -2275,23 +2306,6 @@ html[data-theme='dark'] .credits-dialog::backdrop {
 
   .hero-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .evidence-strip {
-    grid-template-columns: 1fr;
-  }
-
-  .evidence-strip__item,
-  .evidence-strip__item:first-child,
-  .evidence-strip__item:last-child {
-    padding: 0.9rem 0;
-    border-right: 0;
-    grid-template-columns: 7rem minmax(0, 1fr);
-    align-items: baseline;
-  }
-
-  .evidence-strip__item strong {
-    font-size: 1.8rem;
   }
 
   .education-card__header {
