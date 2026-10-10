@@ -503,12 +503,11 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .content-section {
   padding: var(--space-section) clamp(1.5rem, 5vw, 4.5rem);
-  border-bottom: 1px solid var(--color-line);
+  padding-top: 0;
 }
 
 .evidence-strip {
   padding: 0 clamp(1.5rem, 5vw, 4.5rem);
-  border-bottom: 1px solid var(--color-line);
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -1456,7 +1455,13 @@ html[data-theme='dark'] .contact-section {
 }
 
 .section-heading {
-  margin-bottom: 1.55rem;
+  min-height: 5.6rem;
+  margin: 0 calc(-1 * clamp(1.5rem, 5vw, 4.5rem)) 1.75rem;
+  padding: 1rem clamp(1.5rem, 5vw, 4.5rem);
+  border-top: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line);
+  display: flex;
+  align-items: center;
 }
 
 .section-heading h2 {
@@ -1682,6 +1687,15 @@ html[data-theme='dark'] .contact-section {
 }
 
 @media (max-width: 600px) {
+  #main-content[data-active-section='profile'] > section:not(#profile):not(.evidence-strip),
+  #main-content[data-active-section='education'] > section:not(#education),
+  #main-content[data-active-section='experience'] > section:not(#experience),
+  #main-content[data-active-section='patent'] > section:not(#patent),
+  #main-content[data-active-section='skills'] > section:not(#skills),
+  #main-content[data-active-section='contact'] > section:not(#contact) {
+    display: none;
+  }
+
   .timeline-item__header {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.55rem;

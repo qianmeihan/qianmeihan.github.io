@@ -121,8 +121,8 @@ describe('optional portfolio sections', () => {
     const content = validateSiteContent(rawContent);
     const { container, rerender } = render(<SkillsSection groups={content.skillGroups} locale="zh" />);
 
-    expect(container.querySelectorAll('.skill-item')).toHaveLength(13);
-    expect(container.querySelectorAll('.skill-item img')).toHaveLength(13);
+    expect(container.querySelectorAll('.skill-item')).toHaveLength(10);
+    expect(container.querySelectorAll('.skill-item img')).toHaveLength(10);
     expect(container.querySelectorAll('.skill-item svg')).toHaveLength(0);
     expect(screen.getByText('CATIA').closest('li')).toHaveClass('skill-item--logo');
     expect(screen.getByText('Creo').closest('li')).toHaveClass('skill-item--logo');
@@ -133,7 +133,7 @@ describe('optional portfolio sections', () => {
 
     rerender(<SkillsSection groups={content.skillGroups} locale="en" />);
     expect(screen.getByText('Injection-molded housings and snap fits')).toBeInTheDocument();
-    expect(container.querySelectorAll('.skill-item img')).toHaveLength(13);
+    expect(container.querySelectorAll('.skill-item img')).toHaveLength(10);
   });
 
   it('renders the education introduction as one naturally wrapping paragraph', async () => {

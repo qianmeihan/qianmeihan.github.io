@@ -683,6 +683,7 @@ test('fits the complete navigation inside a phone viewport', async ({ page }) =>
 test('keeps the final course row in the same card format at every breakpoint', async ({ page }) => {
   for (const [width, expectedColumns] of [[1440, 4], [1024, 3], [821, 2], [768, 2], [390, 1]] as const) {
     await page.setViewportSize({ width, height: 900 });
+    if (width <= 600) await page.getByRole('link', { name: '教育经历', exact: true }).click();
     const grids = page.locator('.education-course-grid');
     for (const grid of await grids.all()) {
       const columns = await grid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length);
@@ -772,7 +773,7 @@ test('short content sections end near their content rather than leaving a viewpo
 test('keeps course image attribution visually quiet in the footer', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   const credits = page.getByRole('region', { name: '图片与图标来源与许可' });
-  await expect(credits.getByRole('listitem')).toHaveCount(24);
+  await expect(credits.getByRole('listitem')).toHaveCount(23);
   const desktopFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
   expect(desktopFontSize).toBeLessThan(10.5);
   await page.setViewportSize({ width: 390, height: 844 });
@@ -788,7 +789,7 @@ test('aligns capability image tiles across desktop and phone layouts', async ({ 
     await page.setViewportSize(viewport);
     await page.goto('/#skills');
     const skillImages = page.locator('.skill-item__visual img');
-    await expect(skillImages).toHaveCount(13);
+    await expect(skillImages).toHaveCount(10);
     const frames = await page.locator('.skill-item__visual').evaluateAll((elements) =>
       elements.map((element) => {
         const rect = element.getBoundingClientRect();
@@ -855,6 +856,79 @@ test('keeps phone anchor targets visible below the sticky header', async ({ page
   }));
 
   expect(positions.targetTop).toBeGreaterThanOrEqual(positions.headerBottom);
+});
+
+test('shows one selected section at a time on phones, including hash navigation and history', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+
+  await expect(page.locator('#profile')).toBeVisible();
+  await expect(page.locator('.evidence-strip')).toBeVisible();
+  await expect(page.locator('#education')).toBeHidden();
+  await page.getByRole('link', { name: '教育经历', exact: true }).click();
+  await expect(page.locator('#education')).toBeVisible();
+  await expect(page.locator('#profile')).toBeHidden();
+  await expect(page.locator('.evidence-strip')).toBeHidden();
+  await expect(page.locator('#experience')).toBeHidden();
+  await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#education');
+
+  await page.getByRole('link', { name: '专业能力', exact: true }).click();
+  await expect(page.locator('#skills')).toBeVisible();
+  await expect(page.locator('#education')).toBeHidden();
+  await page.goBack();
+  await expect(page.locator('#education')).toBeVisible();
+  await expect(page.locator('#skills')).toBeHidden();
+
+  await page.goto('/#patent');
+  await expect(page.locator('#patent')).toBeVisible();
+  await expect(page.locator('#profile')).toBeHidden();
+  await expect(page.locator('#education')).toBeHidden();
+});
+
+test('uses a title-bearing section boundary without changing section backgrounds or desktop scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const sections = page.locator('.content-section');
+  await expect(sections).toHaveCount(4);
+  const boundaries = await sections.evaluateAll((elements) => elements.map((element) => {
+    const section = element as HTMLElement;
+    const heading = section.querySelector('.section-heading') as HTMLElement;
+    const sectionStyle = getComputedStyle(section);
+    const headingStyle = getComputedStyle(heading);
+    const sectionBounds = section.getBoundingClientRect();
+    const headingBounds = heading.getBoundingClientRect();
+    return {
+      sectionBackground: sectionStyle.backgroundColor,
+      headingBackground: headingStyle.backgroundColor,
+      topBorder: parseFloat(headingStyle.borderTopWidth),
+      bottomBorder: parseFloat(headingStyle.borderBottomWidth),
+      fullWidth: Math.abs(headingBounds.width - sectionBounds.width) < 2,
+      titleInside: heading.querySelector('h2')!.getBoundingClientRect().top > headingBounds.top,
+    };
+  }));
+  for (const boundary of boundaries) {
+    expect(boundary.sectionBackground).toBe('rgba(0, 0, 0, 0)');
+    expect(boundary.headingBackground).toBe('rgba(0, 0, 0, 0)');
+    expect(boundary.topBorder).toBeGreaterThanOrEqual(1);
+    expect(boundary.bottomBorder).toBeGreaterThanOrEqual(1);
+    expect(boundary.fullWidth).toBe(true);
+    expect(boundary.titleInside).toBe(true);
+  }
+  await expect(page.locator('#profile')).toBeVisible();
+  await expect(page.locator('#education')).toBeVisible();
+  await expect(page.locator('#skills')).toBeVisible();
+});
+
+test('keeps the selected hash section when the viewport changes from desktop to phone', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/#skills');
+  await expect(page.locator('#skills')).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('#skills')).toBeVisible();
+  await expect(page.locator('#skills')).toBeInViewport();
+  await expect(page.locator('#education')).toBeHidden();
+  await expect(page.locator('#contact')).toBeHidden();
+  await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#skills');
 });
 
 test('preserves the desktop sidebar and two-column hero composition', async ({ page }) => {

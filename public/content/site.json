@@ -623,39 +623,6 @@
           }
         },
         {
-          "id": "technical-review",
-          "label": { "zh": "技术评审与问题闭环", "en": "Technical reviews and issue closure" },
-          "imageStyle": "cover",
-          "image": {
-            "id": "skill-technical-review-image", "src": "/media/edu-cad.jpg",
-            "alt": { "zh": "工程师在 CAD 工作站进行设计工作", "en": "Engineer working at a CAD workstation" },
-            "credit": { "zh": "Hughes Aircraft Company / 公有领域", "en": "Hughes Aircraft Company / public domain" },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineer_working_on_CAD_workstation_with_light_pen_Hughes_Aircraft_Company.jpg",
-            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
-          }
-        }
-      ]
-    },
-    {
-      "id": "collaboration-languages",
-      "title": {
-        "zh": "协作与语言",
-        "en": "Collaboration and Languages"
-      },
-      "items": [
-        {
-          "id": "cross-functional",
-          "label": { "zh": "跨职能评审与供应商协同", "en": "Cross-functional reviews and supplier collaboration" },
-          "imageStyle": "cover",
-          "image": {
-            "id": "skill-collaboration-image", "src": "/media/edu-mechanical-design.jpg",
-            "alt": { "zh": "工程原型开发工作现场", "en": "Engineering prototype development setting" },
-            "credit": { "zh": "NASA / Ben Smegelsky / 公有领域", "en": "NASA / Ben Smegelsky / public domain" },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_Labs-_Prototype_Development_Laboratory_(PDL)_(KSC-20201021-PH-JBS01_0020).jpg",
-            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
-          }
-        },
-        {
           "id": "production-analysis",
           "label": { "zh": "量产问题分析与闭环", "en": "Production issue analysis and closure" },
           "imageStyle": "cover",
@@ -665,19 +632,6 @@
             "credit": { "zh": "Impressionmanufacturer / CC BY-SA 4.0", "en": "Impressionmanufacturer / CC BY-SA 4.0" },
             "sourceUrl": "https://commons.wikimedia.org/wiki/File:CNC_milling_machine.jpg",
             "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
-          }
-        },
-        {
-          "id": "working-languages",
-          "label": { "zh": "中文 / 英语 / 法语 B2", "en": "Chinese / English / French B2" },
-          "imageStyle": "cover",
-          "image": {
-            "id": "skill-languages-image", "src": "/media/skill-languages.jpg",
-            "alt": { "zh": "语言主题书籍", "en": "Language books" },
-            "credit": { "zh": "University of Illinois Library / A.M. Stangl / CC BY 2.0", "en": "University of Illinois Library / A.M. Stangl / CC BY 2.0" },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Language_books_(8711661459).jpg",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
             "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
           }
         }

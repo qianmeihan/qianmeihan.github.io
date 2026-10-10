@@ -118,12 +118,17 @@ describe('public content policy', () => {
     }
   });
 
-  it('covers every approved engineering capability group', () => {
+  it('keeps the focused engineering capability groups and production analysis', () => {
     expect(siteContent.skillGroups.map((group) => group.id)).toEqual([
       'structures',
       'methods-tools',
-      'collaboration-languages',
     ]);
+    expect(siteContent.skillGroups.map((group) => group.items.length)).toEqual([4, 6]);
+    expect(siteContent.skillGroups[1].items.map((item) => item.id)).toContain('production-analysis');
+    const ids = siteContent.skillGroups.flatMap((group) => group.items.map((item) => item.id));
+    for (const removedId of ['technical-review', 'cross-functional', 'working-languages']) {
+      expect(ids).not.toContain(removedId);
+    }
   });
 
   it('keeps five resume-backed projects under the Schaeffler experience', () => {

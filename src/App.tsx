@@ -28,6 +28,7 @@ type LoadState =
 export default function App({ contentLoader = loadSiteContent }: AppProps) {
   const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' });
   const [activeSection, setActiveSection] = useState<SectionId>(() => sectionFromHash(window.location.hash));
+  const [isPhone, setIsPhone] = useState(() => window.matchMedia('(max-width: 600px)').matches);
   const mainRef = useRef<HTMLElement>(null);
   const {
     locale,
@@ -58,6 +59,18 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
   }, []);
 
   useEffect(() => {
+    const media = window.matchMedia('(max-width: 600px)');
+    const syncViewport = () => {
+      setIsPhone(media.matches);
+      if (media.matches && window.location.hash) {
+        setActiveSection(sectionFromHash(window.location.hash));
+      }
+    };
+    media.addEventListener('change', syncViewport);
+    return () => media.removeEventListener('change', syncViewport);
+  }, []);
+
+  useEffect(() => {
     if (loadState.status !== 'ready') return;
 
     const initialTarget = sectionFromHash(window.location.hash);
@@ -73,6 +86,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
       return () => window.cancelAnimationFrame(frame);
     }
     const observer = new IntersectionObserver(() => {
+      if (window.matchMedia('(max-width: 600px)').matches) return;
       const footer = document.querySelector('.site-footer');
       if (footer && footer.getBoundingClientRect().top < window.innerHeight) {
         setActiveSection('contact');
@@ -97,6 +111,14 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
       observer.disconnect();
     };
   }, [loadState.status]);
+
+  useEffect(() => {
+    if (loadState.status !== 'ready' || !isPhone) return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(activeSection)?.scrollIntoView({ block: 'start' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [activeSection, isPhone, loadState.status]);
 
   if (loadState.status === 'loading') {
     return <main role="status">Loading portfolio</main>;
@@ -155,7 +177,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
         </header>
 
         <div className="site-content">
-          <main id="main-content" ref={mainRef} tabIndex={-1} aria-label={locale === 'zh' ? '主要内容' : 'Main content'}>
+          <main id="main-content" ref={mainRef} tabIndex={-1} data-active-section={activeSection} aria-label={locale === 'zh' ? '主要内容' : 'Main content'}>
             <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
             <EducationSection items={content.education} locale={locale} />
             <ExperienceSection items={content.experience} projects={content.projects} locale={locale} />
