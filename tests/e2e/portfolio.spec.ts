@@ -568,7 +568,7 @@ test('applies dark and system themes', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect.poll(() => page.locator('html').evaluate((element) =>
     getComputedStyle(element).getPropertyValue('--color-paper').trim(),
-  )).toBe('#0b0f0c');
+  )).toBe('#202628');
   await expect.poll(() => page.locator('html').evaluate((element) =>
     getComputedStyle(element).getPropertyValue('--color-accent').trim(),
   )).toBe('#2f7042');
@@ -579,6 +579,41 @@ test('applies dark and system themes', async ({ page }) => {
 
   await page.emulateMedia({ colorScheme: 'dark' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});
+
+test('keeps dark experience and education cards distinct from the page', async ({ page }) => {
+  await page.getByRole('button', { name: '暗色' }).click();
+  const contrast = await page.locator('.timeline-item, .education-card').evaluateAll((cards) => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d')!;
+    const channels = (value: string) => {
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = value;
+      context.fillRect(0, 0, 1, 1);
+      return [...context.getImageData(0, 0, 1, 1).data].slice(0, 3);
+    };
+    const luminance = (value: string) => channels(value).map((channel) => {
+      const normalized = channel / 255;
+      return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+    }).reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+    const ratio = (first: string, second: string) => {
+      const values = [luminance(first), luminance(second)].sort((left, right) => right - left);
+      return (values[0] + 0.05) / (values[1] + 0.05);
+    };
+    const pageBackground = getComputedStyle(document.body).backgroundColor;
+    return cards.map((card) => {
+      const style = getComputedStyle(card);
+      return {
+        fill: ratio(style.backgroundColor, pageBackground),
+        edge: ratio(style.borderTopColor, style.backgroundColor),
+      };
+    });
+  });
+  expect(contrast).toHaveLength(4);
+  for (const card of contrast) {
+    expect(card.fill).toBeGreaterThanOrEqual(1.25);
+    expect(card.edge).toBeGreaterThanOrEqual(2);
+  }
 });
 
 test('navigates within one continuous page and highlights the selected section', async ({ page }) => {
@@ -772,12 +807,19 @@ test('loads every portfolio image when it enters the viewport', async ({ page })
 });
 
 test('has no automatically detectable WCAG A or AA violations', async ({ page }) => {
-  for (const hash of ['#profile', '#education']) {
-    await page.goto(`/${hash}`);
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-      .analyze();
-    expect(results.violations).toEqual([]);
+  test.setTimeout(60_000);
+  for (const theme of ['light', 'dark'] as const) {
+    await page.getByRole('button', { name: theme === 'light' ? '亮色' : '暗色' }).click();
+    for (const hash of ['#profile', '#education']) {
+      await page.goto(`/${hash}`);
+      await expect(page.locator('.project-card').first()).toHaveCSS(
+        'background-color', theme === 'light' ? 'rgb(244, 243, 239)' : 'rgb(32, 38, 40)',
+      );
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+        .analyze();
+      expect(results.violations, `${theme} ${hash} accessibility`).toEqual([]);
+    }
   }
 });
 
