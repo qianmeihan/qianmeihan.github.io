@@ -272,7 +272,7 @@ main {
 }
 
 section[id] {
-  scroll-margin-top: 1rem;
+  scroll-margin-top: 0.75rem;
 }
 
 .shell-profile {
@@ -514,7 +514,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .content-section {
   padding: var(--space-section) clamp(1.5rem, 5vw, 4.5rem);
-  padding-top: clamp(3.5rem, 4.5vw, 4.25rem);
+  padding-top: clamp(3.125rem, 4vw, 3.75rem);
 }
 
 .evidence-strip {
@@ -1371,7 +1371,7 @@ html[lang='en'] .education-card h3 {
   --contact-text: #f7fbf9;
   --contact-muted: #d8e5df;
   --contact-line: rgb(247 251 249 / 0.28);
-  padding-top: clamp(3rem, 3.7vw, 3.25rem);
+  padding-top: clamp(2.625rem, 3.4vw, 2.875rem);
   padding-bottom: clamp(1rem, 1.4vw, 1.25rem);
   background: #31594c;
   color: var(--contact-text);
@@ -1385,7 +1385,7 @@ html[data-theme='dark'] .contact-section {
 }
 
 .contact-section .section-heading {
-  margin-bottom: clamp(1.5rem, 2.25vw, 2rem);
+  margin-bottom: clamp(1.25rem, 2vw, 1.75rem);
 }
 
 .contact-section .section-heading::before,
@@ -1515,7 +1515,7 @@ html[data-theme='dark'] .contact-channel:hover {
 }
 
 .site-footer {
-  margin-top: clamp(2rem, 2.75vw, 2.5rem);
+  margin-top: clamp(1.75rem, 2.25vw, 2.125rem);
   padding-top: 1.2rem;
   border-top: 1px solid var(--contact-line);
   display: flex;
@@ -1875,7 +1875,7 @@ html[data-theme='dark'] .credits-dialog::backdrop {
   }
 
   section[id] {
-    scroll-margin-top: 8rem;
+    scroll-margin-top: 8.125rem;
   }
 
   .shell-profile {
@@ -1917,7 +1917,7 @@ html[data-theme='dark'] .credits-dialog::backdrop {
 
 @media (max-width: 600px) {
   .content-section {
-    padding-top: 2.75rem;
+    padding-top: 2.375rem;
   }
 
   .section-heading {
@@ -2033,7 +2033,7 @@ html[data-theme='dark'] .credits-dialog::backdrop {
   }
 
   section[id] {
-    scroll-margin-top: 11.25rem;
+    scroll-margin-top: 10.5rem;
   }
 
   .hero-section {
@@ -2147,17 +2147,17 @@ html[data-theme='dark'] .credits-dialog::backdrop {
   }
 
   .contact-section {
-    padding-top: 2.5rem;
+    padding-top: 2.25rem;
   }
 
   .contact-section__body {
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .site-footer {
     align-items: flex-start;
     flex-direction: column;
-    margin-top: 2rem;
+    margin-top: 1.75rem;
   }
 
   .site-footer__credits ul {

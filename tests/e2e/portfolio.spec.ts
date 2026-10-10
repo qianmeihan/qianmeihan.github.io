@@ -719,6 +719,25 @@ test('navigates within one continuous page and highlights the selected section',
   }
 });
 
+test('places clicked section headings close to the top without hiding them behind the phone header', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const width of [1440, 768, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.getByRole('link', { name: '教育经历', exact: true }).click();
+    const heading = page.locator('#education .section-heading');
+    await expect(heading).toBeInViewport();
+    const gap = await heading.evaluate((element) => {
+      const headerBottom = window.innerWidth <= 820
+        ? document.querySelector('.site-sidebar')!.getBoundingClientRect().bottom
+        : 0;
+      return element.getBoundingClientRect().top - headerBottom;
+    });
+    expect(gap, `heading clearance at ${width}px`).toBeGreaterThanOrEqual(20);
+    expect(gap, `heading clearance at ${width}px`).toBeLessThanOrEqual(72);
+  }
+});
+
 test('scrolling from education continues into experience and updates navigation', async ({ page }) => {
   await page.getByRole('link', { name: '教育经历', exact: true }).click();
   await expect(page.locator('#education')).toBeInViewport();
@@ -821,8 +840,8 @@ test('keeps clipboard errors inside the email row instead of opening a mail app'
 
 test('keeps the contact endcap compact without shrinking its touch targets', async ({ page }) => {
   for (const [width, height, limits] of [
-    [1440, 900, { top: [48, 54], heading: [30, 34], footer: [36, 42], bottom: [18, 22] }],
-    [390, 844, { top: [38, 42], heading: [22, 26], footer: [30, 34], bottom: [16, 18] }],
+    [1440, 900, { top: [42, 47], heading: [26, 29], footer: [30, 35], bottom: [18, 22] }],
+    [390, 844, { top: [34, 38], heading: [19, 22], footer: [26, 29], bottom: [16, 18] }],
   ] as const) {
     await page.setViewportSize({ width, height });
     await page.goto('/#contact');
@@ -1251,8 +1270,8 @@ test('separates desktop sections with an asymmetric rule and generous title spac
     expect(boundary.bottomBorder).toBe(0);
     expect(boundary.titleAligned).toBe(true);
     expect(boundary.headingInset).toBe(true);
-    expect(boundary.topSpace).toBeGreaterThanOrEqual(48);
-    expect(boundary.contentGap).toBeGreaterThanOrEqual(32);
+    expect(boundary.topSpace).toBeGreaterThanOrEqual(boundary.id === 'contact' ? 42 : 48);
+    expect(boundary.contentGap).toBeGreaterThanOrEqual(boundary.id === 'contact' ? 26 : 32);
     expect(boundary.shortRuleWidth).toBeGreaterThanOrEqual(16);
     expect(boundary.shortRuleWidth).toBeLessThan(40);
     expect(boundary.longRuleWidth).toBeGreaterThan(200);
