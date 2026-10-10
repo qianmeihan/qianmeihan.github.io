@@ -885,7 +885,7 @@ test('shows one selected section at a time on phones, including hash navigation 
   await expect(page.locator('#education')).toBeHidden();
 });
 
-test('uses a title-bearing section boundary without changing section backgrounds or desktop scrolling', async ({ page }) => {
+test('separates desktop sections with an asymmetric rule and generous title spacing', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   const sections = page.locator('.content-section');
   await expect(sections).toHaveCount(4);
@@ -894,28 +894,65 @@ test('uses a title-bearing section boundary without changing section backgrounds
     const heading = section.querySelector('.section-heading') as HTMLElement;
     const sectionStyle = getComputedStyle(section);
     const headingStyle = getComputedStyle(heading);
+    const shortRule = getComputedStyle(heading, '::before');
+    const longRule = getComputedStyle(heading, '::after');
     const sectionBounds = section.getBoundingClientRect();
     const headingBounds = heading.getBoundingClientRect();
+    const titleBounds = heading.querySelector('h2')!.getBoundingClientRect();
     return {
       sectionBackground: sectionStyle.backgroundColor,
       headingBackground: headingStyle.backgroundColor,
       topBorder: parseFloat(headingStyle.borderTopWidth),
       bottomBorder: parseFloat(headingStyle.borderBottomWidth),
-      fullWidth: Math.abs(headingBounds.width - sectionBounds.width) < 2,
-      titleInside: heading.querySelector('h2')!.getBoundingClientRect().top > headingBounds.top,
+      titleAligned: Math.abs(titleBounds.left - headingBounds.left) < 2,
+      headingInset: Math.abs(headingBounds.left - (sectionBounds.left + parseFloat(sectionStyle.paddingLeft))) < 2,
+      topSpace: parseFloat(sectionStyle.paddingTop),
+      contentGap: parseFloat(headingStyle.marginBottom),
+      shortRuleWidth: parseFloat(shortRule.width),
+      longRuleWidth: parseFloat(longRule.width),
+      longRuleColor: longRule.borderTopColor,
     };
   }));
   for (const boundary of boundaries) {
     expect(boundary.sectionBackground).toBe('rgba(0, 0, 0, 0)');
     expect(boundary.headingBackground).toBe('rgba(0, 0, 0, 0)');
-    expect(boundary.topBorder).toBeGreaterThanOrEqual(1);
-    expect(boundary.bottomBorder).toBeGreaterThanOrEqual(1);
-    expect(boundary.fullWidth).toBe(true);
-    expect(boundary.titleInside).toBe(true);
+    expect(boundary.topBorder).toBe(0);
+    expect(boundary.bottomBorder).toBe(0);
+    expect(boundary.titleAligned).toBe(true);
+    expect(boundary.headingInset).toBe(true);
+    expect(boundary.topSpace).toBeGreaterThanOrEqual(48);
+    expect(boundary.contentGap).toBeGreaterThanOrEqual(32);
+    expect(boundary.shortRuleWidth).toBeGreaterThanOrEqual(16);
+    expect(boundary.shortRuleWidth).toBeLessThan(40);
+    expect(boundary.longRuleWidth).toBeGreaterThan(200);
+    expect(boundary.longRuleColor).not.toBe('rgba(0, 0, 0, 0)');
   }
   await expect(page.locator('#profile')).toBeVisible();
   await expect(page.locator('#education')).toBeVisible();
   await expect(page.locator('#skills')).toBeVisible();
+});
+
+test('keeps the section rule and breathing room proportionate on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#education');
+  const spacing = await page.locator('#education').evaluate((section) => {
+    const heading = section.querySelector('.section-heading')!;
+    const sectionStyle = getComputedStyle(section);
+    const headingStyle = getComputedStyle(heading);
+    return {
+      topSpace: parseFloat(sectionStyle.paddingTop),
+      contentGap: parseFloat(headingStyle.marginBottom),
+      shortRuleWidth: parseFloat(getComputedStyle(heading, '::before').width),
+      longRuleWidth: parseFloat(getComputedStyle(heading, '::after').width),
+    };
+  });
+  expect(spacing.topSpace).toBeGreaterThanOrEqual(36);
+  expect(spacing.topSpace).toBeLessThan(64);
+  expect(spacing.contentGap).toBeGreaterThanOrEqual(24);
+  expect(spacing.contentGap).toBeLessThan(40);
+  expect(spacing.shortRuleWidth).toBeGreaterThan(8);
+  expect(spacing.longRuleWidth).toBeGreaterThan(24);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 });
 
 test('keeps the selected hash section when the viewport changes from desktop to phone', async ({ page }) => {

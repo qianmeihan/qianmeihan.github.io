@@ -503,7 +503,7 @@ html[data-theme='dark'] .hero-actions .brand-icon--github {
 
 .content-section {
   padding: var(--space-section) clamp(1.5rem, 5vw, 4.5rem);
-  padding-top: 0;
+  padding-top: clamp(3.5rem, 4.5vw, 4.25rem);
 }
 
 .evidence-strip {
@@ -1455,20 +1455,37 @@ html[data-theme='dark'] .contact-section {
 }
 
 .section-heading {
-  min-height: 5.6rem;
-  margin: 0 calc(-1 * clamp(1.5rem, 5vw, 4.5rem)) 1.75rem;
-  padding: 1rem clamp(1.5rem, 5vw, 4.5rem);
-  border-top: 1px solid var(--color-line-strong);
-  border-bottom: 1px solid var(--color-line);
+  position: relative;
+  margin: 0 0 clamp(2.5rem, 3vw, 3rem);
   display: flex;
   align-items: center;
+  gap: clamp(1.25rem, 2vw, 2rem);
+}
+
+.section-heading::before,
+.section-heading::after {
+  content: '';
+  border-top: 1px solid var(--color-line);
+}
+
+.section-heading::before {
+  position: absolute;
+  right: calc(100% + 1.25rem);
+  width: clamp(1rem, 1.75vw, 1.75rem);
+  border-color: var(--color-line-strong);
+}
+
+.section-heading::after {
+  flex: 1;
+  min-width: 1rem;
 }
 
 .section-heading h2 {
+  min-width: 0;
   margin: 0;
-  font-size: clamp(1.65rem, 2.8vw, 2.4rem);
-  font-weight: 560;
-  letter-spacing: -0.045em;
+  font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+  font-weight: 540;
+  letter-spacing: -0.035em;
   line-height: 1.05;
 }
 
@@ -1687,6 +1704,20 @@ html[data-theme='dark'] .contact-section {
 }
 
 @media (max-width: 600px) {
+  .content-section {
+    padding-top: 2.75rem;
+  }
+
+  .section-heading {
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  .section-heading::before {
+    right: calc(100% + 0.4rem);
+    width: 0.875rem;
+  }
+
   #main-content[data-active-section='profile'] > section:not(#profile):not(.evidence-strip),
   #main-content[data-active-section='education'] > section:not(#education),
   #main-content[data-active-section='experience'] > section:not(#experience),
@@ -1718,6 +1749,10 @@ html[data-theme='dark'] .contact-section {
 }
 
 @media (max-width: 480px) {
+  .section-heading h2 {
+    font-size: 1.45rem;
+  }
+
   .site-brand__text strong {
     font-size: 0.82rem;
   }
