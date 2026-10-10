@@ -89,22 +89,47 @@ describe('App', () => {
     expect(window.scrollTo).not.toHaveBeenCalled();
   });
 
-  it('moves course and capability image attribution to a small footer list', async () => {
-    const { container } = render(<App contentLoader={async () => siteContent} />);
-    const credits = await screen.findByRole('region', { name: '图片与图标来源与许可' });
-    expect(within(credits).getAllByRole('listitem')).toHaveLength(23);
-    expect(within(credits).getAllByRole('link', { name: '许可协议' })).toHaveLength(16);
-    expect(within(credits).getByText('材料力学')).toBeInTheDocument();
-    expect(within(credits).getByRole('link', { name: 'Sigmund / CC BY-SA 3.0' })).toHaveAttribute(
-      'href',
-      'https://commons.wikimedia.org/wiki/File:Cast_iron_tensile_test.JPG',
-    );
-    expect(credits).toHaveTextContent('缩放');
-    expect(within(credits).getByRole('link', { name: 'Dassault Systèmes / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:CATIA_Logotype_RGB_Blue.png');
-    expect(within(credits).getByRole('link', { name: 'PTC Inc. / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:PTC_Creo_logo.svg');
-    expect(within(credits).getByRole('link', { name: 'Autodesk Inc. / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:Autodesk_AutoCAD_Logo.svg');
-    expect(within(credits).getByRole('link', { name: 'Lucide' })).toHaveAttribute('href', 'https://lucide.dev/license');
-    expect(within(container.querySelector('#education') as HTMLElement).queryByRole('link', { name: '许可协议' })).not.toBeInTheDocument();
+  it('keeps course and capability attribution in a contact-endcap dialog', async () => {
+    const showModalDescriptor = Object.getOwnPropertyDescriptor(HTMLDialogElement.prototype, 'showModal');
+    const closeDescriptor = Object.getOwnPropertyDescriptor(HTMLDialogElement.prototype, 'close');
+    Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+      configurable: true,
+      value(this: HTMLDialogElement) { this.setAttribute('open', ''); },
+    });
+    Object.defineProperty(HTMLDialogElement.prototype, 'close', {
+      configurable: true,
+      value(this: HTMLDialogElement) { this.removeAttribute('open'); },
+    });
+    try {
+      const { container } = render(<App contentLoader={async () => siteContent} />);
+      await screen.findByRole('heading', { name: '钱美含' });
+      const contact = container.querySelector('#contact') as HTMLElement;
+      const trigger = within(contact).getByRole('button', { name: '图片来源与许可' });
+      expect(contact.querySelector('footer')).toContainElement(trigger);
+      expect(container.querySelector('.site-footer__credits')).not.toBeVisible();
+      await userEvent.setup().click(trigger);
+      const credits = screen.getByRole('region', { name: '图片与图标来源与许可' });
+      expect(within(credits).getAllByRole('listitem')).toHaveLength(23);
+      expect(within(credits).getAllByRole('link', { name: '许可协议' })).toHaveLength(16);
+      expect(within(credits).getByText('材料力学')).toBeInTheDocument();
+      expect(within(credits).getByRole('link', { name: 'Sigmund / CC BY-SA 3.0' })).toHaveAttribute(
+        'href',
+        'https://commons.wikimedia.org/wiki/File:Cast_iron_tensile_test.JPG',
+      );
+      expect(credits).toHaveTextContent('缩放');
+      expect(within(credits).getByRole('link', { name: 'Dassault Systèmes / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:CATIA_Logotype_RGB_Blue.png');
+      expect(within(credits).getByRole('link', { name: 'PTC Inc. / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:PTC_Creo_logo.svg');
+      expect(within(credits).getByRole('link', { name: 'Autodesk Inc. / 软件标识' })).toHaveAttribute('href', 'https://commons.wikimedia.org/wiki/File:Autodesk_AutoCAD_Logo.svg');
+      expect(within(credits).getByRole('link', { name: 'Lucide' })).toHaveAttribute('href', 'https://lucide.dev/license');
+      expect(within(container.querySelector('#education') as HTMLElement).queryByRole('link', { name: '许可协议' })).not.toBeInTheDocument();
+      await userEvent.setup().click(within(contact).getByRole('button', { name: '关闭图片来源与许可' }));
+      expect(container.querySelector('.site-footer__credits')).not.toBeVisible();
+    } finally {
+      if (showModalDescriptor) Object.defineProperty(HTMLDialogElement.prototype, 'showModal', showModalDescriptor);
+      else Reflect.deleteProperty(HTMLDialogElement.prototype, 'showModal');
+      if (closeDescriptor) Object.defineProperty(HTMLDialogElement.prototype, 'close', closeDescriptor);
+      else Reflect.deleteProperty(HTMLDialogElement.prototype, 'close');
+    }
   });
 
   it('keeps the selected module when skipping to main content', async () => {
@@ -142,17 +167,18 @@ describe('App', () => {
     expect(within(container.querySelector('#contact') as HTMLElement).getByRole('link', { name: '1287187051@qq.com' })).toHaveAttribute('href', 'mailto:1287187051@qq.com');
   });
 
-  it('ends with one email action and two professional links instead of repeating the résumés', async () => {
+  it('ends with three equal contact rows instead of repeating the résumés', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
     const contact = container.querySelector('#contact') as HTMLElement;
 
-    expect(within(contact).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
+    expect(within(contact.querySelector('.contact-section__channels') as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
       'mailto:1287187051@qq.com',
       'https://www.linkedin.com/in/qianmeihan/',
       'https://github.com/qianmeihan',
     ]);
-    expect(within(contact).getByRole('link', { name: '1287187051@qq.com' })).toHaveClass('contact-email');
+    expect(contact.querySelectorAll('.contact-channel')).toHaveLength(3);
+    expect(within(contact).getByRole('link', { name: '1287187051@qq.com' })).toHaveClass('contact-channel');
     expect(within(contact).queryByRole('link', { name: /简历|résumé/i })).not.toBeInTheDocument();
     expect(within(contact).getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('target', '_blank');
     expect(within(contact).getByRole('link', { name: 'GitHub' })).toHaveAttribute('rel', 'noopener noreferrer');

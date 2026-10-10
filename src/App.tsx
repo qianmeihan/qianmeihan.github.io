@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ContactSection } from './components/ContactSection';
-import { CourseImageCredits } from './components/CourseImageCredits';
+import { CreditsDialog } from './components/CreditsDialog';
 import { EducationSection } from './components/EducationSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { HeroSection } from './components/HeroSection';
@@ -184,15 +184,16 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
             <ExperienceSection items={content.experience} projects={content.projects} locale={locale} />
             <PatentSection items={content.patents} locale={locale} />
             <SkillsSection groups={content.skillGroups} locale={locale} />
-            <ContactSection contact={content.contact} email={content.profile.email} links={content.profile.links} locale={locale} />
+            <ContactSection contact={content.contact} email={content.profile.email} links={content.profile.links} locale={locale}>
+              <footer className="site-footer">
+                <span>© 2026 {localized(content.profile.name, locale)}</span>
+                <div className="site-footer__links">
+                  <a href="#profile">{locale === 'zh' ? '返回概述' : 'Back to overview'}</a>
+                  <CreditsDialog items={content.education} skillGroups={content.skillGroups} locale={locale} />
+                </div>
+              </footer>
+            </ContactSection>
           </main>
-          <footer className="site-footer">
-            <div className="site-footer__top">
-              <span>© 2026 {localized(content.profile.name, locale)}</span>
-              <a href="#profile">{locale === 'zh' ? '返回概述' : 'Back to overview'}</a>
-            </div>
-            <CourseImageCredits items={content.education} skillGroups={content.skillGroups} locale={locale} />
-          </footer>
         </div>
       </div>
     </>

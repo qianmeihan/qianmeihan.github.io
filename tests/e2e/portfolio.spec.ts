@@ -551,7 +551,7 @@ test('keeps English name headings on one line across desktop widths', async ({ p
 
   for (const width of [1440, 1024]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const [nav, selector] of [['Overview', '.hero-section h1'], ['Contact', '.contact-section h2']] as const) {
+    for (const [nav, selector] of [['Overview', '.hero-section h1'], ['Contact', '.contact-section > .section-heading h2']] as const) {
       await page.getByRole('link', { name: nav, exact: true }).click();
       const lineCount = await page.locator(selector).evaluate((element) => {
         const range = document.createRange();
@@ -611,36 +611,72 @@ test('highlights contact after the hero contact button changes the active module
   await expect(page.locator('.site-nav a[href="#contact"]')).toHaveAttribute('aria-current', 'location');
 });
 
-test('gives contact the same paper surface and a clear email-first hierarchy in both themes', async ({ page }) => {
+test('finishes with a deep-green contact area and three equal rows in both themes', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/#contact');
   for (const theme of ['light', 'dark'] as const) {
     await page.evaluate((nextTheme) => document.documentElement.setAttribute('data-theme', nextTheme), theme);
-    await expect(page.locator('#contact .contact-email')).toBeVisible();
+    await expect(page.locator('#contact .contact-channel')).toHaveCount(3);
     const styles = await page.locator('#contact').evaluate((section) => {
-      const email = section.querySelector('.contact-email') as HTMLElement;
-      const social = section.querySelector('.contact-socials a') as HTMLElement;
+      const channels = [...section.querySelectorAll<HTMLElement>('.contact-channel')];
       return {
         sectionBackground: getComputedStyle(section).backgroundColor,
         pageBackground: getComputedStyle(document.querySelector('#education')!).backgroundColor,
         headingCount: section.querySelectorAll('.section-heading h2').length,
-        emailFont: parseFloat(getComputedStyle(email).fontSize),
-        socialFont: parseFloat(getComputedStyle(social).fontSize),
+        rows: channels.map((channel) => ({
+          top: Math.round(channel.getBoundingClientRect().top),
+          left: Math.round(channel.getBoundingClientRect().left),
+          width: Math.round(channel.getBoundingClientRect().width),
+          height: Math.round(channel.getBoundingClientRect().height),
+          fontSize: parseFloat(getComputedStyle(channel).fontSize),
+        })),
       };
     });
-    expect(styles.sectionBackground).toBe(styles.pageBackground);
+    expect(styles.sectionBackground).not.toBe(styles.pageBackground);
+    expect(styles.sectionBackground).toMatch(/^rgb\(4\d, 8\d, 7\d\)$/);
     expect(styles.headingCount).toBe(1);
-    expect(styles.emailFont).toBeGreaterThan(styles.socialFont);
+    expect(styles.rows.map(({ fontSize }) => fontSize)).toEqual(Array(3).fill(styles.rows[0].fontSize));
+    expect(styles.rows.map(({ left, width, height }) => ({ left, width, height }))).toEqual(
+      Array(3).fill({ left: styles.rows[0].left, width: styles.rows[0].width, height: styles.rows[0].height }),
+    );
+    expect(styles.rows[0].top).toBeLessThan(styles.rows[1].top);
+    expect(styles.rows[1].top).toBeLessThan(styles.rows[2].top);
   }
 });
 
-test('keeps contact actions and the attribution links readable without phone overflow', async ({ page }) => {
+test('keeps contact actions and the attribution dialog readable without phone overflow', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 780 });
   await page.goto('/#contact');
-  await expect(page.locator('.contact-email')).toBeVisible();
-  await expect(page.locator('.contact-socials a')).toHaveCount(2);
+  await expect(page.locator('.contact-channel')).toHaveCount(3);
+  const trigger = page.locator('#contact').getByRole('button', { name: '图片来源与许可' });
+  await expect(trigger).toBeVisible();
+  await expect(page.locator('.site-footer__credits')).toBeHidden();
+  await trigger.click();
+  await expect(page.getByRole('dialog', { name: '图片来源与许可' })).toBeVisible();
   await expect(page.locator('.site-footer__credits a').first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog', { name: '图片来源与许可' })).toBeHidden();
+});
+
+test('keeps the credits close button available at the end of the phone dialog', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 780 });
+  await page.goto('/#contact');
+  const trigger = page.getByRole('button', { name: '图片来源与许可' });
+  await trigger.click();
+  const dialog = page.getByRole('dialog', { name: '图片来源与许可' });
+  await dialog.locator('.site-footer__credits p').last().scrollIntoViewIfNeeded();
+  const close = dialog.getByRole('button', { name: '关闭图片来源与许可' });
+  const bounds = await dialog.evaluate((element) => {
+    const dialogBounds = element.getBoundingClientRect();
+    const closeBounds = element.querySelector<HTMLButtonElement>('.credits-dialog__close')!.getBoundingClientRect();
+    return { dialogTop: dialogBounds.top, dialogBottom: dialogBounds.bottom, closeTop: closeBounds.top, closeBottom: closeBounds.bottom };
+  });
+  expect(bounds.closeTop).toBeGreaterThanOrEqual(bounds.dialogTop);
+  expect(bounds.closeBottom).toBeLessThanOrEqual(bounds.dialogBottom);
+  await close.click();
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
 });
 
 test('opens safe external links with noopener and noreferrer', async ({ page }) => {
@@ -671,6 +707,22 @@ test('has no automatically detectable WCAG A or AA violations', async ({ page })
       .analyze();
     expect(results.violations).toEqual([]);
   }
+});
+
+test('opens image credits from the keyboard without dialog accessibility violations', async ({ page }) => {
+  await page.goto('/#contact');
+  const trigger = page.getByRole('button', { name: '图片来源与许可' });
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  const dialog = page.getByRole('dialog', { name: '图片来源与许可' });
+  await expect(dialog).toBeVisible();
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+    .analyze();
+  expect(results.violations).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
 });
 
 for (const viewport of [
@@ -802,39 +854,49 @@ test('short content sections end near their content rather than leaving a viewpo
   }
 });
 
-test('keeps course image attribution visually quiet in the footer', async ({ page }) => {
+test('keeps complete course image attribution in a legible dialog', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
+  await page.getByRole('button', { name: '图片来源与许可' }).click();
   const credits = page.getByRole('region', { name: '图片与图标来源与许可' });
   await expect(credits.getByRole('listitem')).toHaveCount(23);
   const desktopFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
-  expect(desktopFontSize).toBeLessThan(10.5);
+  expect(desktopFontSize).toBeGreaterThanOrEqual(12);
   await page.setViewportSize({ width: 390, height: 844 });
   const phoneFontSize = await credits.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
-  expect(phoneFontSize).toBeGreaterThanOrEqual(10);
+  expect(phoneFontSize).toBeGreaterThanOrEqual(12);
 });
 
-test('keeps quiet footer link underlines visible in both themes', async ({ page }) => {
+test('keeps source links identifiable in the dialog in both themes', async ({ page }) => {
   for (const theme of ['light', 'dark'] as const) {
     await page.evaluate((nextTheme) => document.documentElement.setAttribute('data-theme', nextTheme), theme);
-    const contrast = await page.locator('.site-footer__credits a').first().evaluate((link) => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 1;
-      canvas.height = 1;
-      const context = canvas.getContext('2d')!;
-      context.fillStyle = getComputedStyle(document.documentElement).backgroundColor;
-      context.fillRect(0, 0, 1, 1);
-      const paper = [...context.getImageData(0, 0, 1, 1).data];
-      context.fillStyle = getComputedStyle(link).textDecorationColor;
-      context.fillRect(0, 0, 1, 1);
-      const underline = [...context.getImageData(0, 0, 1, 1).data];
-      const luminance = (rgb: number[]) => rgb.slice(0, 3).map((channel) => {
+    await page.getByRole('button', { name: '图片来源与许可' }).click();
+    const link = page.locator('.site-footer__credits a').first();
+    await expect(link).toBeVisible();
+    await expect(link).toHaveCSS('text-decoration-line', 'underline');
+    await page.keyboard.press('Escape');
+  }
+});
+
+test('keeps the attribution dialog close focus ring visible in both themes', async ({ page }) => {
+  for (const theme of ['light', 'dark'] as const) {
+    await page.evaluate((nextTheme) => document.documentElement.setAttribute('data-theme', nextTheme), theme);
+    await page.getByRole('button', { name: '图片来源与许可' }).click();
+    const close = page.getByRole('button', { name: '关闭图片来源与许可' });
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Shift+Tab');
+    await expect(close).toBeFocused();
+    const contrast = await close.evaluate((button) => {
+      const color = (value: string) => value.match(/\d+/g)!.slice(0, 3).map(Number);
+      const luminance = (rgb: number[]) => rgb.map((channel) => {
         const value = channel / 255;
         return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
       }).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
-      const [lighter, darker] = [luminance(paper), luminance(underline)].sort((a, b) => b - a);
-      return (lighter + 0.05) / (darker + 0.05);
+      const outline = luminance(color(getComputedStyle(button).outlineColor));
+      const background = luminance(color(getComputedStyle(button.closest('dialog')!).backgroundColor));
+      return (Math.max(outline, background) + 0.05) / (Math.min(outline, background) + 0.05);
     });
-    expect(contrast, `${theme} footer underline contrast`).toBeGreaterThanOrEqual(2.3);
+    expect(contrast, `${theme} modal close focus contrast`).toBeGreaterThanOrEqual(3);
+    await page.keyboard.press('Escape');
   }
 });
 
@@ -957,6 +1019,7 @@ test('separates desktop sections with an asymmetric rule and generous title spac
     const headingBounds = heading.getBoundingClientRect();
     const titleBounds = heading.querySelector('h2')!.getBoundingClientRect();
     return {
+      id: section.id,
       sectionBackground: sectionStyle.backgroundColor,
       headingBackground: headingStyle.backgroundColor,
       topBorder: parseFloat(headingStyle.borderTopWidth),
@@ -971,7 +1034,7 @@ test('separates desktop sections with an asymmetric rule and generous title spac
     };
   }));
   for (const boundary of boundaries) {
-    expect(boundary.sectionBackground).toBe('rgba(0, 0, 0, 0)');
+    expect(boundary.sectionBackground).toBe(boundary.id === 'contact' ? 'rgb(49, 89, 76)' : 'rgba(0, 0, 0, 0)');
     expect(boundary.headingBackground).toBe('rgba(0, 0, 0, 0)');
     expect(boundary.topBorder).toBe(0);
     expect(boundary.bottomBorder).toBe(0);
