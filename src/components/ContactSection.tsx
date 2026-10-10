@@ -1,53 +1,39 @@
-import { ArrowUpRight, FileDown, Mail } from 'lucide-react';
+import { ArrowUpRight, Mail } from 'lucide-react';
 import { BrandIcon } from './BrandIcon';
 import type { LinkItem, Locale, SiteContent } from '../content/types';
 import { localized } from '../lib/localized';
+import { SectionHeading } from './SectionHeading';
 
 interface ContactSectionProps {
   contact: SiteContent['contact'];
+  email: string;
   links: LinkItem[];
   locale: Locale;
 }
 
-const icons = { resume: FileDown, 'resume-en': FileDown, email: Mail } as const;
-
-export function ContactSection({ contact, links, locale }: ContactSectionProps) {
+export function ContactSection({ contact, email, links, locale }: ContactSectionProps) {
+  const socials = links.filter((link) => link.id === 'linkedin' || link.id === 'github');
   return (
-    <section className="contact-section" id="contact">
-      <h2>{localized(contact.heading, locale)}</h2>
-      <p>{localized(contact.invitation, locale)}</p>
-      <div className="contact-links">
-        {links.map((link) => {
-          const Icon = icons[link.id as keyof typeof icons] ?? ArrowUpRight;
-          const external = link.href.startsWith('https://');
-          const downloadName = link.id === 'resume'
-            ? 'Meihan-Qian-Resume-ZH.pdf'
-            : link.id === 'resume-en' ? 'Meihan-Qian-Resume-EN.pdf' : undefined;
-          const updatedAt = link.updatedAt
-            ? `${locale === 'zh' ? '更新于' : 'Updated'} ${link.updatedAt}`
-            : undefined;
-          return (
-            <a
-              key={link.id}
-              href={link.href}
-              download={downloadName}
-              data-updated-at={updatedAt}
-              aria-description={updatedAt}
-              target={external ? '_blank' : undefined}
-              rel={external ? 'noopener noreferrer' : undefined}
-            >
-              {link.id === 'linkedin' ? (
-                <BrandIcon brand="linkedin" size={18} />
-              ) : link.id === 'github' ? (
-                <BrandIcon brand="github" size={18} />
-              ) : (
-                <Icon aria-hidden="true" className={downloadName ? 'resume-icon' : link.id === 'email' ? 'email-icon' : undefined} size={18} />
-              )}
-              <span>{localized(link.label, locale)}</span>
-              {external ? <ArrowUpRight aria-hidden="true" size={16} /> : null}
-            </a>
-          );
-        })}
+    <section className="content-section contact-section" id="contact">
+      <SectionHeading title={localized(contact.heading, locale)} />
+      <div className="contact-section__body">
+        <p className="contact-section__invitation">{localized(contact.invitation, locale)}</p>
+        <div className="contact-section__channels">
+          <a className="contact-email" href={`mailto:${email}`}>
+            <Mail aria-hidden="true" size={22} strokeWidth={1.7} />
+            <span>{email}</span>
+            <ArrowUpRight aria-hidden="true" size={18} strokeWidth={1.7} />
+          </a>
+          <div className="contact-socials">
+            {socials.map((link) => (
+              <a key={link.id} href={link.href} target="_blank" rel="noopener noreferrer">
+                <BrandIcon brand={link.id as 'linkedin' | 'github'} size={18} />
+                <span>{localized(link.label, locale)}</span>
+                <ArrowUpRight aria-hidden="true" size={14} strokeWidth={1.7} />
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

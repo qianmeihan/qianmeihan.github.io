@@ -611,6 +611,38 @@ test('highlights contact after the hero contact button changes the active module
   await expect(page.locator('.site-nav a[href="#contact"]')).toHaveAttribute('aria-current', 'location');
 });
 
+test('gives contact the same paper surface and a clear email-first hierarchy in both themes', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/#contact');
+  for (const theme of ['light', 'dark'] as const) {
+    await page.evaluate((nextTheme) => document.documentElement.setAttribute('data-theme', nextTheme), theme);
+    await expect(page.locator('#contact .contact-email')).toBeVisible();
+    const styles = await page.locator('#contact').evaluate((section) => {
+      const email = section.querySelector('.contact-email') as HTMLElement;
+      const social = section.querySelector('.contact-socials a') as HTMLElement;
+      return {
+        sectionBackground: getComputedStyle(section).backgroundColor,
+        pageBackground: getComputedStyle(document.querySelector('#education')!).backgroundColor,
+        headingCount: section.querySelectorAll('.section-heading h2').length,
+        emailFont: parseFloat(getComputedStyle(email).fontSize),
+        socialFont: parseFloat(getComputedStyle(social).fontSize),
+      };
+    });
+    expect(styles.sectionBackground).toBe(styles.pageBackground);
+    expect(styles.headingCount).toBe(1);
+    expect(styles.emailFont).toBeGreaterThan(styles.socialFont);
+  }
+});
+
+test('keeps contact actions and the attribution links readable without phone overflow', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 780 });
+  await page.goto('/#contact');
+  await expect(page.locator('.contact-email')).toBeVisible();
+  await expect(page.locator('.contact-socials a')).toHaveCount(2);
+  await expect(page.locator('.site-footer__credits a').first()).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+});
+
 test('opens safe external links with noopener and noreferrer', async ({ page }) => {
   const externalLinks = page.locator('a[target="_blank"]');
   expect(await externalLinks.count()).toBeGreaterThan(0);
@@ -781,6 +813,31 @@ test('keeps course image attribution visually quiet in the footer', async ({ pag
   expect(phoneFontSize).toBeGreaterThanOrEqual(10);
 });
 
+test('keeps quiet footer link underlines visible in both themes', async ({ page }) => {
+  for (const theme of ['light', 'dark'] as const) {
+    await page.evaluate((nextTheme) => document.documentElement.setAttribute('data-theme', nextTheme), theme);
+    const contrast = await page.locator('.site-footer__credits a').first().evaluate((link) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = 1;
+      const context = canvas.getContext('2d')!;
+      context.fillStyle = getComputedStyle(document.documentElement).backgroundColor;
+      context.fillRect(0, 0, 1, 1);
+      const paper = [...context.getImageData(0, 0, 1, 1).data];
+      context.fillStyle = getComputedStyle(link).textDecorationColor;
+      context.fillRect(0, 0, 1, 1);
+      const underline = [...context.getImageData(0, 0, 1, 1).data];
+      const luminance = (rgb: number[]) => rgb.slice(0, 3).map((channel) => {
+        const value = channel / 255;
+        return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+      }).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+      const [lighter, darker] = [luminance(paper), luminance(underline)].sort((a, b) => b - a);
+      return (lighter + 0.05) / (darker + 0.05);
+    });
+    expect(contrast, `${theme} footer underline contrast`).toBeGreaterThanOrEqual(2.3);
+  }
+});
+
 test('aligns capability image tiles across desktop and phone layouts', async ({ page }) => {
   for (const viewport of [
     { width: 1440, height: 900 },
@@ -888,7 +945,7 @@ test('shows one selected section at a time on phones, including hash navigation 
 test('separates desktop sections with an asymmetric rule and generous title spacing', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   const sections = page.locator('.content-section');
-  await expect(sections).toHaveCount(4);
+  await expect(sections).toHaveCount(5);
   const boundaries = await sections.evaluateAll((elements) => elements.map((element) => {
     const section = element as HTMLElement;
     const heading = section.querySelector('.section-heading') as HTMLElement;

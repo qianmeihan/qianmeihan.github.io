@@ -139,7 +139,23 @@ describe('App', () => {
     await userEvent.setup().click(screen.getByRole('button', { name: 'EN' }));
     expect(within(actions as HTMLElement).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual(expectedOrder);
     await userEvent.setup().click(screen.getByRole('link', { name: 'Contact' }));
-    expect(within(container.querySelector('#contact') as HTMLElement).getByRole('link', { name: 'Email' })).toHaveAttribute('href', 'mailto:1287187051@qq.com');
+    expect(within(container.querySelector('#contact') as HTMLElement).getByRole('link', { name: '1287187051@qq.com' })).toHaveAttribute('href', 'mailto:1287187051@qq.com');
+  });
+
+  it('ends with one email action and two professional links instead of repeating the résumés', async () => {
+    const { container } = render(<App contentLoader={async () => siteContent} />);
+    await screen.findByRole('heading', { name: '钱美含' });
+    const contact = container.querySelector('#contact') as HTMLElement;
+
+    expect(within(contact).getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
+      'mailto:1287187051@qq.com',
+      'https://www.linkedin.com/in/qianmeihan/',
+      'https://github.com/qianmeihan',
+    ]);
+    expect(within(contact).getByRole('link', { name: '1287187051@qq.com' })).toHaveClass('contact-email');
+    expect(within(contact).queryByRole('link', { name: /简历|résumé/i })).not.toBeInTheDocument();
+    expect(within(contact).getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('target', '_blank');
+    expect(within(contact).getByRole('link', { name: 'GitHub' })).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
   it('puts four recruiter proof points before the detailed sections', async () => {
@@ -220,8 +236,9 @@ describe('App', () => {
         [labels[1], '/downloads/meihan-qian-resume-en.pdf', 'Meihan-Qian-Resume-EN.pdf'],
       ]) {
         const links = screen.getAllByRole('link', { name: label });
-        expect(links).toHaveLength(2);
+        expect(links).toHaveLength(1);
         for (const link of links) {
+          expect(link.closest('.hero-actions')).not.toBeNull();
           expect(link).toHaveAttribute('href', href);
           expect(link).toHaveAttribute('download', filename);
         }

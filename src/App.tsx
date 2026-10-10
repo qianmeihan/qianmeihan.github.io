@@ -184,7 +184,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
             <ExperienceSection items={content.experience} projects={content.projects} locale={locale} />
             <PatentSection items={content.patents} locale={locale} />
             <SkillsSection groups={content.skillGroups} locale={locale} />
-            <ContactSection contact={content.contact} links={content.profile.links} locale={locale} />
+            <ContactSection contact={content.contact} email={content.profile.email} links={content.profile.links} locale={locale} />
           </main>
           <footer className="site-footer">
             <div className="site-footer__top">
