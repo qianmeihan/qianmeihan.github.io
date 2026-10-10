@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Locale } from '../content/types';
 import {
   isThemePreference,
@@ -32,6 +32,7 @@ function darkModeQuery(): MediaQueryList | null {
 }
 
 export function useSitePreferences() {
+  const themeTransitionTimer = useRef<number | null>(null);
   const [locale, setLocaleState] = useState<Locale>(() =>
     resolveInitialLocale(
       readStoredValue(LOCALE_STORAGE_KEY),
@@ -72,12 +73,37 @@ export function useSitePreferences() {
     document.documentElement.style.colorScheme = resolvedTheme;
   }, [resolvedTheme]);
 
+  useEffect(() => () => {
+    if (themeTransitionTimer.current !== null) {
+      window.clearTimeout(themeTransitionTimer.current);
+    }
+    document.documentElement.classList.remove('theme-transition');
+  }, []);
+
   const setLocale = (nextLocale: Locale) => {
     setLocaleState(nextLocale);
     writeStoredValue(LOCALE_STORAGE_KEY, nextLocale);
   };
 
   const setThemePreference = (nextTheme: ThemePreference) => {
+    const currentSystemPreference = darkModeQuery()?.matches ?? prefersDark;
+    const nextResolvedTheme = resolveTheme(nextTheme, currentSystemPreference);
+    if (themeTransitionTimer.current !== null) {
+      window.clearTimeout(themeTransitionTimer.current);
+      themeTransitionTimer.current = null;
+    }
+    document.documentElement.classList.remove('theme-transition');
+    if (
+      nextResolvedTheme !== resolvedTheme
+      && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    ) {
+      document.documentElement.classList.add('theme-transition');
+      themeTransitionTimer.current = window.setTimeout(() => {
+        document.documentElement.classList.remove('theme-transition');
+        themeTransitionTimer.current = null;
+      }, 260);
+    }
+    setPrefersDark(currentSystemPreference);
     setThemePreferenceState(nextTheme);
     writeStoredValue(THEME_STORAGE_KEY, nextTheme);
   };

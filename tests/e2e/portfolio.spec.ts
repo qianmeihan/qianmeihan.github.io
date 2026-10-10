@@ -581,8 +581,63 @@ test('applies dark and system themes', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
+test('uses a brief color-only theme transition without moving the phone layout', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const layoutBefore = await page.locator('.site-sidebar').evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    return { width: bounds.width, height: bounds.height };
+  });
+
+  await page.getByRole('button', { name: '暗色' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('html')).toHaveClass(/theme-transition/);
+
+  const motion = await page.evaluate(() => {
+    const body = getComputedStyle(document.body);
+    const contact = getComputedStyle(document.querySelector('.contact-section')!);
+    const portrait = getComputedStyle(document.querySelector('.hero-portrait img')!);
+    return {
+      properties: body.transitionProperty.split(',').map((value) => value.trim()),
+      durationMs: parseFloat(body.transitionDuration) * 1000,
+      contactProperties: contact.transitionProperty.split(',').map((value) => value.trim()),
+      portraitDuration: parseFloat(portrait.transitionDuration),
+    };
+  });
+  expect(motion.properties).toEqual(expect.arrayContaining(['background-color', 'color', 'border-color']));
+  expect(motion.properties).not.toContain('all');
+  expect(motion.properties).not.toContain('transform');
+  expect(motion.durationMs).toBeGreaterThan(0);
+  expect(motion.durationMs).toBeLessThanOrEqual(220);
+  expect(motion.contactProperties).toContain('background-color');
+  expect(motion.portraitDuration).toBe(0);
+
+  await expect(page.locator('html')).not.toHaveClass(/theme-transition/);
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(29, 34, 38)');
+  const layoutAfter = await page.locator('.site-sidebar').evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    return { width: bounds.width, height: bounds.height };
+  });
+  expect(layoutAfter).toEqual(layoutBefore);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+
+  await page.getByRole('button', { name: '亮色' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('html')).not.toHaveClass(/theme-transition/);
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 243, 239)');
+});
+
+test('does not animate manual theme changes when reduced motion is requested', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('button', { name: '暗色' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('html')).not.toHaveClass(/theme-transition/);
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(29, 34, 38)');
+});
+
 test('keeps dark experience and education cards distinct from the page', async ({ page }) => {
   await page.getByRole('button', { name: '暗色' }).click();
+  await expect(page.locator('html')).not.toHaveClass(/theme-transition/);
   const contrast = await page.locator('.timeline-item, .education-card').evaluateAll((cards) => {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
@@ -618,6 +673,7 @@ test('keeps dark experience and education cards distinct from the page', async (
 
 test('uses neutral graphite rather than green for dark interface chrome', async ({ page }) => {
   await page.getByRole('button', { name: '暗色' }).click();
+  await expect(page.locator('html')).not.toHaveClass(/theme-transition/);
   const palette = await page.evaluate(() => {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
