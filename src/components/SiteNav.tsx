@@ -20,6 +20,8 @@ const groups = [
   [{ id: 'contact', zh: '联系', en: 'Contact', Icon: Mail }],
 ] as const;
 
+export const navigationItems = groups.flat();
+
 export function SiteNav({ locale, activeId }: SiteNavProps) {
   return (
     <nav className="site-nav" aria-label={locale === 'zh' ? '主导航' : 'Primary navigation'}>

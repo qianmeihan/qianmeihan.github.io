@@ -5,6 +5,7 @@ import { EducationSection } from './components/EducationSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { HeroSection } from './components/HeroSection';
 import { LanguageSwitch } from './components/LanguageSwitch';
+import { MobileNav } from './components/MobileNav';
 import { PatentSection } from './components/PatentSection';
 import { SiteNav } from './components/SiteNav';
 import { SkillsSection } from './components/SkillsSection';
@@ -177,7 +178,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
           </div>
         </header>
 
-        <div className="site-content">
+        <div className="site-content" data-active-section={activeSection}>
           <main id="main-content" ref={mainRef} tabIndex={-1} data-active-section={activeSection} aria-label={locale === 'zh' ? '主要内容' : 'Main content'}>
             <HeroSection hero={content.hero} profile={content.profile} locale={locale} />
             <EducationSection items={content.education} locale={locale} />
@@ -196,6 +197,15 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
           </main>
         </div>
       </div>
+      {isPhone && (
+        <MobileNav
+          locale={locale}
+          activeId={activeSection}
+          themePreference={themePreference}
+          onLocaleChange={setLocale}
+          onThemeChange={setThemePreference}
+        />
+      )}
     </>
   );
 }

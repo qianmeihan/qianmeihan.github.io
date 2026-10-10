@@ -1,5 +1,21 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+
+async function selectSection(page: Page, name: string) {
+  if (await page.evaluate(() => window.innerWidth <= 600)) {
+    await expect(page.locator('.mobile-dock')).toBeVisible();
+    await page.locator('.mobile-dock__current').click();
+    await page.locator('.mobile-menu').getByRole('link', { name, exact: true }).click();
+  } else {
+    await page.getByRole('link', { name, exact: true }).click();
+  }
+}
+
+async function selectPhoneSetting(page: Page, name: string) {
+  await expect(page.locator('.mobile-dock')).toBeVisible();
+  await page.locator('.mobile-dock__current').click();
+  await page.locator('.mobile-menu').getByRole('button', { name, exact: true }).click();
+}
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -415,7 +431,7 @@ test('slightly enlarges patent detail text while keeping its compact two-column 
 test('stacks two matching patent rows with complete drawings beside concise details', async ({ page }) => {
   for (const width of [1440, 821, 390]) {
     await page.setViewportSize({ width, height: 900 });
-    await page.getByRole('link', { name: '专利', exact: true }).click();
+    await selectSection(page, '专利');
     const cards = page.locator('.patent-card');
     await expect(cards).toHaveCount(2);
     const measurements = await cards.evaluateAll((elements) => elements.map((element) => {
@@ -583,26 +599,32 @@ test('applies dark and system themes', async ({ page }) => {
 
 test('uses a brief color-only theme transition without moving the phone layout', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  const layoutBefore = await page.locator('.site-sidebar').evaluate((element) => {
+  const layoutBefore = await page.locator('.mobile-dock').evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     return { width: bounds.width, height: bounds.height };
   });
 
-  await page.getByRole('button', { name: '暗色' }).click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await expect(page.locator('html')).toHaveClass(/theme-transition/);
-
-  const motion = await page.evaluate(() => {
-    const body = getComputedStyle(document.body);
-    const contact = getComputedStyle(document.querySelector('.contact-section')!);
-    const portrait = getComputedStyle(document.querySelector('.hero-portrait img')!);
-    return {
-      properties: body.transitionProperty.split(',').map((value) => value.trim()),
-      durationMs: parseFloat(body.transitionDuration) * 1000,
-      contactProperties: contact.transitionProperty.split(',').map((value) => value.trim()),
-      portraitDuration: parseFloat(portrait.transitionDuration),
-    };
+  await page.evaluate(() => {
+    const root = document.documentElement;
+    const observer = new MutationObserver(() => {
+      if (!root.classList.contains('theme-transition')) return;
+      const body = getComputedStyle(document.body);
+      const contact = getComputedStyle(document.querySelector('.contact-section')!);
+      const portrait = getComputedStyle(document.querySelector('.hero-portrait img')!);
+      Reflect.set(window, '__themeTransitionSample', {
+        properties: body.transitionProperty.split(',').map((value) => value.trim()),
+        durationMs: parseFloat(body.transitionDuration) * 1000,
+        contactProperties: contact.transitionProperty.split(',').map((value) => value.trim()),
+        portraitDuration: parseFloat(portrait.transitionDuration),
+      });
+      observer.disconnect();
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ['class'] });
   });
+  await selectPhoneSetting(page, '暗色');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  const motion = await page.evaluate(() => Reflect.get(window, '__themeTransitionSample'));
+  expect(motion).toBeTruthy();
   expect(motion.properties).toEqual(expect.arrayContaining(['background-color', 'color', 'border-color']));
   expect(motion.properties).not.toContain('all');
   expect(motion.properties).not.toContain('transform');
@@ -613,14 +635,14 @@ test('uses a brief color-only theme transition without moving the phone layout',
 
   await expect(page.locator('html')).not.toHaveClass(/theme-transition/);
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(29, 34, 38)');
-  const layoutAfter = await page.locator('.site-sidebar').evaluate((element) => {
+  const layoutAfter = await page.locator('.mobile-dock').evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     return { width: bounds.width, height: bounds.height };
   });
   expect(layoutAfter).toEqual(layoutBefore);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 
-  await page.getByRole('button', { name: '亮色' }).click();
+  await selectPhoneSetting(page, '亮色');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await expect(page.locator('html')).not.toHaveClass(/theme-transition/);
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 243, 239)');
@@ -629,7 +651,7 @@ test('uses a brief color-only theme transition without moving the phone layout',
 test('does not animate manual theme changes when reduced motion is requested', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.getByRole('button', { name: '暗色' }).click();
+  await selectPhoneSetting(page, '暗色');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.locator('html')).not.toHaveClass(/theme-transition/);
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(29, 34, 38)');
@@ -719,16 +741,16 @@ test('navigates within one continuous page and highlights the selected section',
   }
 });
 
-test('places clicked section headings close to the top without hiding them behind the phone header', async ({ page }) => {
+test('places clicked section headings close to the top at desktop, tablet, and phone widths', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const width of [1440, 768, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
-    await page.getByRole('link', { name: '教育经历', exact: true }).click();
+    await selectSection(page, '教育经历');
     const heading = page.locator('#education .section-heading');
     await expect(heading).toBeInViewport();
     const gap = await heading.evaluate((element) => {
-      const headerBottom = window.innerWidth <= 820
+      const headerBottom = window.innerWidth > 600 && window.innerWidth <= 820
         ? document.querySelector('.site-sidebar')!.getBoundingClientRect().bottom
         : 0;
       return element.getBoundingClientRect().top - headerBottom;
@@ -814,7 +836,7 @@ test('copies the contact email with a quiet bilingual confirmation and keeps its
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   await expect(chinese.locator('.contact-channel__copy-status')).toBeEmpty({ timeout: 3500 });
 
-  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await selectPhoneSetting(page, 'EN');
   const english = page.locator('#contact').getByRole('button', { name: 'Copy email address 1287187051@qq.com' });
   await english.focus();
   await page.keyboard.press('Enter');
@@ -972,10 +994,10 @@ for (const viewport of [
   });
 }
 
-test('fits the complete navigation inside a phone viewport', async ({ page }) => {
+test('fits the complete section menu inside a phone viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-
-  const layout = await page.locator('.site-nav').evaluate((navigation) => {
+  await page.locator('.mobile-dock__current').click();
+  const layout = await page.locator('.mobile-menu nav').evaluate((navigation) => {
     const links = Array.from(navigation.querySelectorAll('a'));
     return {
       clientWidth: navigation.clientWidth,
@@ -994,10 +1016,94 @@ test('fits the complete navigation inside a phone viewport', async ({ page }) =>
   }
 });
 
+test('uses a single bottom phone dock with an accessible section menu and settings', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.site-sidebar')).toBeHidden();
+  const dock = page.locator('.mobile-dock');
+  await expect(dock).toHaveAttribute('aria-label', '手机导航');
+  await expect(dock).toBeVisible();
+  await expect(dock.getByRole('button', { name: '上一节' })).toBeDisabled();
+  await expect(dock.getByRole('button', { name: '概述，打开模块目录' })).toBeVisible();
+  await dock.getByRole('link', { name: '下一节：教育经历' }).click();
+  await expect(page).toHaveURL(/#education$/);
+  await expect(page.locator('#education')).toBeVisible();
+  await expect(dock.getByRole('button', { name: '教育经历，打开模块目录' })).toBeVisible();
+
+  await dock.getByRole('button', { name: '教育经历，打开模块目录' }).click();
+  const menu = page.locator('.mobile-menu');
+  await expect(menu).toBeVisible();
+  await expect(menu).toHaveAttribute('aria-labelledby', 'mobile-menu-title');
+  await expect(menu.getByRole('link')).toHaveCount(6);
+  await expect(menu.getByRole('group', { name: '语言 / Language' })).toBeVisible();
+  await expect(menu.getByRole('group', { name: '主题' })).toBeVisible();
+  await menu.getByRole('button', { name: 'EN', exact: true }).click();
+  await expect(menu).toBeHidden();
+  await expect(dock).toHaveAttribute('aria-label', 'Mobile navigation');
+  await expect(dock.getByRole('button', { name: 'Education, open section menu' })).toBeVisible();
+  await dock.getByRole('button', { name: 'Education, open section menu' }).click();
+  await menu.getByRole('button', { name: 'Dark' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(menu).toBeHidden();
+  await dock.getByRole('button', { name: 'Education, open section menu' }).click();
+  await menu.getByRole('link', { name: 'Skills' }).click();
+  await expect(menu).toBeHidden();
+  await expect(page.locator('#skills')).toBeVisible();
+  await expect(dock.getByRole('button', { name: 'Skills, open section menu' })).toBeVisible();
+});
+
+test('keeps the phone dock on one row, above the safe area, without changing tablet navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 780 });
+  const dock = page.getByRole('navigation', { name: '手机导航' });
+  const layout = await dock.evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const controls = [...element.querySelectorAll('a, button')].map((control) => control.getBoundingClientRect());
+    return {
+      left: bounds.left,
+      right: bounds.right,
+      bottom: bounds.bottom,
+      controlTops: controls.map((control) => control.top),
+      controlHeights: controls.map((control) => control.height),
+    };
+  });
+  expect(layout.left).toBeGreaterThanOrEqual(0);
+  expect(layout.right).toBeLessThanOrEqual(320);
+  expect(layout.bottom).toBeLessThanOrEqual(780);
+  expect(Math.max(...layout.controlTops) - Math.min(...layout.controlTops)).toBeLessThan(2);
+  expect(Math.min(...layout.controlHeights)).toBeGreaterThanOrEqual(44);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+
+  await page.setViewportSize({ width: 768, height: 900 });
+  await expect(dock).toBeHidden();
+  await expect(page.getByRole('navigation', { name: '主导航' })).toBeVisible();
+});
+
+test('keeps the phone contact footer above the fixed dock and the menu keyboard-accessible', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#contact');
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  const spacing = await page.evaluate(() => {
+    const footerLink = document.querySelector('.site-footer__links a')!.getBoundingClientRect();
+    const dock = document.querySelector('.mobile-dock')!.getBoundingClientRect();
+    return { footerBottom: footerLink.bottom, dockTop: dock.top };
+  });
+  expect(spacing.footerBottom).toBeLessThan(spacing.dockTop - 8);
+
+  const trigger = page.locator('.mobile-dock__current');
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  const dialog = page.getByRole('dialog', { name: '模块目录' });
+  await expect(dialog).toBeVisible();
+  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+  expect(results.violations).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
 test('keeps the final course row in the same card format at every breakpoint', async ({ page }) => {
   for (const [width, expectedColumns] of [[1440, 4], [1024, 3], [821, 2], [768, 2], [390, 1]] as const) {
     await page.setViewportSize({ width, height: 900 });
-    if (width <= 600) await page.getByRole('link', { name: '教育经历', exact: true }).click();
+    if (width <= 600) await selectSection(page, '教育经历');
     const grids = page.locator('.education-course-grid');
     for (const grid of await grids.all()) {
       const columns = await grid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length);
@@ -1194,10 +1300,10 @@ test('keeps education content bilingual in the same view', async ({ page }) => {
   await expect(page.locator('.course-card__image img')).toHaveCount(16);
 });
 
-test('keeps phone anchor targets visible below the sticky header', async ({ page }) => {
+test('keeps phone anchor targets visible with the top header removed', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.getByRole('link', { name: '工作经历', exact: true }).click();
+  await selectSection(page, '工作经历');
 
   const positions = await page.evaluate(() => ({
     headerBottom: document.querySelector('.site-sidebar')?.getBoundingClientRect().bottom ?? 0,
@@ -1214,14 +1320,14 @@ test('shows one selected section at a time on phones, including hash navigation 
   await expect(page.locator('#profile')).toBeVisible();
   await expect(page.locator('.evidence-strip')).toBeVisible();
   await expect(page.locator('#education')).toBeHidden();
-  await page.getByRole('link', { name: '教育经历', exact: true }).click();
+  await selectSection(page, '教育经历');
   await expect(page.locator('#education')).toBeVisible();
   await expect(page.locator('#profile')).toBeHidden();
   await expect(page.locator('.evidence-strip')).toBeHidden();
   await expect(page.locator('#experience')).toBeHidden();
-  await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#education');
+  await expect(page.locator('.mobile-dock__current')).toContainText('教育经历');
 
-  await page.getByRole('link', { name: '专业能力', exact: true }).click();
+  await selectSection(page, '专业能力');
   await expect(page.locator('#skills')).toBeVisible();
   await expect(page.locator('#education')).toBeHidden();
   await page.goBack();
@@ -1326,7 +1432,7 @@ test('keeps the short section rule inside narrow tablet viewports', async ({ pag
 
 test('keeps all English section dividers balanced at 320px', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 780 });
-  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await selectPhoneSetting(page, 'EN');
   for (const sectionId of ['education', 'experience', 'patent', 'skills']) {
     await page.goto(`/#${sectionId}`);
     const geometry = await page.locator(`#${sectionId} .section-heading`).evaluate((heading) => {
@@ -1373,7 +1479,7 @@ test('keeps the selected hash section when the viewport changes from desktop to 
   await expect(page.locator('#skills')).toBeInViewport();
   await expect(page.locator('#education')).toBeHidden();
   await expect(page.locator('#contact')).toBeHidden();
-  await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#skills');
+  await expect(page.locator('.mobile-dock__current')).toContainText('专业能力');
 });
 
 test('preserves the legacy project anchor within the phone experience module', async ({ page }) => {
@@ -1383,9 +1489,9 @@ test('preserves the legacy project anchor within the phone experience module', a
   await expect(page.locator('#experience')).toBeVisible();
   await expect(page.locator('#education')).toBeHidden();
   await expect(page.locator('#work')).toBeInViewport();
-  await expect(page.locator('.site-nav a[aria-current="location"]')).toHaveAttribute('href', '#experience');
+  await expect(page.locator('.mobile-dock__current')).toContainText('工作经历');
 
-  await page.getByRole('link', { name: '教育经历', exact: true }).click();
+  await selectSection(page, '教育经历');
   await page.goBack();
   await expect(page.locator('#work')).toBeInViewport();
 });
