@@ -644,6 +644,35 @@ test('finishes with a deep-green contact area and three equal rows in both theme
   }
 });
 
+test('keeps the contact endcap compact without shrinking its touch targets', async ({ page }) => {
+  for (const [width, height, limits] of [
+    [1440, 900, { top: [48, 60], heading: [28, 38], footer: [32, 50], bottom: [16, 25] }],
+    [390, 844, { top: [40, 48], heading: [24, 29], footer: [28, 38], bottom: [16, 20] }],
+  ] as const) {
+    await page.setViewportSize({ width, height });
+    await page.goto('/#contact');
+    const spacing = await page.locator('#contact').evaluate((section) => {
+      const heading = section.querySelector<HTMLElement>('.section-heading')!;
+      const footer = section.querySelector<HTMLElement>('.site-footer')!;
+      const channels = [...section.querySelectorAll<HTMLElement>('.contact-channel')];
+      const style = getComputedStyle(section);
+      return {
+        top: parseFloat(style.paddingTop),
+        heading: parseFloat(getComputedStyle(heading).marginBottom),
+        footer: parseFloat(getComputedStyle(footer).marginTop),
+        bottom: parseFloat(style.paddingBottom),
+        rowHeights: channels.map((channel) => channel.getBoundingClientRect().height),
+      };
+    });
+    for (const key of ['top', 'heading', 'footer', 'bottom'] as const) {
+      expect(spacing[key], `${key} spacing at ${width}px`).toBeGreaterThanOrEqual(limits[key][0]);
+      expect(spacing[key], `${key} spacing at ${width}px`).toBeLessThanOrEqual(limits[key][1]);
+    }
+    expect(spacing.rowHeights).toHaveLength(3);
+    expect(Math.min(...spacing.rowHeights)).toBeGreaterThanOrEqual(44);
+  }
+});
+
 test('keeps contact actions and the attribution dialog readable without phone overflow', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 780 });
   await page.goto('/#contact');

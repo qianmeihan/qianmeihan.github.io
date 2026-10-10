@@ -1341,10 +1341,14 @@ html[lang='en'] .education-card h3 {
   --contact-text: #f7fbf9;
   --contact-muted: #d8e5df;
   --contact-line: rgb(247 251 249 / 0.28);
-  padding-top: clamp(3.5rem, 5vw, 4.75rem);
-  padding-bottom: clamp(1.3rem, 2vw, 2rem);
+  padding-top: clamp(2.75rem, 4vw, 3.5rem);
+  padding-bottom: clamp(1.1rem, 1.5vw, 1.5rem);
   background: #31594c;
   color: var(--contact-text);
+}
+
+.contact-section .section-heading {
+  margin-bottom: clamp(1.75rem, 2.5vw, 2.25rem);
 }
 
 .contact-section .section-heading::before,
@@ -1431,7 +1435,7 @@ html[lang='en'] .education-card h3 {
 }
 
 .site-footer {
-  margin-top: clamp(3.25rem, 5vw, 5rem);
+  margin-top: clamp(2.25rem, 3.25vw, 3rem);
   padding-top: 1.2rem;
   border-top: 1px solid var(--contact-line);
   display: flex;
@@ -2047,7 +2051,7 @@ html[lang='en'] .education-card h3 {
   }
 
   .contact-section {
-    padding-top: 3.25rem;
+    padding-top: 2.75rem;
   }
 
   .contact-section__body {
@@ -2057,7 +2061,7 @@ html[lang='en'] .education-card h3 {
   .site-footer {
     align-items: flex-start;
     flex-direction: column;
-    margin-top: 2.75rem;
+    margin-top: 2.25rem;
   }
 
   .site-footer__credits ul {
