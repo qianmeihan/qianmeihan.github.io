@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ContactSection } from './components/ContactSection';
 import { CreditsDialog } from './components/CreditsDialog';
 import { EducationSection } from './components/EducationSection';
@@ -26,11 +26,15 @@ type LoadState =
   | { status: 'ready'; content: SiteContent }
   | { status: 'error' };
 
+type SwipeDirection = 'next' | 'previous';
+
 export default function App({ contentLoader = loadSiteContent }: AppProps) {
   const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' });
   const [activeSection, setActiveSection] = useState<SectionId>(() => sectionFromHash(window.location.hash));
   const [isPhone, setIsPhone] = useState(() => window.matchMedia('(max-width: 600px)').matches);
   const mainRef = useRef<HTMLElement>(null);
+  const gestureLandingRef = useRef<{ target: SectionId; direction: SwipeDirection } | null>(null);
+  const lastPhoneSectionRef = useRef(activeSection);
   const {
     locale,
     setLocale,
@@ -113,20 +117,51 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
     };
   }, [loadState.status]);
 
-  useEffect(() => {
-    if (loadState.status !== 'ready' || !isPhone) return;
+  useLayoutEffect(() => {
+    if (loadState.status !== 'ready' || !isPhone) {
+      lastPhoneSectionRef.current = activeSection;
+      return;
+    }
+    const main = mainRef.current;
+    const changed = lastPhoneSectionRef.current !== activeSection;
+    const landing = gestureLandingRef.current?.target === activeSection ? gestureLandingRef.current : null;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    lastPhoneSectionRef.current = activeSection;
+    gestureLandingRef.current = null;
+    if (changed && !reducedMotion && main) main.style.opacity = '0';
+
+    let entrance: Animation | undefined;
     const frame = window.requestAnimationFrame(() => {
-      const target = window.location.hash === '#work' ? 'work' : activeSection;
-      document.getElementById(target)?.scrollIntoView({ block: 'start' });
+      if (landing?.direction === 'previous') {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' });
+      } else {
+        const target = window.location.hash === '#work' ? 'work' : activeSection;
+        document.getElementById(target)?.scrollIntoView({ block: 'start', behavior: 'instant' });
+      }
+      if (changed && !reducedMotion && main?.animate) {
+        const offset = landing?.direction === 'previous' ? '-14px' : '14px';
+        entrance = main.animate([
+          { opacity: 0, transform: `translate3d(0, ${offset}, 0)` },
+          { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+        ], { duration: 230, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: 'both' });
+        void entrance.finished.then(() => entrance?.cancel()).catch(() => {});
+      }
+      if (main) main.style.opacity = '';
     });
-    return () => window.cancelAnimationFrame(frame);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      entrance?.cancel();
+      if (main) main.style.opacity = '';
+    };
   }, [activeSection, isPhone, loadState.status]);
 
   useEffect(() => {
     if (loadState.status !== 'ready' || !isPhone) return;
     const main = mainRef.current;
-    const nextSection = sectionIds[sectionIds.indexOf(activeSection) + 1];
-    if (!main || !nextSection) return;
+    const index = sectionIds.indexOf(activeSection);
+    const previousSection = sectionIds[index - 1];
+    const nextSection = sectionIds[index + 1];
+    if (!main || (!previousSection && !nextSection)) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let startX = 0;
@@ -134,30 +169,41 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
     let pullDistance = 0;
     let canPull = false;
     let isPulling = false;
+    let canGoPrevious = false;
+    let canGoNext = false;
+    let direction: SwipeDirection | null = null;
+    let navigating = false;
+    let exitAnimation: Animation | undefined;
     let resetTimer = 0;
 
-    const resetPull = () => {
-      if (!reducedMotion && isPulling) {
+    const resetPull = (springBack = true) => {
+      if (springBack && !reducedMotion && isPulling) {
         main.style.transition = 'transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1)';
         main.style.transform = '';
         window.clearTimeout(resetTimer);
         resetTimer = window.setTimeout(() => { main.style.transition = ''; }, 180);
+      } else if (!springBack) {
+        main.style.transition = '';
+        main.style.transform = '';
       }
       canPull = false;
       isPulling = false;
       pullDistance = 0;
+      direction = null;
     };
 
     const onTouchStart = (event: TouchEvent) => {
       canPull = false;
-      if (event.touches.length !== 1 || document.querySelector('dialog[open]')) return;
+      if (navigating || event.touches.length !== 1 || document.querySelector('dialog[open]')) return;
       const target = event.target;
       if (target instanceof Element && target.closest('a, button, input, select, textarea, [role="button"]')) return;
-      const atEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
-      if (!atEnd) return;
+      canGoPrevious = Boolean(previousSection) && window.scrollY <= 4;
+      canGoNext = Boolean(nextSection) && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+      if (!canGoPrevious && !canGoNext) return;
       startX = event.touches[0].clientX;
       startY = event.touches[0].clientY;
       pullDistance = 0;
+      direction = null;
       canPull = true;
     };
 
@@ -169,36 +215,67 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
       }
       const deltaX = event.touches[0].clientX - startX;
       const deltaY = startY - event.touches[0].clientY;
-      if (deltaY <= 4 || Math.abs(deltaX) > deltaY) {
+      if (Math.abs(deltaY) <= 4 || Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (isPulling) resetPull();
+        return;
+      }
+      const candidate: SwipeDirection = deltaY > 0 ? 'next' : 'previous';
+      if ((candidate === 'next' && !canGoNext) || (candidate === 'previous' && !canGoPrevious) || (direction && direction !== candidate)) {
         if (isPulling) resetPull();
         return;
       }
       event.preventDefault();
       isPulling = true;
-      pullDistance = deltaY;
+      direction = candidate;
+      pullDistance = Math.abs(deltaY);
       if (!reducedMotion) {
         window.clearTimeout(resetTimer);
         main.style.transition = 'none';
-        main.style.transform = `translate3d(0, -${Math.min(deltaY * 0.17, 22)}px, 0)`;
+        main.style.transform = `translate3d(0, ${candidate === 'next' ? '-' : ''}${Math.min(pullDistance * 0.17, 22)}px, 0)`;
       }
     };
 
     const onTouchEnd = () => {
-      const shouldAdvance = isPulling && pullDistance >= 88;
-      resetPull();
-      if (shouldAdvance) window.location.hash = `#${nextSection}`;
+      const destination = direction === 'next' ? nextSection : previousSection;
+      if (!isPulling || pullDistance < 88 || !direction || !destination) {
+        resetPull();
+        return;
+      }
+      const swipeDirection = direction;
+      const pullTransform = main.style.transform || 'none';
+      resetPull(false);
+      navigating = true;
+      const navigate = () => {
+        gestureLandingRef.current = { target: destination, direction: swipeDirection };
+        window.location.hash = `#${destination}`;
+      };
+      if (reducedMotion || !main.animate) {
+        navigate();
+        return;
+      }
+      exitAnimation = main.animate([
+        { opacity: 1, transform: pullTransform },
+        { opacity: 0, transform: `translate3d(0, ${swipeDirection === 'next' ? '-30px' : '30px'}, 0)` },
+      ], { duration: 140, easing: 'cubic-bezier(0.4, 0, 0.7, 0.2)', fill: 'forwards' });
+      void exitAnimation.finished.then(() => {
+        main.style.opacity = '0';
+        exitAnimation?.cancel();
+        navigate();
+      }).catch(() => {});
     };
+    const onTouchCancel = () => resetPull();
 
     main.addEventListener('touchstart', onTouchStart, { passive: true });
     main.addEventListener('touchmove', onTouchMove, { passive: false });
     main.addEventListener('touchend', onTouchEnd);
-    main.addEventListener('touchcancel', resetPull);
+    main.addEventListener('touchcancel', onTouchCancel);
     return () => {
       main.removeEventListener('touchstart', onTouchStart);
       main.removeEventListener('touchmove', onTouchMove);
       main.removeEventListener('touchend', onTouchEnd);
-      main.removeEventListener('touchcancel', resetPull);
+      main.removeEventListener('touchcancel', onTouchCancel);
       window.clearTimeout(resetTimer);
+      exitAnimation?.cancel();
       main.style.transition = '';
       main.style.transform = '';
     };
