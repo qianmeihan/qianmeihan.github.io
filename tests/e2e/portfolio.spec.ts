@@ -1345,7 +1345,7 @@ test('scales three course and capability tiles across phone widths without clipp
   )).toBe(true);
 });
 
-test('places the three software tools in the first phone row without changing desktop order', async ({ page }) => {
+test('places the three software tools first on phones and desktop', async ({ page }) => {
   for (const width of [320, 390, 600]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/#skills');
@@ -1362,7 +1362,7 @@ test('places the three software tools in the first phone row without changing de
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/#skills');
   const desktopOrder = await page.locator('.skill-group').nth(1).locator('.skill-item__label').allTextContents();
-  expect(desktopOrder.slice(0, 3)).toEqual(['GD&T 与尺寸链', '热分析与模流协同', 'CATIA']);
+  expect(desktopOrder.slice(0, 3)).toEqual(['CATIA', 'Creo', 'AutoCAD']);
 });
 
 test('centers each software mark as an undistorted image on phone tiles', async ({ page }) => {

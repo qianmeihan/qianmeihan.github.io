@@ -606,32 +606,6 @@
       },
       "items": [
         {
-          "id": "gdt-tolerances",
-          "label": { "zh": "GD&T 与尺寸链", "en": "GD&T and tolerance chains" },
-          "imageStyle": "cover",
-          "image": {
-            "id": "skill-gdt-image", "src": "/media/edu-engineering-graphics.jpg",
-            "alt": { "zh": "机械工程图纸", "en": "Mechanical engineering drawings" },
-            "credit": { "zh": "Benrobuck / CC BY-SA 3.0", "en": "Benrobuck / CC BY-SA 3.0" },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_drawings_with_Machinery%27s_Handbook.jpg",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
-          }
-        },
-        {
-          "id": "thermal-moldflow",
-          "label": { "zh": "热分析与模流协同", "en": "Thermal and mold-flow coordination" },
-          "imageStyle": "cover",
-          "image": {
-            "id": "skill-simulation-image", "src": "/media/edu-scientific-computing-cfd.jpg",
-            "alt": { "zh": "流体仿真流线图", "en": "Fluid simulation streamlines" },
-            "credit": { "zh": "Atif Masood (FetchCFD) / CC BY-SA 4.0", "en": "Atif Masood (FetchCFD) / CC BY-SA 4.0" },
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Catalytic-converter-simulation-velocity-streamlines.jpg",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-            "usageNote": { "zh": "仿真主题示意，非实际模流结果或本人项目", "en": "Simulation topic illustration, not an actual mold-flow result or personal project" }
-          }
-        },
-        {
           "id": "catia-software",
           "label": { "zh": "CATIA", "en": "CATIA" },
           "imageStyle": "contain",
@@ -665,6 +639,32 @@
             "credit": { "zh": "Autodesk Inc. / 软件标识", "en": "Autodesk Inc. / software mark" },
             "sourceUrl": "https://commons.wikimedia.org/wiki/File:Autodesk_AutoCAD_Logo.svg",
             "usageNote": { "zh": "仅用于识别软件，不代表厂商背书", "en": "Software identification only; no vendor endorsement implied" }
+          }
+        },
+        {
+          "id": "gdt-tolerances",
+          "label": { "zh": "GD&T 与尺寸链", "en": "GD&T and tolerance chains" },
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-gdt-image", "src": "/media/edu-engineering-graphics.jpg",
+            "alt": { "zh": "机械工程图纸", "en": "Mechanical engineering drawings" },
+            "credit": { "zh": "Benrobuck / CC BY-SA 3.0", "en": "Benrobuck / CC BY-SA 3.0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_drawings_with_Machinery%27s_Handbook.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+            "usageNote": { "zh": "能力主题示意，非本人项目实物或工作现场", "en": "Topic illustration only; not a personal project or workplace image" }
+          }
+        },
+        {
+          "id": "thermal-moldflow",
+          "label": { "zh": "热分析与模流协同", "en": "Thermal and mold-flow coordination" },
+          "imageStyle": "cover",
+          "image": {
+            "id": "skill-simulation-image", "src": "/media/edu-scientific-computing-cfd.jpg",
+            "alt": { "zh": "流体仿真流线图", "en": "Fluid simulation streamlines" },
+            "credit": { "zh": "Atif Masood (FetchCFD) / CC BY-SA 4.0", "en": "Atif Masood (FetchCFD) / CC BY-SA 4.0" },
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Catalytic-converter-simulation-velocity-streamlines.jpg",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "usageNote": { "zh": "仿真主题示意，非实际模流结果或本人项目", "en": "Simulation topic illustration, not an actual mold-flow result or personal project" }
           }
         },
         {
