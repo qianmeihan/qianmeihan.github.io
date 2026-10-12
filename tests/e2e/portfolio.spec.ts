@@ -166,7 +166,7 @@ test('keeps compact mobile coursework and capabilities separate from text-only p
   await page.goto('/#education');
   const courseGrid = page.locator('.education-course-grid').first();
   await expect(courseGrid).toHaveCSS('display', 'grid');
-  expect(await courseGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(2);
+  expect(await courseGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(3);
   await expect(courseGrid.locator('.course-card').first().locator('p')).toBeHidden();
   const courseImage = await courseGrid.locator('.course-card__image').first().boundingBox();
   expect(Math.abs(courseImage!.width / courseImage!.height - 4 / 3)).toBeLessThan(0.04);
@@ -176,7 +176,7 @@ test('keeps compact mobile coursework and capabilities separate from text-only p
 
   await selectSection(page, '专业能力');
   const skillGrid = page.locator('.skill-group ul').first();
-  expect(await skillGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(2);
+  expect(await skillGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(3);
   const skillImage = await skillGrid.locator('.skill-item__visual').first().boundingBox();
   expect(Math.abs(skillImage!.width - courseImage!.width)).toBeLessThan(2);
 
@@ -1284,9 +1284,10 @@ test('keeps the phone contact footer above the fixed dock and the menu keyboard-
   await expect(trigger).toBeFocused();
 });
 
-test('keeps desktop, tablet, and phone course and project grids distinct', async ({ page }) => {
+test('keeps desktop and tablet course layouts while giving phones three fluid course columns', async ({ page }) => {
   for (const [width, courseColumns, projectColumns] of [
-    [1440, 4, 6], [1024, 3, 2], [821, 2, 2], [768, 2, 1], [390, 2, 1],
+    [1440, 4, 6], [1024, 3, 2], [821, 2, 2], [768, 2, 1], [601, 2, 1],
+    [600, 3, 1], [390, 3, 1], [320, 3, 1],
   ] as const) {
     await page.setViewportSize({ width, height: 900 });
     if (width <= 600) await selectSection(page, '教育经历');
@@ -1315,6 +1316,42 @@ test('keeps desktop, tablet, and phone course and project grids distinct', async
     if (width <= 600) await selectSection(page, '工作经历');
     expect(await page.locator('.project-list').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(projectColumns);
   }
+});
+
+test('scales three course and capability tiles across phone widths without clipped captions', async ({ page }) => {
+  const widths: { course: number; skill: number }[] = [];
+  for (const width of [320, 390, 600]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/#education');
+    const courseGrid = page.locator('.education-course-grid').first();
+    const course = courseGrid.locator('.course-card').first();
+    const courseWidth = await course.evaluate((element) => element.getBoundingClientRect().width);
+    await selectSection(page, '专业能力');
+    const skillGrid = page.locator('.skill-group ul').first();
+    expect(await skillGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(3);
+    const skillWidth = await skillGrid.locator('.skill-item').first().evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(courseWidth - skillWidth)).toBeLessThan(2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    widths.push({ course: courseWidth, skill: skillWidth });
+  }
+  expect(widths[1].course).toBeGreaterThan(widths[0].course + 8);
+  expect(widths[1].skill).toBeGreaterThan(widths[0].skill + 8);
+
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto('/#skills');
+  await selectPhoneSetting(page, 'EN');
+  expect(await page.locator('.skill-item__label').evaluateAll((labels) =>
+    labels.every((label) => label.scrollWidth <= label.clientWidth + 2),
+  )).toBe(true);
+});
+
+test('fills the desktop materials-mechanics image frame while preserving CAD framing', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/#education');
+  await expect(page.locator('.course-card__image img[src$="edu-materials-mechanics.jpg"]')).toHaveCSS('object-fit', 'cover');
+  await expect(page.locator('.course-card__image img[src$="edu-cad.jpg"]')).toHaveCSS('object-fit', 'contain');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.course-card__image img[src$="edu-materials-mechanics.jpg"]')).toHaveCSS('object-fit', 'contain');
 });
 
 test('groups each school with a quiet header instead of a heavy divider', async ({ page }) => {
