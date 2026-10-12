@@ -1767,6 +1767,27 @@ test('advances phone sections only after a deliberate pull past the section end'
   await expect(page.locator('.mobile-dock__current')).toContainText('工作经历');
 });
 
+test('changes phone sections at 78 pixels but not 77 pixels of pull', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await selectSection(page, '教育经历');
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(() => page.evaluate(() =>
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4,
+  )).toBe(true);
+
+  await dragPhoneSection(page, 77);
+  await expect(page.locator('#education')).toBeVisible();
+  await dragPhoneSection(page, 78);
+  await expect(page.locator('#experience')).toBeVisible();
+
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await dragPhoneSection(page, -77);
+  await expect(page.locator('#experience')).toBeVisible();
+  await dragPhoneSection(page, -78);
+  await expect(page.locator('#education')).toBeVisible();
+});
+
 test('recognizes real emulated touch pulls in both phone directions', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
