@@ -47,21 +47,26 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
                 </div>
                 <div className="education-course-grid">
                   {item.courses.map((course) => (
-                    <article className="media-tile course-card" key={course.id}>
-                      <button
-                        className="media-tile__button"
-                        type="button"
-                        aria-label={localized(course.title, locale)}
-                        onClick={(event) => {
-                          triggerRef.current = event.currentTarget;
-                          setSelectedCourse(course);
-                        }}
-                      >
-                        <span className="media-tile__visual course-card__image">
-                          <img src={course.image.src} alt="" loading="lazy" decoding="async" />
-                        </span>
-                        <h5 className="media-tile__label">{localized(course.displayTitle ?? course.title, locale)}</h5>
-                      </button>
+                    <article className="course-card" key={course.id}>
+                      <span className="course-card__image">
+                        <img src={course.image.src} alt="" loading="lazy" decoding="async" />
+                      </span>
+                      <div className="course-card__body">
+                        <h5>
+                          <button
+                            type="button"
+                            aria-label={localized(course.title, locale)}
+                            onClick={(event) => {
+                              triggerRef.current = event.currentTarget;
+                              setSelectedCourse(course);
+                            }}
+                          >
+                            <span className="course-card__title-full">{localized(course.title, locale)}</span>
+                            <span className="course-card__title-short">{localized(course.displayTitle ?? course.title, locale)}</span>
+                          </button>
+                        </h5>
+                        <p>{localized(course.summary, locale)}</p>
+                      </div>
                     </article>
                   ))}
                 </div>

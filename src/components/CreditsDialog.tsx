@@ -1,16 +1,15 @@
 import { useRef } from 'react';
 import { X } from 'lucide-react';
-import type { EducationItem, Locale, ProjectItem, SkillGroup } from '../content/types';
+import type { EducationItem, Locale, SkillGroup } from '../content/types';
 import { CourseImageCredits } from './CourseImageCredits';
 
 interface CreditsDialogProps {
   items: EducationItem[];
   skillGroups: SkillGroup[];
-  projects: ProjectItem[];
   locale: Locale;
 }
 
-export function CreditsDialog({ items, skillGroups, projects, locale }: CreditsDialogProps) {
+export function CreditsDialog({ items, skillGroups, locale }: CreditsDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   return (
@@ -35,7 +34,7 @@ export function CreditsDialog({ items, skillGroups, projects, locale }: CreditsD
           >
             <X aria-hidden="true" size={20} />
           </button>
-          <CourseImageCredits items={items} skillGroups={skillGroups} projects={projects} locale={locale} />
+          <CourseImageCredits items={items} skillGroups={skillGroups} locale={locale} />
         </div>
       </dialog>
     </>

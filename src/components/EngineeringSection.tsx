@@ -1,3 +1,4 @@
+import { ArrowUpRight } from 'lucide-react';
 import type { Locale, ProjectItem } from '../content/types';
 import { localized } from '../lib/localized';
 
@@ -20,18 +21,25 @@ export function EngineeringSection({ items, locale, id, onOpen }: EngineeringSec
       </h4>
       <div className="project-list">
         {items.map((item) => (
-          <article key={item.id} className="media-tile project-card">
-            <button
-              className="media-tile__button"
-              type="button"
-              aria-label={localized(item.title, locale)}
-              onClick={(event) => onOpen?.(item, event.currentTarget)}
-            >
-              <span className="media-tile__visual project-card__image">
-                <img src={item.image.src} alt="" loading="lazy" decoding="async" />
-              </span>
-              <h5 className="media-tile__label">{localized(item.displayTitle ?? item.title, locale)}</h5>
-            </button>
+          <article key={item.id} className="project-card">
+            <div className="project-card__index">
+              <span>{item.code}</span>
+              <ArrowUpRight aria-hidden="true" size={18} />
+            </div>
+            <div className="project-card__body">
+              <h5>
+                <button
+                  type="button"
+                  aria-label={localized(item.title, locale)}
+                  onClick={(event) => onOpen?.(item, event.currentTarget)}
+                >
+                  <span className="project-card__title-full">{localized(item.title, locale)}</span>
+                  <span className="project-card__title-short">{localized(item.displayTitle ?? item.title, locale)}</span>
+                </button>
+              </h5>
+              <p>{localized(item.summary, locale)}</p>
+              <span className="project-card__mobile-action" aria-hidden="true">{locale === 'zh' ? '查看详情' : 'View details'} <ArrowUpRight size={15} /></span>
+            </div>
           </article>
         ))}
       </div>

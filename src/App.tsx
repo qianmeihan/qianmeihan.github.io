@@ -196,7 +196,8 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
       canPull = false;
       if (navigating || event.touches.length !== 1 || document.querySelector('dialog[open]')) return;
       const target = event.target;
-      if (target instanceof Element && target.closest('a, button, input, select, textarea, [role="button"]')) return;
+      // A deliberate pull can begin on a course or project card; taps still activate its button.
+      if (target instanceof Element && target.closest('a, input, select, textarea, [role="button"]')) return;
       canGoPrevious = Boolean(previousSection) && window.scrollY <= 4;
       canGoNext = Boolean(nextSection) && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
       if (!canGoPrevious && !canGoNext) return;
@@ -349,7 +350,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
                 <span>© 2026 {localized(content.profile.name, locale)}</span>
                 <div className="site-footer__links">
                   <a href="#profile">{locale === 'zh' ? '返回概述' : 'Back to overview'}</a>
-                  <CreditsDialog items={content.education} skillGroups={content.skillGroups} projects={content.projects} locale={locale} />
+                  <CreditsDialog items={content.education} skillGroups={content.skillGroups} locale={locale} />
                 </div>
               </footer>
             </ContactSection>

@@ -96,8 +96,8 @@ describe('optional portfolio sections', () => {
     const content = validateSiteContent(rawContent);
     const { rerender } = render(<EducationSection items={content.education} locale="zh" />);
     expect(screen.getAllByRole('article')).toHaveLength(18);
-    expect(screen.getByText('材料力学')).toBeInTheDocument();
-    expect(screen.getByText('连续介质力学')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '材料力学' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '连续介质力学' })).toBeInTheDocument();
     const schools = screen.getAllByRole('article').filter((article) => article.classList.contains('education-card'));
     expect(schools).toHaveLength(2);
     expect(within(schools[0]).getByRole('link', { name: /学校课程设置/ })).toHaveAttribute('href', 'https://sfie.neu.edu.cn/pyfa/list.htm');
@@ -108,11 +108,11 @@ describe('optional portfolio sections', () => {
     }
     expect(screen.queryByText(/不是本人上课现场或课程作品/)).not.toBeInTheDocument();
     expect(document.querySelectorAll('.course-card__image img')).toHaveLength(16);
-    expect(document.querySelectorAll('.course-card p')).toHaveLength(0);
+    expect(document.querySelectorAll('.course-card p')).toHaveLength(16);
     expect(screen.getByRole('button', { name: '材料力学' })).toBeInTheDocument();
     rerender(<EducationSection items={content.education} locale="en" />);
-    expect(screen.getByText('Mechanics of Materials')).toBeInTheDocument();
-    expect(screen.getByText('Continuum Mechanics')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Mechanics of Materials' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continuum Mechanics' })).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: /University curriculum/ })).toHaveLength(2);
     expect(screen.queryByText(/Course images are openly licensed/)).not.toBeInTheDocument();
   });
