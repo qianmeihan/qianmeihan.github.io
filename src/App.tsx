@@ -238,7 +238,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
 
     const onTouchEnd = () => {
       const destination = direction === 'next' ? nextSection : previousSection;
-      if (!isPulling || pullDistance < 78 || !direction || !destination) {
+      if (!isPulling || pullDistance < 82 || !direction || !destination) {
         resetPull();
         return;
       }
