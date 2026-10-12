@@ -559,6 +559,56 @@ test('puts a concise patent heading before each drawing on phones', async ({ pag
   }
 });
 
+test('separates phone patent titles from inventors and uses compact numbered record links', async ({ page }) => {
+  for (const width of [320, 390, 600]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/#patent');
+    const cards = page.locator('.patent-card');
+    for (const [index, number] of ['CN222839946U', 'CN223978857U'].entries()) {
+      const card = cards.nth(index);
+      const title = card.locator('h3');
+      const inventors = card.locator('.patent-card__inventors');
+      const record = card.locator('.patent-card__body a');
+      await expect(record).toHaveAccessibleName(`查看专利（${number}）`);
+      await expect(record.locator('.patent-card__record-label--desktop')).toBeHidden();
+      const positions = await card.evaluate((element) => {
+        const headingElement = element.querySelector('h3')!;
+        const heading = headingElement.getBoundingClientRect();
+        const credit = element.querySelector('.patent-card__inventors')!.getBoundingClientRect();
+        return {
+          titleBottom: heading.bottom,
+          titleHeight: heading.height,
+          titleLineHeight: Number.parseFloat(getComputedStyle(headingElement).lineHeight),
+          inventorTop: credit.top,
+          titleLeft: heading.left,
+          inventorLeft: credit.left,
+        };
+      });
+      expect(positions.inventorTop).toBeGreaterThanOrEqual(positions.titleBottom);
+      expect(positions.titleHeight).toBeLessThan(positions.titleLineHeight * 1.2);
+      expect(Math.abs(positions.titleLeft - positions.inventorLeft)).toBeLessThan(2);
+      await expect(title).toBeVisible();
+      await expect(inventors).toBeVisible();
+    }
+  }
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/#patent');
+  for (const card of await page.locator('.patent-card').all()) {
+    const record = card.locator('.patent-card__body a');
+    await expect(record).toHaveAccessibleName('查看公开专利记录');
+    await expect(record.locator('.patent-card__record-label--mobile')).toBeHidden();
+  }
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#patent');
+  await selectPhoneSetting(page, 'EN');
+  for (const [index, number] of ['CN222839946U', 'CN223978857U'].entries()) {
+    await expect(page.locator('.patent-card').nth(index).locator('.patent-card__body a'))
+      .toHaveAccessibleName(`Patent record (${number})`);
+  }
+});
+
 test('stacks two matching patent rows with complete drawings beside concise details', async ({ page }) => {
   for (const width of [1440, 821, 390]) {
     await page.setViewportSize({ width, height: 900 });

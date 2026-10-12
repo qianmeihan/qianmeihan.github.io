@@ -1109,6 +1109,10 @@ html[data-theme='dark'] .education-card__logo {
   font-size: 0.91rem;
 }
 
+.patent-card__record-label--mobile {
+  display: none;
+}
+
 .patent-image-dialog {
   width: min(45rem, calc(100vw - 2rem));
   max-height: calc(100dvh - 2rem);
@@ -1222,10 +1226,8 @@ html[data-theme='dark'] .education-card__logo {
   }
 
   .patent-card__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.25rem 0.45rem;
+    display: grid;
+    gap: 0.25rem;
     grid-column: 1;
     grid-row: 1;
     justify-self: center;
@@ -1233,14 +1235,12 @@ html[data-theme='dark'] .education-card__logo {
   }
 
   .patent-card__meta h3 {
-    flex: 0 0 auto;
     max-width: 100%;
     font-size: clamp(1.1rem, 4.7vw, 1.35rem);
     line-height: 1.45;
   }
 
   .patent-card__meta .patent-card__inventors {
-    flex: 0 0 auto;
     max-width: 100%;
     font-size: 0.82rem;
     font-weight: 500;
@@ -1259,6 +1259,14 @@ html[data-theme='dark'] .education-card__logo {
     justify-self: center;
     width: min(100%, 320px);
     margin-top: 0;
+  }
+
+  .patent-card__record-label--desktop {
+    display: none;
+  }
+
+  .patent-card__record-label--mobile {
+    display: inline;
   }
 
   .patent-card__ownership {

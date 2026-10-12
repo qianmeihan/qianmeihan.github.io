@@ -44,7 +44,10 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
               </div>
               {!sharedOwnership && <p className="patent-card__ownership">{localized(item.ownership, locale)}</p>}
               <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
-                {localized(item.sourceLabel, locale)}
+                <span className="patent-card__record-label--desktop">{localized(item.sourceLabel, locale)}</span>
+                <span className="patent-card__record-label--mobile">
+                  {locale === 'zh' ? `查看专利（${item.number}）` : `Patent record (${item.number})`}
+                </span>
                 <ArrowUpRight aria-hidden="true" size={15} />
               </a>
             </div>

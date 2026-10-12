@@ -272,7 +272,7 @@ describe('optional portfolio sections', () => {
       expect(card.querySelector('figcaption')).not.toBeInTheDocument();
       expect(card.querySelector('.patent-card__ownership')).not.toBeInTheDocument();
     }
-    expect(screen.getAllByRole('link', { name: '查看公开专利记录' })).toHaveLength(2);
+    expect(screen.getAllByRole('link', { name: /查看公开专利记录/ })).toHaveLength(2);
   });
 
   it('keeps ownership attributed to each patent when the notes differ', async () => {
