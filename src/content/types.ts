@@ -37,6 +37,8 @@ export interface ProjectItem {
   experienceId: string;
   code: string;
   title: LocalizedText;
+  displayTitle?: LocalizedText;
+  image: MediaItem;
   summary: LocalizedText;
   details: LocalizedText[];
   capabilities: LocalizedText[];
@@ -89,6 +91,7 @@ export interface EducationItem {
 export interface EducationCourse {
   id: string;
   title: LocalizedText;
+  displayTitle?: LocalizedText;
   summary: LocalizedText;
   image: MediaItem;
 }

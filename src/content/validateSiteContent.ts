@@ -95,6 +95,8 @@ function project(value: unknown, path: string): ProjectItem {
     experienceId: string(item.experienceId, `${path}.experienceId`),
     code: string(item.code, `${path}.code`),
     title: localized(item.title, `${path}.title`),
+    ...(item.displayTitle === undefined ? {} : { displayTitle: localized(item.displayTitle, `${path}.displayTitle`) }),
+    image: media(item.image, `${path}.image`),
     summary: localized(item.summary, `${path}.summary`),
     details: localizedArray(item.details, `${path}.details`),
     capabilities: localizedArray(item.capabilities, `${path}.capabilities`),
@@ -172,6 +174,7 @@ function educationCourse(value: unknown, path: string): EducationCourse {
   return {
     id: string(item.id, `${path}.id`),
     title: localized(item.title, `${path}.title`),
+    ...(item.displayTitle === undefined ? {} : { displayTitle: localized(item.displayTitle, `${path}.displayTitle`) }),
     summary: localized(item.summary, `${path}.summary`),
     image: media(item.image, `${path}.image`),
   };

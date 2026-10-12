@@ -238,6 +238,15 @@
         "zh": "D5 PDCU 平台适配",
         "en": "D5 PDCU Platform Adaptation"
       },
+      "displayTitle": { "zh": "PDCU 平台适配", "en": "PDCU Platform" },
+      "image": {
+        "id": "project-pdcu-illustration", "src": "/media/skill-mounting.jpg",
+        "alt": { "zh": "主题示意：电子组件与壳体安装", "en": "Topic illustration: electronics mounted in an enclosure" },
+        "credit": { "zh": "tony_duell / CC BY 2.0", "en": "tony_duell / CC BY 2.0" },
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Case_fitted.jpg",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+        "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
+      },
       "summary": {
         "zh": "支持华为、吉利和长安相关平台的结构适配与量产问题闭环。",
         "en": "Supported structural adaptation and production issue closure for platform programs associated with Huawei, Geely, and Changan."
@@ -269,6 +278,15 @@
       "title": {
         "zh": "D3 ECU 冲压壳体与热管理",
         "en": "D3 ECU Stamped Housing and Thermal Management"
+      },
+      "displayTitle": { "zh": "ECU 冲压壳体", "en": "ECU Stamped Housing" },
+      "image": {
+        "id": "project-ecu-illustration", "src": "/media/skill-stamping.jpg",
+        "alt": { "zh": "主题示意：冲压模具与金属板", "en": "Topic illustration: punch, die and metal sheet" },
+        "credit": { "zh": "Douglas W. Jones / CC0", "en": "Douglas W. Jones / CC0" },
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Extruded_Holes.JPG",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
         "zh": "设计冲压壳体、连接器与绝缘导热结构，并用热分析支持散热优化。",
@@ -302,6 +320,15 @@
         "zh": "D3 TCU 压铸壳体开发",
         "en": "D3 TCU Die-Cast Housing Development"
       },
+      "displayTitle": { "zh": "TCU 压铸壳体", "en": "TCU Die-Cast Housing" },
+      "image": {
+        "id": "project-tcu-illustration", "src": "/media/skill-die-casting.jpg",
+        "alt": { "zh": "主题示意：铝压铸零件", "en": "Topic illustration: aluminium die-cast part" },
+        "credit": { "zh": "Ulfbastel / CC BY-SA 3.0", "en": "Ulfbastel / CC BY-SA 3.0" },
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aldruckguss.jpg",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
+      },
       "summary": {
         "zh": "设计压铸上壳体，协调供应商及 PCB 接口，支持图纸发布与量产。",
         "en": "Developed a die-cast upper housing, coordinated supplier and PCB interfaces, and supported drawing release and production."
@@ -324,6 +351,15 @@
       "title": {
         "zh": "BMS 与 CSC 注塑壳体开发",
         "en": "BMS and CSC Injection-Molded Housing Development"
+      },
+      "displayTitle": { "zh": "BMS/CSC 注塑壳体", "en": "BMS/CSC Molded Housings" },
+      "image": {
+        "id": "project-bms-csc-illustration", "src": "/media/skill-injection-mold.jpg",
+        "alt": { "zh": "主题示意：注塑模具局部", "en": "Topic illustration: detail of an injection mold" },
+        "credit": { "zh": "Bricetofly / CC0", "en": "Bricetofly / CC0" },
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Injection_mold_-_(7).jpg",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
         "zh": "设计注塑壳体、安装与卡扣结构，结合尺寸链和模流结果优化装配。",
@@ -356,6 +392,15 @@
       "title": {
         "zh": "BMS 代工项目技术支持",
         "en": "BMS OEM Project Technical Support"
+      },
+      "displayTitle": { "zh": "BMS 技术支持", "en": "BMS Technical Support" },
+      "image": {
+        "id": "project-bms-support-illustration", "src": "/media/edu-engineering-graphics.jpg",
+        "alt": { "zh": "主题示意：机械工程图纸", "en": "Topic illustration: mechanical engineering drawings" },
+        "credit": { "zh": "Benrobuck / CC BY-SA 3.0", "en": "Benrobuck / CC BY-SA 3.0" },
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Engineering_drawings_with_Machinery%27s_Handbook.jpg",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
         "zh": "提供材料、密封与绝缘方案建议，配合验证问题闭环及样件开发。",
@@ -794,6 +839,7 @@
             "zh": "计算机辅助设计（CAD）",
             "en": "Computer-Aided Design (CAD)"
           },
+          "displayTitle": { "zh": "CAD 设计", "en": "CAD" },
           "summary": {
             "zh": "建立零件与装配模型，辅助结构设计。",
             "en": "Model parts and assemblies to support structural design."
@@ -851,6 +897,7 @@
             "zh": "工程图学基础",
             "en": "Fundamentals of Engineering Graphics"
           },
+          "displayTitle": { "zh": "工程图学", "en": "Engineering Graphics" },
           "summary": {
             "zh": "工程制图与零件表达，是结构沟通的基础。",
             "en": "Engineering drawings and part representation for clear structural communication."

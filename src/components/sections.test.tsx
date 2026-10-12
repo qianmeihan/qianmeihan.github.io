@@ -107,7 +107,9 @@ describe('optional portfolio sections', () => {
       expect(within(card as HTMLElement).queryByRole('link')).not.toBeInTheDocument();
     }
     expect(screen.queryByText(/不是本人上课现场或课程作品/)).not.toBeInTheDocument();
-    expect(screen.getAllByRole('img', { name: /课程示意/ })).toHaveLength(16);
+    expect(document.querySelectorAll('.course-card__image img')).toHaveLength(16);
+    expect(document.querySelectorAll('.course-card p')).toHaveLength(0);
+    expect(screen.getByRole('button', { name: '材料力学' })).toBeInTheDocument();
     rerender(<EducationSection items={content.education} locale="en" />);
     expect(screen.getByText('Mechanics of Materials')).toBeInTheDocument();
     expect(screen.getByText('Continuum Mechanics')).toBeInTheDocument();
@@ -159,8 +161,8 @@ describe('optional portfolio sections', () => {
 
     const course = [...container.querySelectorAll('.course-card')].find((card) => card.textContent?.includes('科学计算'));
     expect(course).toBeDefined();
-    expect(within(course as HTMLElement).getByRole('img')).toHaveAttribute('src', '/media/edu-scientific-computing-cfd.jpg');
-    expect(within(course as HTMLElement).getByRole('img')).toHaveAccessibleName('课程示意：催化转化器内部流速数值模拟');
+    expect(course?.querySelector('img')).toHaveAttribute('src', '/media/edu-scientific-computing-cfd.jpg');
+    expect(within(course as HTMLElement).getByRole('button')).toHaveAccessibleName('科学计算');
     const media = content.education.flatMap((school) => school.courses).find((item) => item.id === 'scientific-computing')?.image;
     expect(media?.sourceUrl).toBe('https://commons.wikimedia.org/wiki/File:Catalytic-converter-simulation-velocity-streamlines.jpg');
     expect(media?.credit.zh).toContain('Atif Masood');

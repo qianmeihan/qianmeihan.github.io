@@ -219,10 +219,11 @@ describe('App', () => {
       expect(cards).toHaveLength(5);
       for (const card of cards) {
         expect(within(card).getByRole('button')).toBeInTheDocument();
-        expect(card.querySelector('.project-card__body > p')).toBeInTheDocument();
+        expect(card.querySelector('.project-card__image img')).toBeInTheDocument();
+        expect(card.querySelector('p')).not.toBeInTheDocument();
         expect(card.querySelector('.tag-list')).not.toBeInTheDocument();
       }
-      expect(within(cards[0]).getByRole('button')).toHaveTextContent(title);
+      expect(within(cards[0]).getByRole('button')).toHaveAccessibleName(title);
       if (title.startsWith('D5 PDCU 平台')) {
         await user.click(screen.getByRole('button', { name: 'EN' }));
       }

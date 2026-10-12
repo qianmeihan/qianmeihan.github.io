@@ -1,13 +1,14 @@
-import type { EducationItem, Locale, MediaItem, SkillGroup } from '../content/types';
+import type { EducationItem, Locale, MediaItem, ProjectItem, SkillGroup } from '../content/types';
 import { localized } from '../lib/localized';
 
 interface CourseImageCreditsProps {
   items: EducationItem[];
   skillGroups: SkillGroup[];
+  projects: ProjectItem[];
   locale: Locale;
 }
 
-export function CourseImageCredits({ items, skillGroups, locale }: CourseImageCreditsProps) {
+export function CourseImageCredits({ items, skillGroups, projects, locale }: CourseImageCreditsProps) {
   const courses = items.flatMap((school) => school.courses);
   const credits: { label: { zh: string; en: string }; image: MediaItem }[] = courses.map((course) => ({
     label: course.title,
@@ -20,6 +21,12 @@ export function CourseImageCredits({ items, skillGroups, locale }: CourseImageCr
         credits.push({ label: item.label, image: item.image });
         creditedSources.add(item.image.sourceUrl);
       }
+    }
+  }
+  for (const project of projects) {
+    if (!creditedSources.has(project.image.sourceUrl)) {
+      credits.push({ label: project.title, image: project.image });
+      creditedSources.add(project.image.sourceUrl);
     }
   }
   if (credits.length === 0) return null;
@@ -52,8 +59,8 @@ export function CourseImageCredits({ items, skillGroups, locale }: CourseImageCr
       </p>
       <p>
         {locale === 'zh'
-          ? '图片为网页缩放副本；卡片显示可能裁切。课程与能力配图仅作主题示意，并非本人课程作品、项目实物或工作现场。图片作者与学校不对本网页背书。'
-          : 'Images are web-sized copies and may be cropped in cards. Course and capability images illustrate topics only, not personal classwork, projects or workplaces. Creators and universities do not endorse this site.'}
+          ? '图片为网页缩放副本；卡片显示可能裁切。课程、项目与能力配图仅作主题示意，并非本人课程作品、项目实物或工作现场。图片作者与学校不对本网页背书。'
+          : 'Images are web-sized copies and may be cropped in cards. Course, project and capability images illustrate topics only, not personal classwork, projects or workplaces. Creators and universities do not endorse this site.'}
       </p>
     </section>
   );

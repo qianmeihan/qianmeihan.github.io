@@ -349,7 +349,7 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
                 <span>© 2026 {localized(content.profile.name, locale)}</span>
                 <div className="site-footer__links">
                   <a href="#profile">{locale === 'zh' ? '返回概述' : 'Back to overview'}</a>
-                  <CreditsDialog items={content.education} skillGroups={content.skillGroups} locale={locale} />
+                  <CreditsDialog items={content.education} skillGroups={content.skillGroups} projects={content.projects} locale={locale} />
                 </div>
               </footer>
             </ContactSection>

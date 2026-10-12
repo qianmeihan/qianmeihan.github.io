@@ -14,6 +14,7 @@ const mediaItems: MediaItem[] = [
   siteContent.profile.portrait,
   ...siteContent.experience.map((item) => item.logo),
   ...siteContent.patents.map((patent) => patent.image),
+  ...siteContent.projects.map((project) => project.image),
   ...siteContent.skillGroups.flatMap((group) => group.items.map((item) => item.image)),
   ...siteContent.education.map((item) => item.logo),
   ...siteContent.education.flatMap((item) => item.courses.map((course) => course.image)),

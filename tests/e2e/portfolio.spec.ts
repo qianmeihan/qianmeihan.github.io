@@ -138,6 +138,52 @@ test('keeps selected project cards compact after removing capability chips', asy
   }
 });
 
+test('matches coursework and project tiles to capability tiles and opens full details', async ({ page }) => {
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/#education');
+    if (viewport.width <= 600) await selectSection(page, '教育经历');
+
+    const getFrames = async (selector: string) => page.locator(selector).evaluateAll((elements) =>
+      elements.map((element) => {
+        const rect = element.getBoundingClientRect();
+        return { kind: element.className, width: rect.width, height: rect.height };
+      }),
+    );
+    const courseFrames = await getFrames('.course-card__image');
+    if (viewport.width <= 600) await selectSection(page, '工作经历');
+    const projectFrames = await getFrames('.project-card__image');
+    if (viewport.width <= 600) await selectSection(page, '专业能力');
+    const skillFrames = await getFrames('.skill-item__visual');
+    const frames = [...courseFrames, ...projectFrames, ...skillFrames];
+    expect(frames.filter((frame) => frame.kind.includes('course-card__image'))).toHaveLength(16);
+    expect(frames.filter((frame) => frame.kind.includes('project-card__image'))).toHaveLength(5);
+    const skill = frames.find((frame) => frame.kind.includes('skill-item__visual'))!;
+    for (const frame of frames) {
+      expect(Math.abs(frame.width - skill.width)).toBeLessThan(2);
+      expect(Math.abs(frame.height - skill.height)).toBeLessThan(2);
+    }
+
+    if (viewport.width <= 600) await selectSection(page, '教育经历');
+    const course = page.locator('.course-card').filter({ has: page.getByRole('button', { name: '材料力学' }) });
+    await expect(course.locator('p')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: '计算机辅助设计（CAD）' }).locator('h5')).toHaveText('CAD 设计');
+    await course.getByRole('button').click();
+    const courseDialog = page.getByRole('dialog', { name: '材料力学' });
+    await expect(courseDialog).toBeVisible();
+    await expect(courseDialog).toContainText('结构');
+    await page.keyboard.press('Escape');
+    await expect(courseDialog).toBeHidden();
+
+    if (viewport.width <= 600) await selectSection(page, '工作经历');
+    const project = page.locator('.project-card').first();
+    await expect(project.locator('p')).toHaveCount(0);
+    await project.getByRole('button').click();
+    await expect(page.getByRole('dialog', { name: 'D5 PDCU 平台适配' })).toBeVisible();
+    await page.keyboard.press('Escape');
+  }
+});
+
 test('presents both employers with matching card colors and identity geometry', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   const cards = page.locator('#experience .timeline-item');
@@ -324,8 +370,11 @@ test('lets work copy use the desktop width and keeps the project label subordina
   const titleMetrics = await firstTitle.evaluate((title) => ({
     height: title.getBoundingClientRect().height,
     lineHeight: parseFloat(getComputedStyle(title).lineHeight),
+    scrollWidth: title.scrollWidth,
+    clientWidth: title.clientWidth,
   }));
-  expect(titleMetrics.height).toBeLessThan(titleMetrics.lineHeight * 1.5);
+  expect(titleMetrics.height).toBeLessThan(titleMetrics.lineHeight * 2.6);
+  expect(titleMetrics.scrollWidth).toBeLessThanOrEqual(titleMetrics.clientWidth);
 });
 
 test('opens a project detail dialog and closes it with Escape and its close button', async ({ page }) => {
@@ -846,8 +895,10 @@ test('keeps the green light endcap and gives the dark endcap graphite with three
 });
 
 test('brightens dark footer link underlines on hover', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.getByRole('button', { name: '暗色' }).click();
   await page.goto('/#contact');
+  await expect.poll(() => page.evaluate(() => document.documentElement.classList.contains('theme-transition'))).toBe(false);
   const link = page.locator('.site-footer__links a').first();
   await link.hover();
   await expect(link).toHaveCSS('color', 'rgb(241, 244, 245)');
@@ -987,9 +1038,7 @@ test('has no automatically detectable WCAG A or AA violations', async ({ page })
     await page.getByRole('button', { name: theme === 'light' ? '亮色' : '暗色' }).click();
     for (const hash of ['#profile', '#education']) {
       await page.goto(`/${hash}`);
-      await expect(page.locator('.project-card').first()).toHaveCSS(
-        'background-color', theme === 'light' ? 'rgb(244, 243, 239)' : 'rgb(29, 34, 38)',
-      );
+      await expect.poll(() => page.evaluate(() => document.documentElement.classList.contains('theme-transition'))).toBe(false);
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
         .analyze();
@@ -1227,14 +1276,13 @@ test('keeps the phone contact footer above the fixed dock and the menu keyboard-
   await expect(trigger).toBeFocused();
 });
 
-test('keeps the final course row in the same card format at every breakpoint', async ({ page }) => {
-  for (const [width, expectedColumns] of [[1440, 4], [1024, 3], [821, 2], [768, 2], [390, 1]] as const) {
+test('keeps every course tile the same size at every breakpoint', async ({ page }) => {
+  for (const width of [1440, 1024, 821, 768, 390]) {
     await page.setViewportSize({ width, height: 900 });
     if (width <= 600) await selectSection(page, '教育经历');
     const grids = page.locator('.education-course-grid');
     for (const grid of await grids.all()) {
-      const columns = await grid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length);
-      expect(columns).toBe(expectedColumns);
+      await expect(grid).toHaveCSS('display', width <= 600 ? 'grid' : 'flex');
       const cards = grid.locator('.course-card');
       const firstWidth = await cards.first().evaluate((card) => card.getBoundingClientRect().width);
       const firstImageRatio = await cards.first().locator('.course-card__image').evaluate((image) => {
@@ -1384,7 +1432,7 @@ test('aligns capability image tiles across desktop and phone layouts', async ({ 
   }
 });
 
-test('keeps course photos compact at desktop and phone widths', async ({ page }) => {
+test('keeps course photos at the capability tile ratio on desktop and phone', async ({ page }) => {
   for (const viewport of [
     { width: 1440, height: 900 },
     { width: 390, height: 844 },
@@ -1394,7 +1442,7 @@ test('keeps course photos compact at desktop and phone widths', async ({ page })
     const imageFrame = page.locator('.course-card__image').first();
     const bounds = await imageFrame.boundingBox();
     expect(bounds).not.toBeNull();
-    expect(bounds!.height / bounds!.width).toBeLessThanOrEqual(0.65);
+    expect(Math.abs(bounds!.height / bounds!.width - 0.75)).toBeLessThan(0.02);
   }
 });
 

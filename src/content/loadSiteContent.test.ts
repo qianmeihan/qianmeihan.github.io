@@ -147,6 +147,7 @@ describe('validateSiteContent', () => {
     input.projects = [{
       id: 'example-project', experienceId: 'missing', code: 'ECU',
       title: bilingual('控制器壳体', 'Controller housing'),
+      image: validContent.profile.portrait,
       summary: bilingual('结构开发。', 'Mechanical development.'),
       details: [bilingual('设计壳体。', 'Designed the housing.')],
       capabilities: [bilingual('冲压', 'Stamping')],

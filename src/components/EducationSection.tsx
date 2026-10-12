@@ -1,5 +1,7 @@
-import type { EducationItem, Locale } from '../content/types';
+import { useRef, useState } from 'react';
+import type { EducationCourse, EducationItem, Locale } from '../content/types';
 import { localized } from '../lib/localized';
+import { CourseDialog } from './CourseDialog';
 import { SectionHeading } from './SectionHeading';
 
 interface EducationSectionProps {
@@ -8,6 +10,8 @@ interface EducationSectionProps {
 }
 
 export function EducationSection({ items, locale }: EducationSectionProps) {
+  const [selectedCourse, setSelectedCourse] = useState<EducationCourse | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   if (items.length === 0) {
     return null;
   }
@@ -43,14 +47,21 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
                 </div>
                 <div className="education-course-grid">
                   {item.courses.map((course) => (
-                    <article className="course-card" key={course.id}>
-                      <div className="course-card__image">
-                        <img src={course.image.src} alt={localized(course.image.alt, locale)} loading="lazy" decoding="async" />
-                      </div>
-                      <div className="course-card__body">
-                        <h5>{localized(course.title, locale)}</h5>
-                        <p>{localized(course.summary, locale)}</p>
-                      </div>
+                    <article className="media-tile course-card" key={course.id}>
+                      <button
+                        className="media-tile__button"
+                        type="button"
+                        aria-label={localized(course.title, locale)}
+                        onClick={(event) => {
+                          triggerRef.current = event.currentTarget;
+                          setSelectedCourse(course);
+                        }}
+                      >
+                        <span className="media-tile__visual course-card__image">
+                          <img src={course.image.src} alt="" loading="lazy" decoding="async" />
+                        </span>
+                        <h5 className="media-tile__label">{localized(course.displayTitle ?? course.title, locale)}</h5>
+                      </button>
                     </article>
                   ))}
                 </div>
@@ -59,6 +70,14 @@ export function EducationSection({ items, locale }: EducationSectionProps) {
           </article>
         ))}
       </div>
+      <CourseDialog
+        course={selectedCourse}
+        locale={locale}
+        onClose={() => {
+          setSelectedCourse(null);
+          requestAnimationFrame(() => triggerRef.current?.focus());
+        }}
+      />
     </section>
   );
 }

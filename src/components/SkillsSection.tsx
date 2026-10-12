@@ -23,11 +23,11 @@ export function SkillsSection({ groups, locale }: SkillsSectionProps) {
             <h3>{localized(group.title, locale)}</h3>
             <ul>
               {group.items.map((item) => (
-                <li key={item.id} className={`skill-item${item.imageStyle === 'contain' ? ' skill-item--logo' : ''}`}>
-                  <span className="skill-item__visual">
+                <li key={item.id} className={`media-tile skill-item${item.imageStyle === 'contain' ? ' skill-item--logo' : ''}`}>
+                  <span className="media-tile__visual skill-item__visual">
                     <img src={item.image.src} alt={localized(item.image.alt, locale)} loading="lazy" />
                   </span>
-                  <span className="skill-item__label">{localized(item.label, locale)}</span>
+                  <span className="media-tile__label skill-item__label">{localized(item.label, locale)}</span>
                 </li>
               ))}
             </ul>
