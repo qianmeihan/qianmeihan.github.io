@@ -81,7 +81,7 @@ export function MobileNav({ locale, activeId, themePreference, onLocaleChange, o
         <div className="mobile-menu__heading">
           <h2 id="mobile-menu-title">{locale === 'zh' ? '模块目录' : 'Sections'}</h2>
           <button type="button" onClick={closeMenu} aria-label={locale === 'zh' ? '关闭模块目录' : 'Close section menu'}>
-            <X aria-hidden="true" size={18} strokeWidth={1.8} />
+            <X aria-hidden="true" size={16} strokeWidth={1.8} />
           </button>
         </div>
         <nav aria-label={locale === 'zh' ? '模块目录' : 'Sections'}>

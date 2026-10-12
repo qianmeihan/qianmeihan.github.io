@@ -2455,7 +2455,7 @@ html[data-theme='dark'] .credits-dialog::backdrop {
     height: 2.75rem;
     border: 0;
     border-radius: var(--radius-control);
-    background: var(--color-paper);
+    background: transparent;
     color: var(--color-ink);
     cursor: pointer;
     display: grid;

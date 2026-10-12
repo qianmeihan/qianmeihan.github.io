@@ -1238,6 +1238,31 @@ test('uses a single bottom phone dock with an accessible section menu and settin
   await expect(dock.getByRole('button', { name: 'Skills, open section menu' })).toBeVisible();
 });
 
+test('keeps the phone menu close control quiet without shrinking its touch target', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator('.mobile-dock__current').click();
+
+  const menu = page.locator('.mobile-menu');
+  const close = menu.getByRole('button', { name: '关闭模块目录' });
+  const appearance = await close.evaluate((button) => {
+    const icon = button.querySelector('svg');
+    const bounds = button.getBoundingClientRect();
+    return {
+      background: getComputedStyle(button).backgroundColor,
+      width: bounds.width,
+      height: bounds.height,
+      iconWidth: icon?.getBoundingClientRect().width,
+    };
+  });
+
+  expect(appearance.background).toBe('rgba(0, 0, 0, 0)');
+  expect(appearance.width).toBeGreaterThanOrEqual(44);
+  expect(appearance.height).toBeGreaterThanOrEqual(44);
+  expect(appearance.iconWidth).toBe(16);
+  await close.click();
+  await expect(menu).toBeHidden();
+});
+
 test('keeps the phone dock on one row, above the safe area, without changing tablet navigation', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 780 });
   const dock = page.getByRole('navigation', { name: '手机导航' });
