@@ -33,6 +33,21 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
       <div className="patent-list">
         {items.map((item) => (
           <article key={item.id} className="patent-card">
+            <div className="patent-card__body">
+              <p className="patent-card__number">{item.number}</p>
+              <div className="patent-card__meta">
+                <h3 title={item.displayTitle ? localized(item.title, locale) : undefined}>
+                  {displayPatentTitle(item, locale)}
+                </h3>
+                <p className="patent-card__summary">{localized(item.summary, locale)}</p>
+                <p className="patent-card__inventors">{localized(item.inventors, locale)}</p>
+              </div>
+              {!sharedOwnership && <p className="patent-card__ownership">{localized(item.ownership, locale)}</p>}
+              <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
+                {localized(item.sourceLabel, locale)}
+                <ArrowUpRight aria-hidden="true" size={15} />
+              </a>
+            </div>
             <figure className="patent-card__figure">
               <button
                 type="button"
@@ -50,19 +65,6 @@ export function PatentSection({ items, locale }: PatentSectionProps) {
                 />
               </button>
             </figure>
-            <div className="patent-card__body">
-              <p className="patent-card__number">{item.number}</p>
-              <h3 title={item.displayTitle ? localized(item.title, locale) : undefined}>
-                {displayPatentTitle(item, locale)}
-              </h3>
-              <p className="patent-card__summary">{localized(item.summary, locale)}</p>
-              <p className="patent-card__inventors">{localized(item.inventors, locale)}</p>
-              {!sharedOwnership && <p className="patent-card__ownership">{localized(item.ownership, locale)}</p>}
-              <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
-                {localized(item.sourceLabel, locale)}
-                <ArrowUpRight aria-hidden="true" size={15} />
-              </a>
-            </div>
           </article>
         ))}
       </div>

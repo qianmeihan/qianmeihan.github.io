@@ -522,6 +522,43 @@ test('slightly enlarges patent detail text while keeping its compact two-column 
   }
 });
 
+test('puts a concise patent heading before each drawing on phones', async ({ page }) => {
+  for (const width of [320, 390, 600]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/#patent');
+    for (const card of await page.locator('.patent-card').all()) {
+      await expect(card.locator('.patent-card__number')).toBeHidden();
+      await expect(card.locator('.patent-card__summary')).toBeHidden();
+      const positions = await card.evaluate((element) => {
+        const title = element.querySelector('h3')!.getBoundingClientRect();
+        const inventorsElement = element.querySelector('.patent-card__inventors')!;
+        const inventors = inventorsElement.getBoundingClientRect();
+        const drawing = element.querySelector('.patent-card__figure img')!.getBoundingClientRect();
+        const record = element.querySelector('.patent-card__body a')!.getBoundingClientRect();
+        return {
+          titleTop: title.top,
+          titleLeft: title.left,
+          inventorsBottom: inventors.bottom,
+          inventorsHeight: inventors.height,
+          inventorsLineHeight: Number.parseFloat(getComputedStyle(inventorsElement).lineHeight),
+          drawingTop: drawing.top,
+          drawingLeft: drawing.left,
+          drawingBottom: drawing.bottom,
+          recordTop: record.top,
+          recordLeft: record.left,
+        };
+      });
+      expect(positions.titleTop).toBeLessThan(positions.drawingTop);
+      expect(positions.inventorsBottom).toBeLessThan(positions.drawingTop);
+      expect(positions.inventorsHeight).toBeLessThan(positions.inventorsLineHeight * 1.2);
+      expect(positions.recordTop).toBeGreaterThan(positions.drawingBottom);
+      expect(Math.abs(positions.titleLeft - positions.drawingLeft)).toBeLessThan(2);
+      expect(Math.abs(positions.recordLeft - positions.drawingLeft)).toBeLessThan(2);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  }
+});
+
 test('stacks two matching patent rows with complete drawings beside concise details', async ({ page }) => {
   for (const width of [1440, 821, 390]) {
     await page.setViewportSize({ width, height: 900 });
@@ -533,13 +570,17 @@ test('stacks two matching patent rows with complete drawings beside concise deta
       const bounds = drawing.getBoundingClientRect();
       const body = element.querySelector('.patent-card__body')!.getBoundingClientRect();
       const card = element.getBoundingClientRect();
+      const title = element.querySelector('h3')!.getBoundingClientRect();
+      const record = element.querySelector('.patent-card__body a')!.getBoundingClientRect();
       return {
         width: bounds.width,
         height: bounds.height,
+        imageTop: bounds.top,
         imageRight: bounds.right,
         imageBottom: bounds.bottom,
+        titleBottom: title.bottom,
+        recordTop: record.top,
         bodyLeft: body.left,
-        bodyTop: body.top,
         bodyWidth: body.width,
         objectFit: getComputedStyle(drawing).objectFit,
         cardWidth: card.width,
@@ -572,9 +613,11 @@ test('stacks two matching patent rows with complete drawings beside concise deta
         expect(measurements[1].bodyWidth).toBeGreaterThan(240);
       }
     } else {
-      expect(measurements[0].width).toBeLessThanOrEqual(300);
-      expect(measurements[0].bodyTop).toBeGreaterThan(measurements[0].imageBottom);
-      expect(measurements[1].bodyTop).toBeGreaterThan(measurements[1].imageBottom);
+      expect(measurements[0].width).toBeLessThanOrEqual(340);
+      expect(measurements[0].titleBottom).toBeLessThan(measurements[0].imageTop);
+      expect(measurements[1].titleBottom).toBeLessThan(measurements[1].imageTop);
+      expect(measurements[0].recordTop).toBeGreaterThan(measurements[0].imageBottom);
+      expect(measurements[1].recordTop).toBeGreaterThan(measurements[1].imageBottom);
     }
   }
 });
@@ -1372,6 +1415,12 @@ test('centers each software mark as an undistorted image on phone tiles', async 
     const marks = page.locator('.skill-group').nth(1).locator('.skill-item--logo');
     expect(await marks.count()).toBe(3);
     for (const mark of await marks.all()) {
+      const image = mark.locator('img');
+      await image.scrollIntoViewIfNeeded();
+      await expect.poll(() => image.evaluate((element) => {
+        const source = element as HTMLImageElement;
+        return source.naturalWidth > 0 && source.naturalHeight > 0;
+      })).toBe(true);
       const geometry = await mark.evaluate((item) => {
         const frame = item.querySelector('.skill-item__visual')!.getBoundingClientRect();
         const image = item.querySelector('img')!;

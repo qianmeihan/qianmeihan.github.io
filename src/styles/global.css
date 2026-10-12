@@ -997,6 +997,8 @@ html[data-theme='dark'] .education-card__logo {
 }
 
 .patent-card__figure {
+  grid-column: 1;
+  grid-row: 1;
   margin: 0;
 }
 
@@ -1038,13 +1040,25 @@ html[data-theme='dark'] .education-card__logo {
 
 .patent-card__body {
   display: grid;
+  grid-column: 2;
+  grid-row: 1;
   align-content: center;
   gap: 0.55rem;
   max-width: 28rem;
 }
 
-.patent-card__body > p {
+.patent-card__meta {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.patent-card__body > p,
+.patent-card__meta > p {
   margin: 0;
+}
+
+.patent-card__meta > p {
+  color: var(--color-ink-soft);
 }
 
 .patent-card__summary {
@@ -1180,12 +1194,78 @@ html[data-theme='dark'] .education-card__logo {
   }
 
   .patent-card__figure {
+    grid-column: 1;
+    grid-row: 1;
     width: min(100%, 270px);
     justify-self: center;
   }
 
   .patent-card__body {
+    grid-column: 1;
+    grid-row: 2;
     width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .patent-card {
+    gap: 0.65rem;
+  }
+
+  .patent-card__body {
+    display: contents;
+  }
+
+  .patent-card__number,
+  .patent-card__summary {
+    display: none;
+  }
+
+  .patent-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.45rem;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    width: min(100%, 320px);
+  }
+
+  .patent-card__meta h3 {
+    flex: 0 0 auto;
+    max-width: 100%;
+    font-size: clamp(1.1rem, 4.7vw, 1.35rem);
+    line-height: 1.45;
+  }
+
+  .patent-card__meta .patent-card__inventors {
+    flex: 0 0 auto;
+    max-width: 100%;
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.45;
+    white-space: nowrap;
+  }
+
+  .patent-card__figure {
+    grid-row: 2;
+    width: min(100%, 320px);
+  }
+
+  .patent-card__body a {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: center;
+    width: min(100%, 320px);
+    margin-top: 0;
+  }
+
+  .patent-card__ownership {
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: center;
+    width: min(100%, 320px);
   }
 }
 
