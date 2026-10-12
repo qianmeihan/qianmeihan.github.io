@@ -19,7 +19,7 @@ export function SkillsSection({ groups, locale }: SkillsSectionProps) {
       />
       <div className="skills-grid">
         {groups.map((group) => (
-          <article key={group.id} className="skill-group">
+          <article key={group.id} className={`skill-group${group.id === 'methods-tools' ? ' skill-group--methods-tools' : ''}`}>
             <h3>{localized(group.title, locale)}</h3>
             <ul>
               {group.items.map((item) => (

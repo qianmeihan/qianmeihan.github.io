@@ -1345,6 +1345,53 @@ test('scales three course and capability tiles across phone widths without clipp
   )).toBe(true);
 });
 
+test('places the three software tools in the first phone row without changing desktop order', async ({ page }) => {
+  for (const width of [320, 390, 600]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/#skills');
+    const tools = page.locator('.skill-group').nth(1).locator('.skill-item');
+    const visualOrder = await tools.evaluateAll((items) => items.map((item) => ({
+      label: item.querySelector('.skill-item__label')?.textContent?.trim(),
+      top: item.getBoundingClientRect().top,
+      left: item.getBoundingClientRect().left,
+    })).sort((a, b) => a.top - b.top || a.left - b.left).map((item) => item.label));
+    expect(visualOrder.slice(0, 3)).toEqual(['CATIA', 'Creo', 'AutoCAD']);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  }
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/#skills');
+  const desktopOrder = await page.locator('.skill-group').nth(1).locator('.skill-item__label').allTextContents();
+  expect(desktopOrder.slice(0, 3)).toEqual(['GD&T 与尺寸链', '热分析与模流协同', 'CATIA']);
+});
+
+test('centers each software mark as an undistorted image on phone tiles', async ({ page }) => {
+  for (const width of [320, 390, 600]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/#skills');
+    const marks = page.locator('.skill-group').nth(1).locator('.skill-item--logo');
+    expect(await marks.count()).toBe(3);
+    for (const mark of await marks.all()) {
+      const geometry = await mark.evaluate((item) => {
+        const frame = item.querySelector('.skill-item__visual')!.getBoundingClientRect();
+        const image = item.querySelector('img')!;
+        const bounds = image.getBoundingClientRect();
+        return {
+          frameCenterX: frame.left + frame.width / 2,
+          frameCenterY: frame.top + frame.height / 2,
+          imageCenterX: bounds.left + bounds.width / 2,
+          imageCenterY: bounds.top + bounds.height / 2,
+          renderedRatio: bounds.width / bounds.height,
+          intrinsicRatio: image.naturalWidth / image.naturalHeight,
+        };
+      });
+      expect(Math.abs(geometry.imageCenterX - geometry.frameCenterX)).toBeLessThan(1);
+      expect(Math.abs(geometry.imageCenterY - geometry.frameCenterY)).toBeLessThan(1);
+      expect(Math.abs(geometry.renderedRatio - geometry.intrinsicRatio)).toBeLessThan(0.05);
+    }
+  }
+});
+
 test('fills the desktop materials-mechanics image frame while preserving CAD framing', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/#education');

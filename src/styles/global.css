@@ -2051,6 +2051,22 @@ html[data-theme='dark'] .credits-dialog::backdrop {
     justify-self: center;
   }
 
+  .skill-group--methods-tools .skill-item--logo {
+    order: -1;
+  }
+
+  .skill-group--methods-tools .skill-item--logo .skill-item__visual {
+    display: grid;
+    place-items: center;
+  }
+
+  .skill-group--methods-tools .skill-item--logo .skill-item__visual img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
   .course-card {
     border: 0;
     background: transparent;
