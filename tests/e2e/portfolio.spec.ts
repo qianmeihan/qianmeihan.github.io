@@ -1377,6 +1377,35 @@ test('keeps the phone contact footer above the fixed dock and the menu keyboard-
   await expect(trigger).toBeFocused();
 });
 
+test('keeps the phone contact green behind the bottom dock without a pale gap', async ({ page }) => {
+  for (const [width, height] of [[320, 844], [390, 844], [600, 900]] as const) {
+    await page.setViewportSize({ width, height });
+    await page.goto('/#contact');
+    await expect(page.locator('#contact')).toBeVisible();
+    for (const theme of ['light', 'dark'] as const) {
+      await page.evaluate((value) => document.documentElement.setAttribute('data-theme', value), theme);
+      const surface = await page.evaluate(() => {
+        const main = document.querySelector('#main-content')!;
+        const contact = document.querySelector('#contact')!;
+        const dock = document.querySelector('.mobile-dock')!;
+        const mainBounds = main.getBoundingClientRect();
+        const dockBounds = dock.getBoundingClientRect();
+        const point = document.elementFromPoint(window.innerWidth / 2, dockBounds.top - 16);
+        return {
+          mainBottom: mainBounds.bottom,
+          viewportBottom: window.innerHeight,
+          mainColor: getComputedStyle(main).backgroundColor,
+          contactColor: getComputedStyle(contact).backgroundColor,
+          pointInsideMain: main === point || main.contains(point),
+        };
+      });
+      expect(surface.mainBottom).toBeGreaterThanOrEqual(surface.viewportBottom - 1);
+      expect(surface.mainColor).toBe(surface.contactColor);
+      expect(surface.pointInsideMain).toBe(true);
+    }
+  }
+});
+
 test('keeps desktop and tablet course layouts while giving phones three fluid course columns', async ({ page }) => {
   for (const [width, courseColumns, projectColumns] of [
     [1440, 4, 6], [1024, 3, 2], [821, 2, 2], [768, 2, 1], [601, 2, 1],

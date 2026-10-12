@@ -2337,6 +2337,10 @@ html[data-theme='dark'] .credits-dialog::backdrop {
     background: #31594c;
   }
 
+  #main-content[data-active-section='contact'] {
+    min-height: 100dvh;
+  }
+
   html[data-theme='dark'] .site-content[data-active-section='contact'],
   html[data-theme='dark'] #main-content[data-active-section='contact'] {
     background: #30383d;
