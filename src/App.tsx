@@ -238,7 +238,11 @@ export default function App({ contentLoader = loadSiteContent }: AppProps) {
 
     const onTouchEnd = () => {
       const destination = direction === 'next' ? nextSection : previousSection;
-      if (!isPulling || pullDistance < 82 || !direction || !destination) {
+      const isOverviewEducationTransition =
+        (activeSection === 'profile' && destination === 'education') ||
+        (activeSection === 'education' && destination === 'profile');
+      const pullThreshold = isOverviewEducationTransition ? 79 : 82;
+      if (!isPulling || pullDistance < pullThreshold || !direction || !destination) {
         resetPull();
         return;
       }

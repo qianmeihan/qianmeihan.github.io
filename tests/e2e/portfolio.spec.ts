@@ -1827,6 +1827,26 @@ test('changes phone sections at 82 pixels but not 81 pixels of pull', async ({ p
   await expect(page.locator('#education')).toBeVisible();
 });
 
+test('changes between phone overview and education at 79 pixels in either direction', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(() => page.evaluate(() =>
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4,
+  )).toBe(true);
+
+  await dragPhoneSection(page, 78);
+  await expect(page.locator('#profile')).toBeVisible();
+  await dragPhoneSection(page, 79);
+  await expect(page.locator('#education')).toBeVisible();
+
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await dragPhoneSection(page, -78);
+  await expect(page.locator('#education')).toBeVisible();
+  await dragPhoneSection(page, -79);
+  await expect(page.locator('#profile')).toBeVisible();
+});
+
 test('recognizes real emulated touch pulls in both phone directions', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
