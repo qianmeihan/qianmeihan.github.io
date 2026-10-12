@@ -2450,6 +2450,10 @@ html[data-theme='dark'] .credits-dialog::backdrop {
     font-weight: 650;
   }
 
+  .mobile-menu__heading h2:focus {
+    outline: none;
+  }
+
   .mobile-menu__heading button {
     width: 2.75rem;
     height: 2.75rem;

@@ -1244,6 +1244,10 @@ test('keeps the phone menu close control quiet without shrinking its touch targe
 
   const menu = page.locator('.mobile-menu');
   const close = menu.getByRole('button', { name: '关闭模块目录' });
+  await expect(menu.locator('#mobile-menu-title')).toBeFocused();
+  await expect(close).not.toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(close).toBeFocused();
   const appearance = await close.evaluate((button) => {
     const icon = button.querySelector('svg');
     const bounds = button.getBoundingClientRect();
@@ -1261,6 +1265,16 @@ test('keeps the phone menu close control quiet without shrinking its touch targe
   expect(appearance.iconWidth).toBe(16);
   await close.click();
   await expect(menu).toBeHidden();
+
+  const trigger = page.locator('.mobile-dock__current');
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  const title = menu.locator('#mobile-menu-title');
+  await expect(title).toBeFocused();
+  expect(await title.evaluate((heading) => getComputedStyle(heading).outlineStyle)).toBe('none');
+  await page.keyboard.press('Tab');
+  await expect(close).toBeFocused();
+  expect(await close.evaluate((button) => getComputedStyle(button).outlineStyle)).toBe('solid');
 });
 
 test('keeps the phone dock on one row, above the safe area, without changing tablet navigation', async ({ page }) => {
