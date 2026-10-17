@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-10-02",
+    "updatedAt": "2026-10-17",
     "defaultLocale": "zh"
   },
   "profile": {
@@ -37,7 +37,7 @@
           "zh": "中文简历",
           "en": "Chinese résumé"
         },
-        "updatedAt": "2026.08.25",
+        "updatedAt": "2026.10.16",
         "href": "/downloads/meihan-qian-resume.pdf"
       },
       {
@@ -46,7 +46,7 @@
           "zh": "英文简历",
           "en": "English résumé"
         },
-        "updatedAt": "2026.04.17",
+        "updatedAt": "2026.10.16",
         "href": "/downloads/meihan-qian-resume-en.pdf"
       },
       {
@@ -160,21 +160,21 @@
         "en": "BMW Brilliance Project"
       },
       "summary": {
-        "zh": "参与宝马华晨项目的产品工程工作，熟悉宝马产品研发流程及 iRAM、GAMS 等研发系统，配合工程信息、变更与问题的跨团队跟进。",
-        "en": "Supports product engineering on a BMW Brilliance project. Familiar with BMW development processes and iRAM and GAMS systems, with a focus on cross-team follow-up of engineering information, changes, and issues."
+        "zh": "负责宝马 5 系与 X5 的仪表、中控、车门及特殊表面处理件，牵头研发团队与供应商闭环量产、售后、降本和变更问题。",
+        "en": "Leads product engineering for BMW 5 Series and X5 interiors, including instrument panels, consoles, doors and special-surface parts. Coordinates production, aftersales, cost-reduction and change issues with R&D teams and suppliers."
       },
       "highlights": [
         {
-          "zh": "熟悉宝马产品研发流程与项目协作方式",
-          "en": "Familiar with BMW product development processes and project coordination"
+          "zh": "负责 5 系与 X5 内饰部件产品工程",
+          "en": "Product engineering for 5 Series and X5 interiors"
         },
         {
-          "zh": "了解 iRAM、GAMS 等研发系统的项目使用方式",
-          "en": "Familiar with how iRAM and GAMS systems are used in projects"
+          "zh": "牵头研发团队与供应商处理量产和售后问题",
+          "en": "Production and aftersales issue resolution with R&D teams and suppliers"
         },
         {
-          "zh": "跨团队跟进工程变更、交付与问题闭环",
-          "en": "Follows engineering changes, delivery, and issue closure across teams"
+          "zh": "推动降本、工程变更及流程闭环",
+          "en": "Cost reduction, engineering changes and issue closure"
         }
       ]
     },
@@ -210,21 +210,21 @@
         "en": "Schaeffler"
       },
       "summary": {
-        "zh": "负责汽车电子控制器壳体、安装与绝缘结构开发，从结构方案、工程图纸到验证优化和量产支持。设计中兼顾装配、材料及制造可行性。",
-        "en": "Developed controller housings, mounting features, and insulation structures from concept and engineering drawings through validation and production support, balancing assembly, materials, and manufacturability."
+        "zh": "负责汽车电子产品壳体及平台化结构开发，覆盖冲压、压铸、注塑设计，从图纸输出、仿真优化到造样和量产问题闭环。",
+        "en": "Developed automotive electronic housings and platform structures across stamped, die-cast and injection-molded designs, from drawings and simulation to prototypes and production issue closure."
       },
       "highlights": [
         {
-          "zh": "设计 ECU、TCU、BMS/CSC 等产品的冲压、压铸与注塑结构",
-          "en": "Designed stamped, die-cast, and injection-molded structures for ECU, TCU, and BMS/CSC programs"
+          "zh": "负责 PDCU 冲压、ECU 压铸及 BMS/CSC 注塑结构开发",
+          "en": "Developed PDCU stamped, ECU die-cast and BMS/CSC injection-molded structures"
         },
         {
-          "zh": "结合 GD&T、尺寸链、热分析与模流结果优化结构和装配",
-          "en": "Used GD&T, tolerance stacks, thermal analysis, and mold-flow findings to refine structures and assembly"
+          "zh": "完成连接器选型、三维建模、工程图、尺寸链与热仿真分析",
+          "en": "Handled connector selection, 3D models, engineering drawings, tolerance chains and thermal simulation"
         },
         {
-          "zh": "参与供应商技术评审、接口协调及量产问题处理",
-          "en": "Joined supplier technical reviews, interface coordination, and production issue resolution"
+          "zh": "对接客户、供应商及 PCB 团队，推进造样和量产问题闭环",
+          "en": "Worked with customers, suppliers and PCB engineers on prototypes and production issue closure"
         }
       ]
     }
@@ -248,13 +248,13 @@
         "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
-        "zh": "支持华为、吉利和长安相关平台的结构适配与量产问题闭环。",
-        "en": "Supported structural adaptation and production issue closure for platform programs associated with Huawei, Geely, and Changan."
+        "zh": "负责华为、吉利、长安和奔驰等客户的 PDCU 平台沿用，解决漏气与尺寸超差等量产问题。",
+        "en": "Supported PDCU platform reuse for Huawei, Geely, Changan and Mercedes-Benz, resolving production air leaks and dimensional deviations."
       },
       "details": [
-        { "zh": "分析客户规格与安装条件，提出结构接口及布置建议。", "en": "Reviewed customer specifications and installation constraints to advise on structural interfaces and placement." },
-        { "zh": "准备图纸与材料资料，配合客户及内部团队开展技术沟通。", "en": "Prepared drawings and material information for technical discussions with customers and internal teams." },
-        { "zh": "跟进量产中的气密、翘曲与尺寸偏差，推动问题分析与闭环。", "en": "Investigated production leakage, warpage, and dimensional deviations through issue closure." }
+        { "zh": "分析客户企标与需求，提供技术咨询及安装位置建议。", "en": "Analyzed customer standards and requirements, advising on technical matters and mounting locations." },
+        { "zh": "输出客户图纸、IMDS 报告等核心文件。", "en": "Delivered customer drawings, IMDS reports and other core documents." },
+        { "zh": "跟进量产阶段的漏气与尺寸超差问题，推动分析与闭环。", "en": "Investigated production air leaks and dimensional deviations through issue closure." }
       ],
       "capabilities": [
         {
@@ -276,31 +276,31 @@
       "experienceId": "schaeffler-mechanical-rd",
       "code": "ECU",
       "title": {
-        "zh": "D3 ECU 冲压壳体与热管理",
-        "en": "D3 ECU Stamped Housing and Thermal Management"
+        "zh": "D3 ECU 压铸壳体与热管理",
+        "en": "D3 ECU Die-Cast Housing and Thermal Management"
       },
-      "displayTitle": { "zh": "ECU 冲压壳体", "en": "ECU Stamped Housing" },
+      "displayTitle": { "zh": "ECU 压铸壳体", "en": "ECU Die-Cast Housing" },
       "image": {
-        "id": "project-ecu-illustration", "src": "/media/skill-stamping.jpg",
-        "alt": { "zh": "主题示意：冲压模具与金属板", "en": "Topic illustration: punch, die and metal sheet" },
-        "credit": { "zh": "Douglas W. Jones / CC0", "en": "Douglas W. Jones / CC0" },
-        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Extruded_Holes.JPG",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "id": "project-ecu-illustration", "src": "/media/skill-die-casting.jpg",
+        "alt": { "zh": "主题示意：铝压铸零件", "en": "Topic illustration: aluminium die-cast part" },
+        "credit": { "zh": "Ulfbastel / CC BY-SA 3.0", "en": "Ulfbastel / CC BY-SA 3.0" },
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aldruckguss.jpg",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
-        "zh": "设计冲压壳体、连接器与绝缘导热结构，并用热分析支持散热优化。",
-        "en": "Developed stamped housings, connector interfaces, and insulation structures, using thermal analysis to support heat-path optimization."
+        "zh": "完成 ECU 上下压铸壳体、连接器与 PCB 接口设计，并用热仿真支持散热胶减量降本。",
+        "en": "Designed ECU upper and lower die-cast housings, connector and PCB interfaces, using thermal simulation to reduce thermal-interface material and cost."
       },
       "details": [
-        { "zh": "依据电流、散热与防护要求，参与连接器、材料及绝缘方案选择。", "en": "Contributed to connector, material, and insulation choices based on current, heat, and protection requirements." },
-        { "zh": "完成上下冲压壳体设计及二维、三维图纸，并参与供应商技术评审。", "en": "Designed upper and lower stamped housings, released 2D/3D drawings, and joined supplier technical reviews." },
-        { "zh": "结合热分析优化散热路径与导热材料使用。", "en": "Used thermal analysis to refine the heat path and thermal-interface material use." }
+        { "zh": "报价阶段依据电流、散热及防护要求，完成高压连接器选型和 InsuCo 分析。", "en": "Selected high-voltage connectors and performed InsuCo analysis against current, thermal and protection requirements during quotation." },
+        { "zh": "设计上下压铸壳体，协同 PCB 工程师完成机电接口及二维、三维图纸。", "en": "Designed upper and lower die-cast housings, coordinated electromechanical interfaces with PCB engineers and produced 2D/3D drawings." },
+        { "zh": "与供应商锁定设计，并借助热仿真减少散热胶用量与成本。", "en": "Finalized designs with suppliers and used thermal simulation to reduce thermal-interface material use and cost." }
       ],
       "capabilities": [
         {
-          "zh": "冲压件设计",
-          "en": "Stamped-part design"
+          "zh": "压铸件设计",
+          "en": "Die-cast design"
         },
         {
           "zh": "连接器接口",
@@ -362,13 +362,13 @@
         "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
-        "zh": "设计注塑壳体、安装与卡扣结构，结合尺寸链和模流结果优化装配。",
-        "en": "Developed molded housings, mounting features, and snap fits, using tolerance chains and mold-flow findings to improve assembly."
+        "zh": "设计 CSC 上下注塑壳体与拼板图纸，结合尺寸链和模流分析解决加强筋与翘曲问题。",
+        "en": "Designed CSC upper and lower plastic housings and panel-layout drawings, using tolerance chains and mold-flow findings to optimize ribs and resolve warpage."
       },
       "details": [
-        { "zh": "完成 CSC 上下壳体、安装结构及相关工程图纸设计。", "en": "Designed CSC upper and lower housings, mounting features, and associated engineering drawings." },
-        { "zh": "结合尺寸链与模流结果调整加强筋、翘曲控制及装配公差。", "en": "Used tolerance stacks and mold-flow findings to refine ribs, warpage control, and assembly tolerances." },
-        { "zh": "参与 BMS 双面卡扣与绝缘结构开发，相关成果形成公开专利。", "en": "Contributed to BMS double-sided snap-fit and insulation structures associated with published patents." }
+        { "zh": "完成 CSC 上下壳体和拼板图纸，开展产品尺寸链计算。", "en": "Designed CSC upper and lower housings and panel-layout drawings, and calculated dimensional chains." },
+        { "zh": "结合供应商模流分析优化加强筋并解决壳体翘曲。", "en": "Used supplier mold-flow analysis to optimize reinforcing ribs and resolve housing warpage." },
+        { "zh": "开发 BMS 双卡扣与绝缘结构；平台概念已用于多个报价项目。", "en": "Developed BMS double snap-fit and insulation structures; the platform concept was applied to multiple quotation projects." }
       ],
       "capabilities": [
         {
@@ -390,10 +390,10 @@
       "experienceId": "schaeffler-mechanical-rd",
       "code": "BMS",
       "title": {
-        "zh": "BMS 代工项目技术支持",
-        "en": "BMS OEM Project Technical Support"
+        "zh": "潍柴 BMS 代工项目技术支持",
+        "en": "Weichai BMS OEM Project Technical Support"
       },
-      "displayTitle": { "zh": "BMS 技术支持", "en": "BMS Technical Support" },
+      "displayTitle": { "zh": "潍柴 BMS 技术支持", "en": "Weichai BMS Support" },
       "image": {
         "id": "project-bms-support-illustration", "src": "/media/edu-engineering-graphics.jpg",
         "alt": { "zh": "主题示意：机械工程图纸", "en": "Topic illustration: mechanical engineering drawings" },
@@ -403,13 +403,13 @@
         "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
-        "zh": "提供材料、密封与绝缘方案建议，配合验证问题闭环及样件开发。",
-        "en": "Advised on materials, sealing, and insulation while supporting validation issue closure and prototypes."
+        "zh": "为潍柴 BMS 提供材料、密封与绝缘选型建议，解决 DV 试验连接器脱落并支持造样。",
+        "en": "Advised Weichai BMS on materials, sealing and insulation, resolved connector detachment in DV testing and supported sample builds."
       },
       "details": [
-        { "zh": "围绕材料、涂层、密封胶与绝缘需求提供结构技术建议。", "en": "Provided structural advice on materials, coatings, sealants, and insulation requirements." },
-        { "zh": "协同排查设计验证阶段的连接器脱落问题并推动改进。", "en": "Helped investigate a connector retention issue during design validation and supported improvements." },
-        { "zh": "支持多种电池管理相关模块的样件开发与技术对接。", "en": "Supported prototyping and technical coordination across battery-management modules." }
+        { "zh": "提供 coating 区域、密封胶、固定胶、绝缘与壳体材料选型建议。", "en": "Advised on coating areas and the selection of sealing and fixing adhesives, insulation and housing materials." },
+        { "zh": "解决客户 DV 试验中的连接器脱落问题。", "en": "Resolved connector detachment during customer DV testing." },
+        { "zh": "完成 BMU、CSC、4G 和 HVM 造样及跨部门技术对接。", "en": "Built BMU, CSC, 4G and HVM samples and coordinated across departments." }
       ],
       "capabilities": [
         { "zh": "材料选型", "en": "Material selection" },
@@ -643,7 +643,7 @@
         },
         {
           "id": "gdt-tolerances",
-          "label": { "zh": "GD&T 与尺寸链", "en": "GD&T and tolerance chains" },
+          "label": { "zh": "工程图与尺寸链", "en": "Engineering drawings and tolerance chains" },
           "imageStyle": "cover",
           "image": {
             "id": "skill-gdt-image", "src": "/media/edu-engineering-graphics.jpg",
@@ -712,8 +712,8 @@
         "en": "Northeastern University"
       },
       "degree": {
-        "zh": "材料科学与工程学士",
-        "en": "Bachelor of Engineering in Materials Science and Engineering"
+        "zh": "机械工程与材料科学与工程中法双学位",
+        "en": "Sino-French dual BEng: Mechanical / Materials Science"
       },
       "curriculumUrl": "https://sfie.neu.edu.cn/pyfa/list.htm",
       "courses": [

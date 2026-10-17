@@ -273,14 +273,14 @@ describe('App', () => {
     }
   });
 
-  it('shows each original resume date on its own download link without changing the link label', async () => {
+  it('shows each updated resume date on its own download link without changing the link label', async () => {
     const user = userEvent.setup();
     render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
 
     for (const [label, date] of [
-      ['中文简历', '2026.08.25'],
-      ['英文简历', '2026.04.17'],
+      ['中文简历', '2026.10.16'],
+      ['英文简历', '2026.10.16'],
     ]) {
       for (const link of screen.getAllByRole('link', { name: label })) {
         expect(link).toHaveAttribute('data-updated-at', `更新于 ${date}`);
@@ -291,8 +291,8 @@ describe('App', () => {
 
     await user.click(screen.getByRole('button', { name: 'EN' }));
     for (const [label, date] of [
-      ['Chinese résumé', '2026.08.25'],
-      ['English résumé', '2026.04.17'],
+      ['Chinese résumé', '2026.10.16'],
+      ['English résumé', '2026.10.16'],
     ]) {
       for (const link of screen.getAllByRole('link', { name: label })) {
         expect(link).toHaveAttribute('data-updated-at', `Updated ${date}`);

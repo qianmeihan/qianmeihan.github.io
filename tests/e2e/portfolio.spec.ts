@@ -109,7 +109,7 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
   await expect(contact.locator('svg')).toHaveCSS('color', await learnMore.locator('svg').evaluate((element) => getComputedStyle(element).color));
   await expect(actions.getByRole('link', { name: '邮箱' })).toHaveCount(0);
 
-  for (const [link, date] of [[chinese, '更新于 2026.08.25'], [english, '更新于 2026.04.17']] as const) {
+  for (const [link, date] of [[chinese, '更新于 2026.10.16'], [english, '更新于 2026.10.16']] as const) {
     await expect(link).toHaveAttribute('data-updated-at', date);
     await link.hover();
     await expect.poll(() => link.evaluate((element) => getComputedStyle(element, '::after').opacity)).toBe('1');

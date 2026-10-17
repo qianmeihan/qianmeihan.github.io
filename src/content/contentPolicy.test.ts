@@ -5,6 +5,8 @@ const serialized = JSON.stringify(siteContent);
 
 describe('public content policy', () => {
   it('uses verified education dates and selected courses without private transcript data', () => {
+    expect(siteContent.education[0].degree.zh).toBe('机械工程与材料科学与工程中法双学位');
+    expect(siteContent.education[0].degree.en).toBe('Sino-French dual BEng: Mechanical / Materials Science');
     expect(siteContent.education[0].courses.map((course) => course.title.zh)).toContain('材料力学');
     expect(siteContent.education[1].period.zh).toBe('2021 至 2022');
     expect(siteContent.education[1].degree.zh).toBe('机械学学士（航空机械工程方向）');
@@ -73,13 +75,16 @@ describe('public content policy', () => {
     ]);
   });
 
-  it('describes both positions with resume-supported scope in both languages', () => {
+  it('describes both positions with the updated resume scope in both languages', () => {
     const bmw = siteContent.experience.find((item) => item.id === 'bmw-brilliance-product-engineer');
     const schaeffler = siteContent.experience.find((item) => item.id === 'schaeffler-mechanical-rd');
-    expect(bmw?.summary.zh).toContain('iRAM');
-    expect(bmw?.summary.en).toContain('GAMS');
+    expect(bmw?.summary.zh).toContain('5 系');
+    expect(bmw?.summary.zh).toContain('X5');
+    expect(bmw?.summary.en).toContain('5 Series');
+    expect(bmw?.summary.en).toContain('X5');
     expect(bmw?.highlights.length).toBeGreaterThanOrEqual(2);
     expect(schaeffler?.summary.zh).toContain('量产');
+    expect(schaeffler?.summary.zh).toContain('压铸');
     expect(schaeffler?.summary.en).toContain('production');
     expect(schaeffler?.highlights.length).toBeGreaterThanOrEqual(3);
     expect(siteContent.experience.every((item) => !('featured' in item))).toBe(true);
@@ -99,6 +104,7 @@ describe('public content policy', () => {
     expect(currentExperience).not.toHaveProperty('company');
     expect(currentExperience).not.toHaveProperty('employer');
     expect(currentExperience).not.toHaveProperty('organization');
+    expect(serialized).not.toMatch(/睿力|RLE INTERNATIONAL/i);
   });
 
   it('keeps stable ids unique in every repeatable collection', () => {
@@ -142,6 +148,11 @@ describe('public content policy', () => {
     ]);
     expect(siteContent.projects.every((project) => project.experienceId === 'schaeffler-mechanical-rd')).toBe(true);
     expect(siteContent.projects.every((project) => project.details.length > 1 && project.details.every((detail) => detail.zh && detail.en))).toBe(true);
+    const pdcu = siteContent.projects.find((project) => project.id === 'd5-pdcu-platform');
+    const ecu = siteContent.projects.find((project) => project.id === 'd3-ecu-housing');
+    expect(pdcu?.summary.zh).toContain('奔驰');
+    expect(ecu?.title.zh).toContain('压铸壳体');
+    expect(ecu?.summary.en).toContain('die-cast');
   });
 
   it('omits unrelated product-domain material from the published portfolio', () => {
