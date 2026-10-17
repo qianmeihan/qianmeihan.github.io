@@ -47,4 +47,4 @@
 - [x] Run the layout tests and confirm failure against the old desktop rule.
 - [x] Add a four-card-only desktop grid rule with responsive override.
 - [x] Run focused tests, `pnpm check`, and `pnpm test:e2e`.
-- [ ] Commit scoped files, push to GitHub Pages, and verify the deployed JSON and workflow.
+- [x] Commit scoped files, push to GitHub Pages, and verify the deployed JSON and workflow.
