@@ -769,6 +769,16 @@ html[data-theme='dark'] .education-card__logo {
   grid-column: span 3;
 }
 
+@media (min-width: 821px) {
+  .project-list:has(> .project-card:nth-child(4):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-list:has(> .project-card:nth-child(4):last-child) > .project-card {
+    grid-column: span 1;
+  }
+}
+
 .project-card:hover,
 .project-card:focus-within {
   border-color: var(--color-accent);

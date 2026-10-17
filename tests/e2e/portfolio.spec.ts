@@ -88,7 +88,7 @@ test('shows core recruiter information in Chinese', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
   await expect(page.getByText('舍弗勒', { exact: true })).toBeVisible();
   await expect(page.getByText('宝马华晨项目', { exact: true })).toBeVisible();
-  await expect(page.locator('#experience .project-card')).toHaveCount(5);
+  await expect(page.locator('#experience .project-card')).toHaveCount(4);
   await page.getByRole('link', { name: '专利', exact: true }).click();
   await expect(page.getByText('CN223978857U', { exact: true })).toBeVisible();
 });
@@ -116,11 +116,11 @@ test('keeps each hero action in its own matching pill and reveals resume dates o
   }
 });
 
-test('shows five resume-backed projects and the complete patent drawing', async ({ page }) => {
+test('shows four resume-backed projects and the complete patent drawing', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
-  await expect(page.locator('#experience .project-card')).toHaveCount(5);
+  await expect(page.locator('#experience .project-card')).toHaveCount(4);
   await expect(page.locator('#experience .timeline-item').nth(0).locator('.project-card')).toHaveCount(0);
-  await expect(page.locator('#experience .timeline-item').nth(1).locator('.project-card')).toHaveCount(5);
+  await expect(page.locator('#experience .timeline-item').nth(1).locator('.project-card')).toHaveCount(4);
   await page.getByRole('link', { name: '专利', exact: true }).click();
   const drawing = page.getByRole('img', { name: 'CN223978857U 公开专利结构图' });
   await expect(drawing).toHaveAttribute('width', '729');
@@ -131,7 +131,7 @@ test('keeps selected project cards compact after removing capability chips', asy
   await page.setViewportSize({ width: 1200, height: 900 });
   await page.goto('/#work');
   const cards = page.locator('#work .project-card');
-  await expect(cards).toHaveCount(5);
+  await expect(cards).toHaveCount(4);
   const heights = await cards.evaluateAll((items) => items.map((item) => item.getBoundingClientRect().height));
   for (const height of heights) {
     expect(height).toBeLessThan(200);
@@ -150,15 +150,23 @@ test('restores distinct desktop coursework and project layouts', async ({ page }
 
   const projectGrid = page.locator('.project-list');
   await expect(projectGrid).toHaveCSS('display', 'grid');
-  expect(await projectGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(6);
+  expect(await projectGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(2);
   const projects = projectGrid.locator('.project-card');
-  await expect(projects).toHaveCount(5);
+  await expect(projects).toHaveCount(4);
   await expect(projects.first().locator('p')).toBeVisible();
   await expect(projects.locator('img')).toHaveCount(0);
   const topRows = await projects.evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
-  expect(topRows[0]).toBe(topRows[2]);
-  expect(topRows[3]).toBe(topRows[4]);
-  expect(topRows[3]).toBeGreaterThan(topRows[0]);
+  expect(topRows[0]).toBe(topRows[1]);
+  expect(topRows[2]).toBe(topRows[3]);
+  expect(topRows[2]).toBeGreaterThan(topRows[0]);
+  const widths = await projects.evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().width)));
+  expect(new Set(widths).size).toBe(1);
+
+  await page.setViewportSize({ width: 900, height: 900 });
+  expect(await projectGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(2);
+  const narrowerRows = await projects.evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
+  expect(narrowerRows[0]).toBe(narrowerRows[1]);
+  expect(narrowerRows[2]).toBe(narrowerRows[3]);
 });
 
 test('keeps compact mobile coursework and capabilities separate from text-only projects', async ({ page }) => {
@@ -184,12 +192,12 @@ test('keeps compact mobile coursework and capabilities separate from text-only p
   const projectGrid = page.locator('.project-list');
   expect(await projectGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length)).toBe(1);
   const projects = projectGrid.locator('.project-card');
-  await expect(projects).toHaveCount(5);
+  await expect(projects).toHaveCount(4);
   await expect(projects.locator('img')).toHaveCount(0);
   await expect(projects.first().locator('p')).toBeHidden();
   await expect(projects.first()).toContainText('查看详情');
   await projects.first().getByRole('button').click();
-  await expect(page.getByRole('dialog', { name: 'D5 PDCU 平台适配' })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'PDCU 冲压结构与平台沿用' })).toBeVisible();
 });
 
 test('presents both employers with matching card colors and identity geometry', async ({ page }) => {
@@ -387,9 +395,9 @@ test('lets work copy use the desktop width and keeps the project label subordina
 
 test('opens a project detail dialog and closes it with Escape and its close button', async ({ page }) => {
   await page.getByRole('link', { name: '工作经历', exact: true }).click();
-  const project = page.getByRole('button', { name: /D3 TCU 压铸壳体开发/ });
+  const project = page.getByRole('button', { name: /ECU 压铸壳体开发/ });
   await project.click();
-  const dialog = page.getByRole('dialog', { name: 'D3 TCU 压铸壳体开发' });
+  const dialog = page.getByRole('dialog', { name: 'ECU 压铸壳体开发' });
   await expect(dialog).toBeVisible();
   await expect(dialog).toContainText('PCB');
   await expect(dialog.getByRole('list', { name: '相关能力' })).toContainText('压铸件设计');
@@ -398,9 +406,9 @@ test('opens a project detail dialog and closes it with Escape and its close butt
   await expect(project).toBeFocused();
 
   await page.getByRole('button', { name: 'EN', exact: true }).click();
-  await page.getByRole('button', { name: /D3 TCU Die-Cast Housing Development/ }).click();
-  const englishDialog = page.getByRole('dialog', { name: 'D3 TCU Die-Cast Housing Development' });
-  await expect(englishDialog).toContainText('supplier technical reviews');
+  await page.getByRole('button', { name: /ECU Die-Cast Housing Development/ }).click();
+  const englishDialog = page.getByRole('dialog', { name: 'ECU Die-Cast Housing Development' });
+  await expect(englishDialog).toContainText('thermal simulation');
   await expect(englishDialog.getByRole('list', { name: 'Related capabilities' })).toContainText('Die-cast design');
   await englishDialog.getByRole('button', { name: 'Close project details' }).click();
   await expect(englishDialog).not.toBeVisible();
@@ -1447,7 +1455,7 @@ test('keeps the phone contact green behind the bottom dock without a pale gap', 
 
 test('keeps desktop and tablet course layouts while giving phones three fluid course columns', async ({ page }) => {
   for (const [width, courseColumns, projectColumns] of [
-    [1440, 4, 6], [1024, 3, 2], [821, 2, 2], [768, 2, 1], [601, 2, 1],
+    [1440, 4, 2], [1024, 3, 2], [821, 2, 2], [768, 2, 1], [601, 2, 1],
     [600, 3, 1], [390, 3, 1], [320, 3, 1],
   ] as const) {
     await page.setViewportSize({ width, height: 900 });

@@ -137,22 +137,38 @@ describe('public content policy', () => {
     }
   });
 
-  it('keeps five resume-backed projects under the Schaeffler experience', () => {
-    expect(siteContent.projects).toHaveLength(5);
+  it('keeps only the four current resume projects under the Schaeffler experience', () => {
+    expect(siteContent.projects).toHaveLength(4);
     expect(siteContent.projects.map((project) => project.id)).toEqual([
-      'd5-pdcu-platform',
-      'd3-ecu-housing',
-      'd3-tcu-die-cast-housing',
+      'pdcu-stamped-platform',
+      'ecu-die-cast-housing',
       'bms-csc-plastic-housings',
       'bms-oem-technical-support',
     ]);
+    expect(siteContent.projects.map((project) => project.title.zh)).toEqual([
+      'PDCU 冲压结构与平台沿用',
+      'ECU 压铸壳体开发',
+      'BMS/CSC 注塑结构与平台搭建',
+      '潍柴 BMS 代工技术支持',
+    ]);
+    expect(siteContent.projects.map((project) => project.title.en)).toEqual([
+      'PDCU Stamped Structures and Platform Reuse',
+      'ECU Die-Cast Housing Development',
+      'BMS/CSC Injection-Molded Structures and Platform Development',
+      'Weichai BMS OEM Technical Support',
+    ]);
     expect(siteContent.projects.every((project) => project.experienceId === 'schaeffler-mechanical-rd')).toBe(true);
     expect(siteContent.projects.every((project) => project.details.length > 1 && project.details.every((detail) => detail.zh && detail.en))).toBe(true);
-    const pdcu = siteContent.projects.find((project) => project.id === 'd5-pdcu-platform');
-    const ecu = siteContent.projects.find((project) => project.id === 'd3-ecu-housing');
+    expect(JSON.stringify(siteContent.projects)).not.toMatch(/D5|D3|TCU/);
+    const pdcu = siteContent.projects.find((project) => project.id === 'pdcu-stamped-platform');
+    const ecu = siteContent.projects.find((project) => project.id === 'ecu-die-cast-housing');
+    const bms = siteContent.projects.find((project) => project.id === 'bms-csc-plastic-housings');
+    const weichai = siteContent.projects.find((project) => project.id === 'bms-oem-technical-support');
     expect(pdcu?.summary.zh).toContain('奔驰');
     expect(ecu?.title.zh).toContain('压铸壳体');
     expect(ecu?.summary.en).toContain('die-cast');
+    expect(bms?.details.map((detail) => detail.zh).join('')).toContain('翘曲');
+    expect(weichai?.details.map((detail) => detail.zh).join('')).toContain('连接器');
   });
 
   it('omits unrelated product-domain material from the published portfolio', () => {

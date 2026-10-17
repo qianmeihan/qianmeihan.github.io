@@ -194,7 +194,7 @@ describe('App', () => {
     expect(evidence).toHaveTextContent('3种语言');
   });
 
-  it('places five selected projects inside the Schaeffler experience', async () => {
+  it('places four selected projects inside the Schaeffler experience', async () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
     const experience = container.querySelector<HTMLElement>('#experience');
@@ -205,7 +205,7 @@ describe('App', () => {
     expect(schaeffler).toContainElement(projects);
     expect(bmw?.querySelector('.project-card')).toBeNull();
     expect(within(projects as HTMLElement).getByRole('heading', { name: '代表项目', level: 4 })).toBeInTheDocument();
-    expect(within(projects as HTMLElement).getAllByRole('article')).toHaveLength(5);
+    expect(within(projects as HTMLElement).getAllByRole('article')).toHaveLength(4);
     expect(screen.getByRole('navigation', { name: '主导航' }).querySelector('a[href="#work"]')).not.toBeInTheDocument();
   });
 
@@ -214,9 +214,9 @@ describe('App', () => {
     const { container } = render(<App contentLoader={async () => siteContent} />);
     await screen.findByRole('heading', { name: '钱美含' });
 
-    for (const title of ['D5 PDCU 平台适配', 'D5 PDCU Platform Adaptation']) {
+    for (const title of ['PDCU 冲压结构与平台沿用', 'PDCU Stamped Structures and Platform Reuse']) {
       const cards = [...container.querySelectorAll<HTMLElement>('#work .project-card')];
-      expect(cards).toHaveLength(5);
+      expect(cards).toHaveLength(4);
       for (const card of cards) {
         expect(within(card).getByRole('button')).toBeInTheDocument();
         expect(card.querySelector('.project-card__image img')).not.toBeInTheDocument();
@@ -224,7 +224,7 @@ describe('App', () => {
         expect(card.querySelector('.tag-list')).not.toBeInTheDocument();
       }
       expect(within(cards[0]).getByRole('button')).toHaveAccessibleName(title);
-      if (title.startsWith('D5 PDCU 平台')) {
+      if (title.startsWith('PDCU 冲压')) {
         await user.click(screen.getByRole('button', { name: 'EN' }));
       }
     }

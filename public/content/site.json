@@ -231,14 +231,14 @@
   ],
   "projects": [
     {
-      "id": "d5-pdcu-platform",
+      "id": "pdcu-stamped-platform",
       "experienceId": "schaeffler-mechanical-rd",
       "code": "PDCU",
       "title": {
-        "zh": "D5 PDCU 平台适配",
-        "en": "D5 PDCU Platform Adaptation"
+        "zh": "PDCU 冲压结构与平台沿用",
+        "en": "PDCU Stamped Structures and Platform Reuse"
       },
-      "displayTitle": { "zh": "PDCU 平台适配", "en": "PDCU Platform" },
+      "displayTitle": { "zh": "PDCU 冲压结构", "en": "PDCU Stamped Structures" },
       "image": {
         "id": "project-pdcu-illustration", "src": "/media/skill-mounting.jpg",
         "alt": { "zh": "主题示意：电子组件与壳体安装", "en": "Topic illustration: electronics mounted in an enclosure" },
@@ -248,36 +248,36 @@
         "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
-        "zh": "负责华为、吉利、长安和奔驰等客户的 PDCU 平台沿用，解决漏气与尺寸超差等量产问题。",
-        "en": "Supported PDCU platform reuse for Huawei, Geely, Changan and Mercedes-Benz, resolving production air leaks and dimensional deviations."
+        "zh": "负责华为、吉利、长安、奔驰等客户的 PDCU 量产项目及平台沿用，解决漏气与尺寸超差问题。",
+        "en": "Supported PDCU production projects and platform reuse for Huawei, Geely, Changan and Mercedes-Benz, resolving air leaks and dimensional deviations."
       },
       "details": [
-        { "zh": "分析客户企标与需求，提供技术咨询及安装位置建议。", "en": "Analyzed customer standards and requirements, advising on technical matters and mounting locations." },
-        { "zh": "输出客户图纸、IMDS 报告等核心文件。", "en": "Delivered customer drawings, IMDS reports and other core documents." },
-        { "zh": "跟进量产阶段的漏气与尺寸超差问题，推动分析与闭环。", "en": "Investigated production air leaks and dimensional deviations through issue closure." }
+        { "zh": "跟进冲压结构的量产应用，分析并解决漏气、尺寸超差等关键问题。", "en": "Supported production use of stamped structures and resolved air leaks and dimensional deviations." },
+        { "zh": "开展客户企标与需求分析，提供技术咨询和安装位置建议。", "en": "Analyzed customer standards and requirements, and advised on technical questions and mounting locations." },
+        { "zh": "支持平台沿用，输出客户图纸、IMDS 报告等核心文件。", "en": "Supported platform reuse and delivered customer drawings, IMDS reports and other core documents." }
       ],
       "capabilities": [
         {
-          "zh": "平台适配",
-          "en": "Platform application"
+          "zh": "冲压结构",
+          "en": "Stamped structures"
         },
         {
-          "zh": "量产支持",
-          "en": "Production support"
+          "zh": "平台沿用",
+          "en": "Platform reuse"
         },
         {
-          "zh": "问题闭环",
-          "en": "Issue closure"
+          "zh": "量产问题闭环",
+          "en": "Production issue closure"
         }
       ]
     },
     {
-      "id": "d3-ecu-housing",
+      "id": "ecu-die-cast-housing",
       "experienceId": "schaeffler-mechanical-rd",
       "code": "ECU",
       "title": {
-        "zh": "D3 ECU 压铸壳体与热管理",
-        "en": "D3 ECU Die-Cast Housing and Thermal Management"
+        "zh": "ECU 压铸壳体开发",
+        "en": "ECU Die-Cast Housing Development"
       },
       "displayTitle": { "zh": "ECU 压铸壳体", "en": "ECU Die-Cast Housing" },
       "image": {
@@ -289,13 +289,13 @@
         "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
-        "zh": "完成 ECU 上下压铸壳体、连接器与 PCB 接口设计，并用热仿真支持散热胶减量降本。",
-        "en": "Designed ECU upper and lower die-cast housings, connector and PCB interfaces, using thermal simulation to reduce thermal-interface material and cost."
+        "zh": "从报价到研发完成 ECU 上下压铸壳体及机电接口设计，并以热仿真推动散热胶减量降本。",
+        "en": "Developed ECU upper and lower die-cast housings and electromechanical interfaces from quotation through R&D, using thermal simulation to reduce thermal-interface material and cost."
       },
       "details": [
-        { "zh": "报价阶段依据电流、散热及防护要求，完成高压连接器选型和 InsuCo 分析。", "en": "Selected high-voltage connectors and performed InsuCo analysis against current, thermal and protection requirements during quotation." },
-        { "zh": "设计上下压铸壳体，协同 PCB 工程师完成机电接口及二维、三维图纸。", "en": "Designed upper and lower die-cast housings, coordinated electromechanical interfaces with PCB engineers and produced 2D/3D drawings." },
-        { "zh": "与供应商锁定设计，并借助热仿真减少散热胶用量与成本。", "en": "Finalized designs with suppliers and used thermal simulation to reduce thermal-interface material use and cost." }
+        { "zh": "报价阶段依据电流需求完成高压连接器选型和 InsuCo 分析，并结合散热、防护要求确定壳体材料与连接方式。", "en": "During quotation, selected high-voltage connectors and performed InsuCo analysis against current requirements, then chose housing materials and joining methods for heat dissipation and protection." },
+        { "zh": "研发阶段设计上下压铸壳体，与 PCB 工程师完成机电接口协调，并输出三维模型和二维工程图。", "en": "During R&D, designed upper and lower die-cast housings, coordinated electromechanical interfaces with PCB engineers, and produced 3D models and 2D engineering drawings." },
+        { "zh": "与供应商技术交流锁定设计，借助热仿真减少散热胶用量与成本；具备从 0 到 1 的非标设计经验。", "en": "Finalized the design with suppliers and used thermal simulation to reduce thermal-interface material and cost, gaining end-to-end custom-design experience." }
       ],
       "capabilities": [
         {
@@ -313,46 +313,14 @@
       ]
     },
     {
-      "id": "d3-tcu-die-cast-housing",
-      "experienceId": "schaeffler-mechanical-rd",
-      "code": "TCU",
-      "title": {
-        "zh": "D3 TCU 压铸壳体开发",
-        "en": "D3 TCU Die-Cast Housing Development"
-      },
-      "displayTitle": { "zh": "TCU 压铸壳体", "en": "TCU Die-Cast Housing" },
-      "image": {
-        "id": "project-tcu-illustration", "src": "/media/skill-die-casting.jpg",
-        "alt": { "zh": "主题示意：铝压铸零件", "en": "Topic illustration: aluminium die-cast part" },
-        "credit": { "zh": "Ulfbastel / CC BY-SA 3.0", "en": "Ulfbastel / CC BY-SA 3.0" },
-        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aldruckguss.jpg",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-        "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
-      },
-      "summary": {
-        "zh": "设计压铸上壳体，协调供应商及 PCB 接口，支持图纸发布与量产。",
-        "en": "Developed a die-cast upper housing, coordinated supplier and PCB interfaces, and supported drawing release and production."
-      },
-      "details": [
-        { "zh": "设计压铸上壳体并完成相关工程图纸发布。", "en": "Designed the die-cast upper housing and released engineering drawings." },
-        { "zh": "与 PCB 团队协调元件避让区域及装配接口。", "en": "Coordinated component keep-out areas and assembly interfaces with the PCB team." },
-        { "zh": "参与供应商技术评审，跟进结构方案向量产转化。", "en": "Joined supplier technical reviews and followed the housing design into production." }
-      ],
-      "capabilities": [
-        { "zh": "压铸件设计", "en": "Die-cast design" },
-        { "zh": "图纸发布", "en": "Drawing release" },
-        { "zh": "接口协调", "en": "Interface coordination" }
-      ]
-    },
-    {
       "id": "bms-csc-plastic-housings",
       "experienceId": "schaeffler-mechanical-rd",
       "code": "BMS + CSC",
       "title": {
-        "zh": "BMS 与 CSC 注塑壳体开发",
-        "en": "BMS and CSC Injection-Molded Housing Development"
+        "zh": "BMS/CSC 注塑结构与平台搭建",
+        "en": "BMS/CSC Injection-Molded Structures and Platform Development"
       },
-      "displayTitle": { "zh": "BMS/CSC 注塑壳体", "en": "BMS/CSC Molded Housings" },
+      "displayTitle": { "zh": "BMS/CSC 注塑结构", "en": "BMS/CSC Molded Structures" },
       "image": {
         "id": "project-bms-csc-illustration", "src": "/media/skill-injection-mold.jpg",
         "alt": { "zh": "主题示意：注塑模具局部", "en": "Topic illustration: detail of an injection mold" },
@@ -362,13 +330,13 @@
         "usageNote": { "zh": "项目主题示意，非本人项目实物或工作现场", "en": "Project topic illustration; not a personal project or workplace image" }
       },
       "summary": {
-        "zh": "设计 CSC 上下注塑壳体与拼板图纸，结合尺寸链和模流分析解决加强筋与翘曲问题。",
-        "en": "Designed CSC upper and lower plastic housings and panel-layout drawings, using tolerance chains and mold-flow findings to optimize ribs and resolve warpage."
+        "zh": "搭建 BMS 平台，完成 CSC 上下注塑壳体及拼板图纸设计，并结合尺寸链与模流分析解决翘曲。",
+        "en": "Built a BMS platform, designed CSC upper and lower injection-molded housings and panel drawings, and used tolerance chains and mold-flow findings to resolve warpage."
       },
       "details": [
         { "zh": "完成 CSC 上下壳体和拼板图纸，开展产品尺寸链计算。", "en": "Designed CSC upper and lower housings and panel-layout drawings, and calculated dimensional chains." },
         { "zh": "结合供应商模流分析优化加强筋并解决壳体翘曲。", "en": "Used supplier mold-flow analysis to optimize reinforcing ribs and resolve housing warpage." },
-        { "zh": "开发 BMS 双卡扣与绝缘结构；平台概念已用于多个报价项目。", "en": "Developed BMS double snap-fit and insulation structures; the platform concept was applied to multiple quotation projects." }
+        { "zh": "完成 BMS 壳体双卡扣与绝缘结构两项相关专利设计；平台概念已用于多个报价项目。", "en": "Designed two related patentable BMS housing concepts covering a double snap-fit and an insulation structure; the platform concept was applied to multiple quotation projects." }
       ],
       "capabilities": [
         {
@@ -390,10 +358,10 @@
       "experienceId": "schaeffler-mechanical-rd",
       "code": "BMS",
       "title": {
-        "zh": "潍柴 BMS 代工项目技术支持",
-        "en": "Weichai BMS OEM Project Technical Support"
+        "zh": "潍柴 BMS 代工技术支持",
+        "en": "Weichai BMS OEM Technical Support"
       },
-      "displayTitle": { "zh": "潍柴 BMS 技术支持", "en": "Weichai BMS Support" },
+      "displayTitle": { "zh": "潍柴 BMS 代工支持", "en": "Weichai BMS OEM Support" },
       "image": {
         "id": "project-bms-support-illustration", "src": "/media/edu-engineering-graphics.jpg",
         "alt": { "zh": "主题示意：机械工程图纸", "en": "Topic illustration: mechanical engineering drawings" },
